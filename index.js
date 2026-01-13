@@ -8,7 +8,7 @@ export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
 
-    // 1. 主页导航路由
+    // 1. 主页导航路由 
     if (url.pathname === '/') {
       return new Response(generateIndexPage(), {
         headers: { 'Content-Type': 'text/html; charset=utf-8' }
@@ -384,4 +384,5 @@ function generateCategoryPanel(category, title, colorKey) {
       </div>
     </div>
   `;
+
 }
