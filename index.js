@@ -172,6 +172,7 @@ function generateIndexPage() {
   <main class="container mx-auto px-4 py-16 max-w-4xl">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
       <!-- 节日分类入口 - 跳转至 /festival 独立页面 -->
+        <title>@一条无聊的桀</title>
       <a href="/festival" class="block bg-festival/10 rounded-2xl p-8 text-center hover:bg-festival/20 transition-all hover:shadow-md hover:scale-[1.02]">
         <i class="fa-solid fa-calendar-days text-5xl text-festival mb-6"></i>
         <h2 class="text-xl font-bold text-festival">节日生成网</h2>
@@ -553,4 +554,5 @@ function generateCategoryIndependentPage(category, title, colorKey) {
 </html>
   `;
 }
+
 
