@@ -8,14 +8,42 @@ export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
 
-    // 1. 主页导航路由
+    // 1. 主页路由（展示分类入口，无生成面板）
     if (url.pathname === '/') {
       return new Response(generateIndexPage(), {
         headers: { 'Content-Type': 'text/html; charset=utf-8' }
       });
     }
 
-    // 2. 分享链接路由（分发到对应分类模板）
+    // 2. 独立分类路由 - 节日生成页面
+    if (url.pathname === '/festival') {
+      return new Response(generateCategoryIndependentPage('festival', '节日', 'festival'), {
+        headers: { 'Content-Type': 'text/html; charset=utf-8' }
+      });
+    }
+
+    // 3. 独立分类路由 - 生日生成页面
+    if (url.pathname === '/birthday') {
+      return new Response(generateCategoryIndependentPage('birthday', '生日', 'birthday'), {
+        headers: { 'Content-Type': 'text/html; charset=utf-8' }
+      });
+    }
+
+    // 4. 独立分类路由 - 整蛊生成页面
+    if (url.pathname === '/prank') {
+      return new Response(generateCategoryIndependentPage('prank', '整蛊', 'prank'), {
+        headers: { 'Content-Type': 'text/html; charset=utf-8' }
+      });
+    }
+
+    // 5. 独立分类路由 - 表白生成页面
+    if (url.pathname === '/confession') {
+      return new Response(generateCategoryIndependentPage('confession', '表白', 'confession'), {
+        headers: { 'Content-Type': 'text/html; charset=utf-8' }
+      });
+    }
+
+    // 6. 分享链接路由（分发到对应分类模板，核心功能不变）
     if (url.pathname.startsWith('/share/')) {
       const shareId = url.pathname.split('/')[2];
       if (!shareId) return new Response('无效链接', { status: 404 });
@@ -25,7 +53,6 @@ export default {
       
       const data = JSON.parse(record);
       let pageHtml = '';
-      // 根据分类分发到对应文件的渲染函数
       switch (data.category) {
         case 'festival':
           pageHtml = generateFestivalPage(data);
@@ -47,7 +74,7 @@ export default {
       });
     }
 
-    // 3. API - 获取分类历史记录
+    // 7. API - 获取分类历史记录（核心功能不变）
     if (url.pathname === '/api/get-history' && request.method === 'GET') {
       const category = url.searchParams.get('category');
       if (!category) return new Response(JSON.stringify({ code: -1, msg: '缺少分类参数' }), { headers: { 'Content-Type': 'application/json' } });
@@ -56,7 +83,7 @@ export default {
       return new Response(JSON.stringify({ code: 0, data: historyList }), { headers: { 'Content-Type': 'application/json' } });
     }
 
-    // 4. API - 生成分享链接
+    // 8. API - 生成分享链接（核心功能不变）
     if (url.pathname === '/api/generate-share' && request.method === 'POST') {
       try {
         const body = await request.json();
@@ -84,7 +111,7 @@ export default {
       }
     }
 
-    // 5. API - 删除单条历史记录
+    // 9. API - 删除单条历史记录（核心功能不变）
     if (url.pathname === '/api/delete-single-history' && request.method === 'POST') {
       try {
         const body = await request.json();
@@ -102,7 +129,7 @@ export default {
       }
     }
 
-    // 6. API - 一键删除分类所有记录
+    // 10. API - 一键删除分类所有记录（核心功能不变）
     if (url.pathname === '/api/delete-all-history' && request.method === 'POST') {
       try {
         const body = await request.json();
@@ -123,12 +150,12 @@ export default {
       }
     }
 
-    // 7. 404 路由
+    // 11. 404 路由
     return new Response('页面不存在', { status: 404 });
   },
 };
 
-// 生成主页导航页面（无下滑Tab布局+配色优化）
+// 生成主页（仅展示分类入口，跳转至独立页面）
 function generateIndexPage() {
   return generateCommonHead() + `
 <body class="bg-gray-50 min-h-screen font-sans text-gray-800 scroll-smooth">
@@ -141,50 +168,49 @@ function generateIndexPage() {
     </div>
   </header>
 
-  <main class="container mx-auto px-4 py-8 max-w-4xl">
-    <!-- 核心优化：Tab头部 - 无需下滑，点击切换分类 -->
-    <div class="bg-white rounded-2xl shadow-sm p-1 mb-6">
-      <div class="flex flex-wrap justify-center gap-2" id="tab-header">
-        <button onclick="switchTab('festival', this)" class="tab-btn active bg-festival text-white px-6 py-3 rounded-xl transition-all font-medium">
-          <i class="fa-solid fa-calendar-days mr-2"></i>节日
-        </button>
-        <button onclick="switchTab('birthday', this)" class="tab-btn bg-gray-100 text-gray-700 px-6 py-3 rounded-xl transition-all font-medium">
-          <i class="fa-solid fa-cake-candles mr-2"></i>生日
-        </button>
-        <button onclick="switchTab('prank', this)" class="tab-btn bg-gray-100 text-gray-700 px-6 py-3 rounded-xl transition-all font-medium">
-          <i class="fa-solid fa-face-grin-tongue mr-2"></i>整蛊
-        </button>
-        <button onclick="switchTab('confession', this)" class="tab-btn bg-gray-100 text-gray-700 px-6 py-3 rounded-xl transition-all font-medium">
-          <i class="fa-solid fa-heart mr-2"></i>表白
-        </button>
-      </div>
-    </div>
+  <main class="container mx-auto px-4 py-16 max-w-4xl">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <!-- 节日分类入口 - 跳转至 /festival 独立页面 -->
+      <a href="/festival" class="block bg-festival/10 rounded-2xl p-8 text-center hover:bg-festival/20 transition-all hover:shadow-md hover:scale-[1.02]">
+        <i class="fa-solid fa-calendar-days text-5xl text-festival mb-6"></i>
+        <h2 class="text-xl font-bold text-festival">节日生成网</h2>
+        <p class="mt-4 text-gray-600 text-sm">模板1（经典）| 模板2（国风）</p>
+        <div class="mt-6 inline-block bg-festival/20 text-festival px-4 py-2 rounded-lg text-sm hover:bg-festival/30 transition-all">
+          进入生成 →
+        </div>
+      </a>
 
-    <!-- 核心优化：Tab内容区 - 对应分类生成面板，默认显示节日 -->
-    <div id="tab-content" class="min-h-[400px]">
-      <!-- 节日面板（默认显示） -->
-      <div id="festival-tab" class="tab-panel active">
-        ${generateCategoryPanel('festival', '节日', 'festival')}
-      </div>
-      <!-- 生日面板（默认隐藏） -->
-      <div id="birthday-tab" class="tab-panel hidden">
-        ${generateCategoryPanel('birthday', '生日', 'birthday')}
-      </div>
-      <!-- 整蛊面板（默认隐藏） -->
-      <div id="prank-tab" class="tab-panel hidden">
-        ${generateCategoryPanel('prank', '整蛊', 'prank')}
-      </div>
-      <!-- 表白面板（默认隐藏） -->
-      <div id="confession-tab" class="tab-panel hidden">
-        ${generateCategoryPanel('confession', '表白', 'confession')}
-      </div>
+      <!-- 生日分类入口 - 跳转至 /birthday 独立页面 -->
+      <a href="/birthday" class="block bg-birthday/10 rounded-2xl p-8 text-center hover:bg-birthday/20 transition-all hover:shadow-md hover:scale-[1.02]">
+        <i class="fa-solid fa-cake-candles text-5xl text-birthday mb-6"></i>
+        <h2 class="text-xl font-bold text-birthday">生日生成网</h2>
+        <p class="mt-4 text-gray-600 text-sm">模板1（经典）| 模板2（极简）</p>
+        <div class="mt-6 inline-block bg-birthday/20 text-birthday px-4 py-2 rounded-lg text-sm hover:bg-birthday/30 transition-all">
+          进入生成 →
+        </div>
+      </a>
+
+      <!-- 整蛊分类入口 - 跳转至 /prank 独立页面 -->
+      <a href="/prank" class="block bg-prank/10 rounded-2xl p-8 text-center hover:bg-prank/20 transition-all hover:shadow-md hover:scale-[1.02]">
+        <i class="fa-solid fa-face-grin-tongue text-5xl text-prank mb-6"></i>
+        <h2 class="text-xl font-bold text-prank">整蛊生成网</h2>
+        <p class="mt-4 text-gray-600 text-sm">模板1（经典）| 模板2（轻奢）</p>
+        <div class="mt-6 inline-block bg-prank/20 text-prank px-4 py-2 rounded-lg text-sm hover:bg-prank/30 transition-all">
+          进入生成 →
+        </div>
+      </a>
+
+      <!-- 表白分类入口 - 跳转至 /confession 独立页面 -->
+      <a href="/confession" class="block bg-confession/10 rounded-2xl p-8 text-center hover:bg-confession/20 transition-all hover:shadow-md hover:scale-[1.02]">
+        <i class="fa-solid fa-heart text-5xl text-confession mb-6"></i>
+        <h2 class="text-xl font-bold text-confession">表白生成网</h2>
+        <p class="mt-4 text-gray-600 text-sm">模板1（高级）| 模板2（卡通）</p>
+        <div class="mt-6 inline-block bg-confession/20 text-confession px-4 py-2 rounded-lg text-sm hover:bg-confession/30 transition-all">
+          进入生成 →
+        </div>
+      </a>
     </div>
   </main>
-
-  <!-- 返回顶部按钮（保留，兼容后续拓展） -->
-  <button id="backToTop" class="fixed bottom-8 right-8 bg-primary text-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center opacity-0 invisible transition-all hover:bg-primary/90">
-    <i class="fa-solid fa-arrow-up"></i>
-  </button>
 
   <footer class="bg-white shadow-sm mt-16 py-8">
     <div class="container mx-auto px-4 text-center text-gray-500">
@@ -192,232 +218,41 @@ function generateIndexPage() {
     </div>
   </footer>
 
-  <script>
-    // 返回顶部按钮逻辑
-    const backToTopBtn = document.getElementById('backToTop');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 300) {
-        backToTopBtn.classList.remove('opacity-0', 'invisible');
-        backToTopBtn.classList.add('opacity-100', 'visible');
-      } else {
-        backToTopBtn.classList.add('opacity-0', 'invisible');
-        backToTopBtn.classList.remove('opacity-100', 'visible');
-      }
-    });
-    backToTopBtn.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-
-    // 核心优化：Tab切换逻辑（无需下滑，直接切换面板）
-    function switchTab(category, btnEl) {
-      // 1. 切换Tab按钮样式
-      document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.classList.remove('active', 'bg-festival', 'bg-birthday', 'bg-prank', 'bg-confession', 'text-white');
-        btn.classList.add('bg-gray-100', 'text-gray-700');
-      });
-      btnEl.classList.add('active', `bg-${category}`, 'text-white');
-      btnEl.classList.remove('bg-gray-100', 'text-gray-700');
-
-      // 2. 切换Tab内容面板
-      document.querySelectorAll('.tab-panel').forEach(panel => {
-        panel.classList.add('hidden');
-        panel.classList.remove('active');
-      });
-      const targetPanel = document.getElementById(`${category}-tab`);
-      targetPanel.classList.remove('hidden');
-      targetPanel.classList.add('active');
-
-      // 3. 加载对应分类历史记录（确保切换后历史记录同步）
-      loadHistory(category);
-    }
-
-    // 加载历史记录
-    async function loadHistory(category) {
-      const res = await fetch(\`/api/get-history?category=\${category}\`);
-      const data = await res.json();
-      if (data.code === 0) {
-        const listEl = document.getElementById(\`\${category}-history-list\`);
-        listEl.innerHTML = data.data.map(item => \`
-          <div class="flex justify-between items-center p-3 border-b border-gray-200">
-            <div>
-              <p class="text-gray-700 text-sm">\${item.createTimeText}</p>
-              <a href="\${item.shareUrl}" target="_blank" class="text-primary hover:underline text-sm break-all">\${item.shareUrl}</a>
-            </div>
-            <button onclick="deleteSingleHistory('\${category}', '\${item.id}', '\${item.shareId}')" class="text-red-500 hover:text-red-700 p-2">
-              <i class="fa-solid fa-trash"></i>
-            </button>
-          </div>
-        \`).join('');
-      }
-    }
-
-    // 删除单条历史
-    async function deleteSingleHistory(category, id, shareId) {
-      if (!confirm('确定删除这条记录吗？删除后链接将失效～')) return;
-      const res = await fetch('/api/delete-single-history', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ category, id, shareId })
-      });
-      const data = await res.json();
-      alert(data.msg);
-      loadHistory(category);
-    }
-
-    // 一键删除所有
-    async function deleteAllHistory(category) {
-      if (!confirm('确定删除该分类所有记录吗？所有对应链接都将失效～')) return;
-      const res = await fetch('/api/delete-all-history', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ category })
-      });
-      const data = await res.json();
-      alert(data.msg);
-      loadHistory(category);
-    }
-
-    // 一键复制链接功能
-    async function copyShareUrl(inputId) {
-      const input = document.getElementById(inputId);
-      if (!input.value) return alert('暂无可复制的链接～');
-      try {
-        await navigator.clipboard.writeText(input.value);
-        // 复制成功反馈
-        const copyBtn = input.nextElementSibling;
-        const originalText = copyBtn.innerHTML;
-        copyBtn.innerHTML = '<i class="fa-solid fa-check mr-2"></i>已复制';
-        setTimeout(() => {
-          copyBtn.innerHTML = originalText;
-        }, 1500);
-      } catch (err) {
-        // 兼容不支持剪贴板的浏览器
-        input.select();
-        document.execCommand('copy');
-        alert('已选中链接，可手动复制～');
-      }
-    }
-
-    // 生成分享链接（核心功能保留，配色优化）
-    async function generateShare(category) {
-      // 禁用生成按钮，防止重复点击
-      const generateBtn = document.querySelector(\`button[onclick="generateShare('\${category}')"]\`);
-      const originalText = generateBtn.innerHTML;
-      generateBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>生成中...';
-      generateBtn.disabled = true;
-
-      // 根据分类获取参数
-      let previewData = {};
-      if (category === 'festival') {
-        previewData = {
-          name: document.getElementById('festival-name').value || '春节',
-          date: document.getElementById('festival-date').value
-        };
-      } else if (category === 'birthday') {
-        previewData = {
-          name: document.getElementById('birthday-name').value || '朋友',
-          date: document.getElementById('birthday-date').value
-        };
-      } else if (category === 'prank') {
-        previewData = { content: '整蛊内容' };
-      } else if (category === 'confession') {
-        previewData = {
-          name: document.getElementById('confession-name').value,
-          content: document.getElementById('confession-content').value
-        };
-      }
-
-      const template = document.querySelector(\`.template-select[data-category="\${category}"]\`).value;
-      const res = await fetch('/api/generate-share', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          category,
-          template,
-          content: JSON.stringify(previewData),
-          previewData
-        })
-      });
-      const data = await res.json();
-      
-      // 恢复按钮状态
-      generateBtn.innerHTML = originalText;
-      generateBtn.disabled = false;
-
-      if (data.code === 0) {
-        // 填充链接到页面展示区域
-        const linkInput = document.getElementById(\`\${category}-share-link\`);
-        const linkArea = document.getElementById(\`\${category}-share-area\`);
-        linkInput.value = data.data.shareUrl;
-        linkArea.classList.remove('hidden'); // 显示链接区域
-        
-        // 提示生成成功
-        alert(\`生成成功！链接已展示在页面，可直接复制～\`);
-        loadHistory(category);
-      } else {
-        alert(data.msg);
-      }
-    }
-
-    // 初始化加载默认分类（节日）历史记录
-    window.onload = () => {
-      loadHistory('festival');
-    };
-  </script>
   <style>
     :root {
-      /* 核心优化：更换配色 - 更醒目、更高辨识度 */
-      --primary: #0F172A; /* 主标题深灰蓝，更稳重 */
-      --festival: #16A34A; /* 节日：清新森绿（替代原浅绿） */
-      --birthday: #F97316; /* 生日：暖橙红（替代原浅黄） */
-      --prank: #EF4444; /* 整蛊：活力红（替代原粉红） */
-      --confession: #8B5CF6; /* 表白：梦幻紫（保留优化，更饱和） */
+      --primary: #0F172A;
+      --festival: #16A34A;
+      --birthday: #F97316;
+      --prank: #EF4444;
+      --confession: #8B5CF6;
     }
-
-    /* 分类配色映射 */
-    .bg-festival { background-color: var(--festival); }
+    .bg-festival\\/10 { background-color: rgba(22, 163, 74, 0.1); }
+    .bg-festival\\/20 { background-color: rgba(22, 163, 74, 0.2); }
+    .bg-festival\\/30 { background-color: rgba(22, 163, 74, 0.3); }
     .text-festival { color: var(--festival); }
-    .bg-birthday { background-color: var(--birthday); }
+    .bg-birthday\\/10 { background-color: rgba(249, 115, 22, 0.1); }
+    .bg-birthday\\/20 { background-color: rgba(249, 115, 22, 0.2); }
+    .bg-birthday\\/30 { background-color: rgba(249, 115, 22, 0.3); }
     .text-birthday { color: var(--birthday); }
-    .bg-prank { background-color: var(--prank); }
+    .bg-prank\\/10 { background-color: rgba(239, 68, 68, 0.1); }
+    .bg-prank\\/20 { background-color: rgba(239, 68, 68, 0.2); }
+    .bg-prank\\/30 { background-color: rgba(239, 68, 68, 0.3); }
     .text-prank { color: var(--prank); }
-    .bg-confession { background-color: var(--confession); }
+    .bg-confession\\/10 { background-color: rgba(139, 92, 246, 0.1); }
+    .bg-confession\\/20 { background-color: rgba(139, 92, 246, 0.2); }
+    .bg-confession\\/30 { background-color: rgba(139, 92, 246, 0.3); }
     .text-confession { color: var(--confession); }
-
-    /* Tab样式 */
-    .tab-btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    }
-    .tab-btn.active {
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-    .tab-panel {
-      transition: opacity 0.3s ease-in-out;
-    }
-    .tab-panel.hidden {
-      display: none;
-      opacity: 0;
-    }
-    .tab-panel.active {
-      display: block;
-      opacity: 1;
-    }
-
-    /* 平滑滚动 */
-    .scroll-smooth {
-      scroll-behavior: smooth;
-    }
+    .scroll-smooth { scroll-behavior: smooth; }
   </style>
 </body>
 </html>
   `;
 }
 
-// 生成分类操作面板（配色优化：生成按钮&字体更换）
-function generateCategoryPanel(category, title, colorKey) {
+// 生成分类独立页面（完整保留所有生成功能，新增返回主页按钮）
+function generateCategoryIndependentPage(category, title, colorKey) {
+  // 复用原有表单逻辑，保持功能一致
   let formHtml = '';
-  // 表单保留必填提示，仅优化配色
   switch (category) {
     case 'festival':
       formHtml = `
@@ -460,9 +295,28 @@ function generateCategoryPanel(category, title, colorKey) {
       break;
   }
 
-  return `
+  // 独立页面完整HTML结构
+  return generateCommonHead() + `
+<body class="bg-gray-50 min-h-screen font-sans text-gray-800 scroll-smooth">
+  <header class="bg-white shadow-sm sticky top-0 z-10">
+    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+      <a href="/" class="text-primary font-bold text-xl">专属模板生成平台</a>
+      <!-- 新增：返回主页按钮，方便切换 -->
+      <a href="/" class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-all text-sm">
+        <i class="fa-solid fa-arrow-left mr-1"></i>返回主页
+      </a>
+    </div>
+  </header>
+
+  <main class="container mx-auto px-4 py-8 max-w-4xl">
+    <!-- 分类标题 -->
+    <div class="text-center mb-8">
+      <h1 class="text-[clamp(1.5rem,3vw,2.2rem)] font-bold text-${colorKey}">${title}生成工具</h1>
+      <p class="text-gray-500 mt-2">选择模板，一键生成可分享专属链接</p>
+    </div>
+
+    <!-- 核心生成面板（保留所有原有功能） -->
     <div class="bg-white rounded-2xl shadow-sm p-6 hover:shadow-md transition-all">
-      <h2 class="text-2xl font-bold text-${colorKey} mb-6">${title}生成工具</h2>
       <div class="mb-6">
         <label class="block text-gray-700 mb-2">选择模板</label>
         <select class="template-select w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-${colorKey}/50 focus:border-${colorKey}" data-category="${category}">
@@ -472,7 +326,7 @@ function generateCategoryPanel(category, title, colorKey) {
       </div>
       ${formHtml}
 
-      <!-- 核心优化：更换生成分享链接按钮配色（更醒目） -->
+      <!-- 生成分享链接按钮（保留优化后配色） -->
       <button onclick="generateShare('${category}')" class="bg-${colorKey} text-white px-6 py-3 rounded-lg hover:bg-${colorKey}/90 transition-all shadow hover:shadow-${colorKey}/30 font-medium">
         <i class="fa-solid fa-link mr-2"></i>生成分享链接
       </button>
@@ -480,7 +334,7 @@ function generateCategoryPanel(category, title, colorKey) {
         <i class="fa-solid fa-trash-can mr-2"></i>清空历史
       </button>
 
-      <!-- 分享链接展示区域（保留核心功能） -->
+      <!-- 分享链接展示区域（保留一键复制功能） -->
       <div id="${category}-share-area" class="mt-6 hidden">
         <div class="border border-${colorKey}/30 rounded-lg p-4 bg-${colorKey}/5">
           <h3 class="text-sm text-gray-700 mb-2">生成结果（可直接复制）</h3>
@@ -493,6 +347,7 @@ function generateCategoryPanel(category, title, colorKey) {
         </div>
       </div>
 
+      <!-- 生成历史（保留增删功能） -->
       <div class="mt-8">
         <h3 class="text-lg font-semibold text-gray-800 mb-4">生成历史</h3>
         <div id="${category}-history-list" class="max-h-60 overflow-y-auto">
@@ -500,5 +355,160 @@ function generateCategoryPanel(category, title, colorKey) {
         </div>
       </div>
     </div>
+  </main>
+
+  <footer class="bg-white shadow-sm mt-16 py-8">
+    <div class="container mx-auto px-4 text-center text-gray-500">
+      <p class="text-lg">基于 Cloudflare Workers + KV 构建 | 模板可无限拓展</p>
+    </div>
+  </footer>
+
+  <script>
+    // 加载历史记录（核心功能不变）
+    async function loadHistory(category) {
+      const res = await fetch(\`/api/get-history?category=\${category}\`);
+      const data = await res.json();
+      if (data.code === 0) {
+        const listEl = document.getElementById(\`\${category}-history-list\`);
+        listEl.innerHTML = data.data.map(item => \`
+          <div class="flex justify-between items-center p-3 border-b border-gray-200">
+            <div>
+              <p class="text-gray-700 text-sm">\${item.createTimeText}</p>
+              <a href="\${item.shareUrl}" target="_blank" class="text-primary hover:underline text-sm break-all">\${item.shareUrl}</a>
+            </div>
+            <button onclick="deleteSingleHistory('\${category}', '\${item.id}', '\${item.shareId}')" class="text-red-500 hover:text-red-700 p-2">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
+        \`).join('');
+      }
+    }
+
+    // 删除单条历史（核心功能不变）
+    async function deleteSingleHistory(category, id, shareId) {
+      if (!confirm('确定删除这条记录吗？删除后链接将失效～')) return;
+      const res = await fetch('/api/delete-single-history', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ category, id, shareId })
+      });
+      const data = await res.json();
+      alert(data.msg);
+      loadHistory(category);
+    }
+
+    // 一键删除所有（核心功能不变）
+    async function deleteAllHistory(category) {
+      if (!confirm('确定删除该分类所有记录吗？所有对应链接都将失效～')) return;
+      const res = await fetch('/api/delete-all-history', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ category })
+      });
+      const data = await res.json();
+      alert(data.msg);
+      loadHistory(category);
+    }
+
+    // 一键复制链接（核心功能不变）
+    async function copyShareUrl(inputId) {
+      const input = document.getElementById(inputId);
+      if (!input.value) return alert('暂无可复制的链接～');
+      try {
+        await navigator.clipboard.writeText(input.value);
+        const copyBtn = input.nextElementSibling;
+        const originalText = copyBtn.innerHTML;
+        copyBtn.innerHTML = '<i class="fa-solid fa-check mr-2"></i>已复制';
+        setTimeout(() => {
+          copyBtn.innerHTML = originalText;
+        }, 1500);
+      } catch (err) {
+        input.select();
+        document.execCommand('copy');
+        alert('已选中链接，可手动复制～');
+      }
+    }
+
+    // 生成分享链接（核心功能不变）
+    async function generateShare(category) {
+      const generateBtn = document.querySelector(\`button[onclick="generateShare('\${category}')"]\`);
+      const originalText = generateBtn.innerHTML;
+      generateBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>生成中...';
+      generateBtn.disabled = true;
+
+      let previewData = {};
+      if (category === 'festival') {
+        previewData = {
+          name: document.getElementById('festival-name').value || '春节',
+          date: document.getElementById('festival-date').value
+        };
+      } else if (category === 'birthday') {
+        previewData = {
+          name: document.getElementById('birthday-name').value || '朋友',
+          date: document.getElementById('birthday-date').value
+        };
+      } else if (category === 'prank') {
+        previewData = { content: '整蛊内容' };
+      } else if (category === 'confession') {
+        previewData = {
+          name: document.getElementById('confession-name').value,
+          content: document.getElementById('confession-content').value
+        };
+      }
+
+      const template = document.querySelector(\`.template-select[data-category="\${category}"]\`).value;
+      const res = await fetch('/api/generate-share', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          category,
+          template,
+          content: JSON.stringify(previewData),
+          previewData
+        })
+      });
+      const data = await res.json();
+      
+      generateBtn.innerHTML = originalText;
+      generateBtn.disabled = false;
+
+      if (data.code === 0) {
+        const linkInput = document.getElementById(\`\${category}-share-link\`);
+        const linkArea = document.getElementById(\`\${category}-share-area\`);
+        linkInput.value = data.data.shareUrl;
+        linkArea.classList.remove('hidden');
+        alert(\`生成成功！链接已展示在页面，可直接复制～\`);
+        loadHistory(category);
+      } else {
+        alert(data.msg);
+      }
+    }
+
+    // 页面加载完成后加载历史记录（核心功能不变）
+    window.onload = () => {
+      loadHistory('${category}');
+    };
+  </script>
+
+  <style>
+    :root {
+      --primary: #0F172A;
+      --festival: #16A34A;
+      --birthday: #F97316;
+      --prank: #EF4444;
+      --confession: #8B5CF6;
+    }
+    .bg-festival { background-color: var(--festival); }
+    .text-festival { color: var(--festival); }
+    .bg-birthday { background-color: var(--birthday); }
+    .text-birthday { color: var(--birthday); }
+    .bg-prank { background-color: var(--prank); }
+    .text-prank { color: var(--prank); }
+    .bg-confession { background-color: var(--confession); }
+    .text-confession { color: var(--confession); }
+    .scroll-smooth { scroll-behavior: smooth; }
+  </style>
+</body>
+</html>
   `;
 }
