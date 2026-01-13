@@ -249,7 +249,7 @@ function generateIndexPage() {
   `;
 }
 
-// 生成分类独立页面（新增：生成后跳转链接+历史刷新功能）
+// 生成分类独立页面（删除两个弹窗提示，其他功能不变）
 function generateCategoryIndependentPage(category, title, colorKey) {
   // 复用原有表单逻辑，保持功能一致
   let formHtml = '';
@@ -347,11 +347,10 @@ function generateCategoryIndependentPage(category, title, colorKey) {
         </div>
       </div>
 
-      <!-- 生成历史（新增：刷新按钮 + 布局优化） -->
+      <!-- 生成历史（保留刷新按钮，删除弹窗提示） -->
       <div class="mt-8">
         <div class="flex justify-between items-center mb-4">
           <h3 class="text-lg font-semibold text-gray-800">生成历史</h3>
-          <!-- 新增：刷新历史按钮，带分类专属配色 -->
           <button onclick="refreshHistory('${category}')" id="${category}-refresh-btn" class="bg-${colorKey}/10 text-${colorKey} px-3 py-1 rounded-lg hover:bg-${colorKey}/20 transition-all text-sm flex items-center">
             <i class="fa-solid fa-refresh mr-1"></i>刷新历史
           </button>
@@ -390,7 +389,7 @@ function generateCategoryIndependentPage(category, title, colorKey) {
       }
     }
 
-    // 新增：刷新历史记录功能（带加载反馈）
+    // 刷新历史记录功能（删除刷新完成弹窗，保留加载反馈）
     async function refreshHistory(category) {
       const refreshBtn = document.getElementById(\`\${category}-refresh-btn\`);
       const originalText = refreshBtn.innerHTML;
@@ -404,15 +403,12 @@ function generateCategoryIndependentPage(category, title, colorKey) {
       // 重新加载历史记录
       await loadHistory(category);
       
-      // 恢复按钮状态
+      // 恢复按钮状态（删除弹窗提示）
       setTimeout(() => {
         refreshBtn.innerHTML = originalText;
         refreshBtn.disabled = false;
         refreshBtn.classList.remove('bg-gray-100', 'cursor-not-allowed');
         refreshBtn.classList.add('hover:bg-${colorKey}/20');
-        
-        // 可选：刷新成功提示
-        alert(\`\${category}历史记录已刷新完成～\`);
       }, 800);
     }
 
@@ -461,7 +457,7 @@ function generateCategoryIndependentPage(category, title, colorKey) {
       }
     }
 
-    // 生成分享链接（新增：生成后打开新标签页跳转链接）
+    // 生成分享链接（删除生成成功弹窗，保留跳转新标签页+链接展示）
     async function generateShare(category) {
       const generateBtn = document.querySelector(\`button[onclick="generateShare('\${category}')"]\`);
       const originalText = generateBtn.innerHTML;
@@ -510,11 +506,10 @@ function generateCategoryIndependentPage(category, title, colorKey) {
         linkInput.value = data.data.shareUrl;
         linkArea.classList.remove('hidden');
         
-        // 核心新增：打开新标签页，跳转至生成的分享链接（不影响当前生成页面）
+        // 保留：打开新标签页跳转链接
         window.open(data.data.shareUrl, '_blank');
         
-        // 保留原有提示和历史记录加载
-        alert(\`生成成功！链接已展示在页面，同时已为你打开新标签页预览～\`);
+        // 删除：生成成功弹窗提示
         loadHistory(category);
       } else {
         alert(data.msg);
