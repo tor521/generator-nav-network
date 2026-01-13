@@ -8,7 +8,7 @@ export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
 
-    // 1. 主页路由（展示分类入口，无生成面板）
+    // 1. 主页路由（仅展示分类入口，跳转至独立页面）
     if (url.pathname === '/') {
       return new Response(generateIndexPage(), {
         headers: { 'Content-Type': 'text/html; charset=utf-8' }
@@ -249,7 +249,7 @@ function generateIndexPage() {
   `;
 }
 
-// 生成分类独立页面（完整保留所有生成功能，新增返回主页按钮）
+// 生成分类独立页面（新增：生成后跳转链接+历史刷新功能）
 function generateCategoryIndependentPage(category, title, colorKey) {
   // 复用原有表单逻辑，保持功能一致
   let formHtml = '';
@@ -301,7 +301,7 @@ function generateCategoryIndependentPage(category, title, colorKey) {
   <header class="bg-white shadow-sm sticky top-0 z-10">
     <div class="container mx-auto px-4 py-4 flex justify-between items-center">
       <a href="/" class="text-primary font-bold text-xl">专属模板生成平台</a>
-      <!-- 新增：返回主页按钮，方便切换 -->
+      <!-- 返回主页按钮，方便切换 -->
       <a href="/" class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-all text-sm">
         <i class="fa-solid fa-arrow-left mr-1"></i>返回主页
       </a>
@@ -347,9 +347,15 @@ function generateCategoryIndependentPage(category, title, colorKey) {
         </div>
       </div>
 
-      <!-- 生成历史（保留增删功能） -->
+      <!-- 生成历史（新增：刷新按钮 + 布局优化） -->
       <div class="mt-8">
-        <h3 class="text-lg font-semibold text-gray-800 mb-4">生成历史</h3>
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-lg font-semibold text-gray-800">生成历史</h3>
+          <!-- 新增：刷新历史按钮，带分类专属配色 -->
+          <button onclick="refreshHistory('${category}')" id="${category}-refresh-btn" class="bg-${colorKey}/10 text-${colorKey} px-3 py-1 rounded-lg hover:bg-${colorKey}/20 transition-all text-sm flex items-center">
+            <i class="fa-solid fa-refresh mr-1"></i>刷新历史
+          </button>
+        </div>
         <div id="${category}-history-list" class="max-h-60 overflow-y-auto">
           <!-- 历史记录由JS加载 -->
         </div>
@@ -364,7 +370,7 @@ function generateCategoryIndependentPage(category, title, colorKey) {
   </footer>
 
   <script>
-    // 加载历史记录（核心功能不变）
+    // 加载历史记录（核心功能不变，复用为刷新功能的基础）
     async function loadHistory(category) {
       const res = await fetch(\`/api/get-history?category=\${category}\`);
       const data = await res.json();
@@ -382,6 +388,32 @@ function generateCategoryIndependentPage(category, title, colorKey) {
           </div>
         \`).join('');
       }
+    }
+
+    // 新增：刷新历史记录功能（带加载反馈）
+    async function refreshHistory(category) {
+      const refreshBtn = document.getElementById(\`\${category}-refresh-btn\`);
+      const originalText = refreshBtn.innerHTML;
+      
+      // 刷新中状态：禁用按钮 + 旋转图标 + 文字提示
+      refreshBtn.innerHTML = '<i class="fa-solid fa-refresh fa-spin mr-1"></i>刷新中...';
+      refreshBtn.disabled = true;
+      refreshBtn.classList.remove('hover:bg-${colorKey}/20');
+      refreshBtn.classList.add('bg-gray-100', 'cursor-not-allowed');
+      
+      // 重新加载历史记录
+      await loadHistory(category);
+      
+      // 恢复按钮状态
+      setTimeout(() => {
+        refreshBtn.innerHTML = originalText;
+        refreshBtn.disabled = false;
+        refreshBtn.classList.remove('bg-gray-100', 'cursor-not-allowed');
+        refreshBtn.classList.add('hover:bg-${colorKey}/20');
+        
+        // 可选：刷新成功提示
+        alert(\`\${category}历史记录已刷新完成～\`);
+      }, 800);
     }
 
     // 删除单条历史（核心功能不变）
@@ -429,7 +461,7 @@ function generateCategoryIndependentPage(category, title, colorKey) {
       }
     }
 
-    // 生成分享链接（核心功能不变）
+    // 生成分享链接（新增：生成后打开新标签页跳转链接）
     async function generateShare(category) {
       const generateBtn = document.querySelector(\`button[onclick="generateShare('\${category}')"]\`);
       const originalText = generateBtn.innerHTML;
@@ -477,7 +509,12 @@ function generateCategoryIndependentPage(category, title, colorKey) {
         const linkArea = document.getElementById(\`\${category}-share-area\`);
         linkInput.value = data.data.shareUrl;
         linkArea.classList.remove('hidden');
-        alert(\`生成成功！链接已展示在页面，可直接复制～\`);
+        
+        // 核心新增：打开新标签页，跳转至生成的分享链接（不影响当前生成页面）
+        window.open(data.data.shareUrl, '_blank');
+        
+        // 保留原有提示和历史记录加载
+        alert(\`生成成功！链接已展示在页面，同时已为你打开新标签页预览～\`);
         loadHistory(category);
       } else {
         alert(data.msg);
@@ -507,6 +544,14 @@ function generateCategoryIndependentPage(category, title, colorKey) {
     .bg-confession { background-color: var(--confession); }
     .text-confession { color: var(--confession); }
     .scroll-smooth { scroll-behavior: smooth; }
+    /* 旋转图标动画 */
+    .fa-spin {
+      animation: fa-spin 1s linear infinite;
+    }
+    @keyframes fa-spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
   </style>
 </body>
 </html>
