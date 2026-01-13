@@ -1,12 +1,6 @@
 name = "generator-nav-network"
-main = "worker.js"
+main = "index.js"
 compatibility_date = "2026-01-13"
-node_compat = false
-
-# 启用 ESBuild 捆绑
-[build]
-command = "esbuild --bundle src/worker.js --outfile=dist/worker.js --format=esm --target=es2020"
-watch_dir = "src"
 
 # 绑定 KV 命名空间（替换为你的 KV ID）
 [[kv_namespaces]]
