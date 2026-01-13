@@ -158,6 +158,7 @@ export default {
 // 生成主页（仅展示分类入口，跳转至独立页面）
 function generateIndexPage() {
   return generateCommonHead() + `
+  <title>@一条无聊的桀</title>
 <body class="bg-gray-50 min-h-screen font-sans text-gray-800 scroll-smooth">
   <header class="bg-white shadow-sm sticky top-0 z-10">
     <div class="container mx-auto px-4 py-6">
@@ -175,9 +176,9 @@ function generateIndexPage() {
         <i class="fa-solid fa-calendar-days text-5xl text-festival mb-6"></i>
         <h2 class="text-xl font-bold text-festival">节日生成网</h2>
         <p class="mt-4 text-gray-600 text-sm">模板1（经典）| 模板2（国风）</p>
-        <div class="mt-6 inline-block bg-festival/20 text-festival px-4 py-2 rounded-lg text-sm hover:bg-festival/30 transition-all">
+        <!-- <div class="mt-6 inline-block bg-festival/20 text-festival px-4 py-2 rounded-lg text-sm hover:bg-festival/30 transition-all">
           进入生成 →
-        </div>
+        </div> -->
       </a>
 
       <!-- 生日分类入口 - 跳转至 /birthday 独立页面 -->
@@ -185,9 +186,9 @@ function generateIndexPage() {
         <i class="fa-solid fa-cake-candles text-5xl text-birthday mb-6"></i>
         <h2 class="text-xl font-bold text-birthday">生日生成网</h2>
         <p class="mt-4 text-gray-600 text-sm">模板1（经典）| 模板2（极简）</p>
-        <div class="mt-6 inline-block bg-birthday/20 text-birthday px-4 py-2 rounded-lg text-sm hover:bg-birthday/30 transition-all">
+        <!-- <div class="mt-6 inline-block bg-birthday/20 text-birthday px-4 py-2 rounded-lg text-sm hover:bg-birthday/30 transition-all">
           进入生成 →
-        </div>
+        </div> -->
       </a>
 
       <!-- 整蛊分类入口 - 跳转至 /prank 独立页面 -->
@@ -195,9 +196,9 @@ function generateIndexPage() {
         <i class="fa-solid fa-face-grin-tongue text-5xl text-prank mb-6"></i>
         <h2 class="text-xl font-bold text-prank">整蛊生成网</h2>
         <p class="mt-4 text-gray-600 text-sm">模板1（经典）| 模板2（轻奢）</p>
-        <div class="mt-6 inline-block bg-prank/20 text-prank px-4 py-2 rounded-lg text-sm hover:bg-prank/30 transition-all">
+        <!-- <div class="mt-6 inline-block bg-prank/20 text-prank px-4 py-2 rounded-lg text-sm hover:bg-prank/30 transition-all">
           进入生成 →
-        </div>
+        </div> -->
       </a>
 
       <!-- 表白分类入口 - 跳转至 /confession 独立页面 -->
@@ -205,9 +206,9 @@ function generateIndexPage() {
         <i class="fa-solid fa-heart text-5xl text-confession mb-6"></i>
         <h2 class="text-xl font-bold text-confession">表白生成网</h2>
         <p class="mt-4 text-gray-600 text-sm">模板1（高级）| 模板2（卡通）</p>
-        <div class="mt-6 inline-block bg-confession/20 text-confession px-4 py-2 rounded-lg text-sm hover:bg-confession/30 transition-all">
+        <!-- <div class="mt-6 inline-block bg-confession/20 text-confession px-4 py-2 rounded-lg text-sm hover:bg-confession/30 transition-all">
           进入生成 →
-        </div>
+        </div> -->
       </a>
     </div>
   </main>
@@ -552,3 +553,4 @@ function generateCategoryIndependentPage(category, title, colorKey) {
 </html>
   `;
 }
+
