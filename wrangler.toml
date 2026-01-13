@@ -1,19 +1,14 @@
-# ---------------------- 基础项目配置 ----------------------
-# 1. Workers 服务名称（自定义，如：generator-nav-network）
 name = "generator-nav-network"
-# 2. 指定 Workers 运行环境（推荐 latest，兼容最新特性）
+main = "worker.js"
 compatibility_date = "2026-01-13"
-# 3. 入口文件指定（对应我们的主入口 index.js，无需修改）
-main = "index.js"
+node_compat = false
 
-# ---------------------- KV 命名空间绑定 ----------------------
-# 方式 1：绑定生产环境 KV 命名空间（推荐）
-# 注意：需要替换 <YOUR_KV_NAMESPACE_ID> 为你的 TIME_KV 命名空间 ID
-# KV 命名空间 ID 可通过：wrangler kv:namespace list 命令查询，或在 Cloudflare 控制台查看
+# 启用 ESBuild 捆绑
+[build]
+command = "esbuild --bundle src/worker.js --outfile=dist/worker.js --format=esm --target=es2020"
+watch_dir = "src"
+
+# 绑定 KV 命名空间（替换为你的 KV ID）
 [[kv_namespaces]]
-# ① 绑定的变量名（必须与 index.js 中 env.TIME_KV 保持一致，大小写敏感）
 binding = "TIME_KV"
-# ② KV 命名空间的唯一 ID（控制台创建后生成的一串字符，如：64e305e814164aac9b0a8a961f00bc85）
-id = "<64e305e814164aac9b0a8a961f00bc85>"
-# ③ （可选）KV 命名空间名称（与你创建的 TIME_KV 一致，便于识别）
-preview_id = "<TIME_KV>"  # 预览环境也绑定同一个 KV（开发/生产共用）
+id = "64e305e814164aac9b0a8a961f00bc85"
