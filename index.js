@@ -252,6 +252,26 @@ function generateIndexPage() {
 
 // 生成分类独立页面（删除两个弹窗提示，其他功能不变）
 function generateCategoryIndependentPage(category, title, colorKey) {
+  // 定义每个分类的模板下拉选项
+  const templateOptions = {
+    festival: `
+      <option value="1">模板1（经典）</option>
+      <option value="2">模板2（原木）</option>
+    `,
+    birthday: `
+      <option value="1">模板1（经典）</option>
+      <option value="2">模板2（科技）</option>
+    `,
+    prank: `
+      <option value="1">模板1（可爱）</option>
+      <option value="2">模板2（高级）</option>
+    `,
+    confession: `
+      <option value="1">模板1（可爱）</option>
+      <option value="2">模板2（简约）</option>
+    `
+  };
+
   // 复用原有表单逻辑，保持功能一致
   let formHtml = '';
   switch (category) {
@@ -321,15 +341,14 @@ function generateCategoryIndependentPage(category, title, colorKey) {
       <div class="mb-6">
         <label class="block text-gray-700 mb-2">选择模板</label>
         <select class="template-select w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-${colorKey}/50 focus:border-${colorKey}" data-category="${category}">
-          <option value="1">模板1（经典版）</option>
-          <option value="2">模板2（拓展版）</option>
+          ${templateOptions[category]}
         </select>
       </div>
       ${formHtml}
 
       <!-- 生成分享链接按钮（保留优化后配色） -->
       <button onclick="generateShare('${category}')" class="bg-${colorKey} text-white px-6 py-3 rounded-lg hover:bg-${colorKey}/90 transition-all shadow hover:shadow-${colorKey}/30 font-medium">
-        <i class="fa-solid fa-link mr-2"></i>生成分享链接
+        <i class="fa-solid fa-link mr-2"></i>生成链接
       </button>
       <button onclick="deleteAllHistory('${category}')" class="bg-gray-200 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-300 transition-all ml-4 font-medium">
         <i class="fa-solid fa-trash-can mr-2"></i>清空历史
