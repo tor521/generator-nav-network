@@ -45,19 +45,37 @@ export function generateBirthdayPage(data) {
     `;
   }
 
-  // 模板2：简约极简风
+  // 模板2：酷炫赛博朋克风（优化后）
   else if (template === '2') {
     pageContent = `
-      <div class="min-h-screen flex items-center justify-center p-4 bg-[#F9F9F9]">
-        <div class="w-full max-w-md bg-white rounded-2xl shadow-sm overflow-hidden border border-[#E0E0E0]">
-          <div class="py-8 text-center border-b border-[#F0F0F0]">
-            <h2 class="text-2xl font-light text-[#333333] tracking-wide">${name}</h2>
-            <p class="text-sm text-[#999999] mt-2">BIRTHDAY</p>
+      <div class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-[#0F172A] via-[#1E293B] to-[#0F172A] relative overflow-hidden">
+        <!-- 背景装饰光点 -->
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(120,69,255,0.15),transparent_40%),radial-gradient(circle_at_70%_80%,rgba(45,212,191,0.15),transparent_40%)]"></div>
+        <!-- 主卡片：玻璃拟态+霓虹边框 -->
+        <div class="w-full max-w-md bg-white/10 backdrop-blur-xl rounded-2xl shadow-lg shadow-[#7844FF]/20 overflow-hidden border border-[#7844FF]/30 relative transition-all duration-300 hover:scale-[1.02] hover:shadow-[#2DD4BF]/30">
+          <!-- 顶部霓虹装饰条 -->
+          <div class="h-1 bg-gradient-to-r from-[#7844FF] to-[#2DD4BF]"></div>
+          
+          <!-- 头部区域 -->
+          <div class="py-8 text-center relative">
+            <h2 class="text-3xl font-bold text-white tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-[#7844FF] to-[#2DD4BF]">${name}</h2>
+            <p class="text-sm text-[#A1A1AA] mt-2 uppercase tracking-widest">BIRTHDAY CELEBRATION</p>
+            <!-- 装饰性霓虹图标 -->
+            <i class="fa-solid fa-star-of-life text-[#7844FF]/50 absolute top-4 right-8 text-xl animate-pulse"></i>
+            <i class="fa-solid fa-star-of-life text-[#2DD4BF]/50 absolute top-4 left-8 text-xl animate-pulse" style="animation-delay: 0.5s"></i>
           </div>
+          
+          <!-- 倒计时区域 -->
           <div class="p-8 text-center">
-            <div id="birthday-countdown-2" class="text-xl font-light text-[#333333] my-8 leading-relaxed"></div>
-            <div class="w-16 h-0.5 bg-[#E0E0E0] mx-auto"></div>
+            <div id="birthday-countdown-2" class="text-2xl md:text-3xl font-bold text-white my-8 leading-relaxed tracking-wide"></div>
+            <!-- 渐变分隔线 -->
+            <div class="w-24 h-0.5 bg-gradient-to-r from-[#7844FF] to-[#2DD4BF] mx-auto rounded-full"></div>
+            <!-- 底部小字 -->
+            <p class="mt-6 text-xs text-[#A1A1AA]/80">TIME TO CELEBRATE 🎉</p>
           </div>
+          
+          <!-- 底部装饰 -->
+          <div class="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-r from-[#7844FF]/10 to-[#2DD4BF]/10"></div>
         </div>
       </div>
       <script>
@@ -70,7 +88,7 @@ export function generateBirthdayPage(data) {
           const days = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
           const isToday = now.getMonth() === birthDate.getMonth() && now.getDate() === birthDate.getDate();
-          let tipText = isToday ? 'Happy Birthday' : days + ' DAYS TO GO';
+          let tipText = isToday ? '🎉 Happy Birthday 🎉' : days + ' DAYS TO CELEBRATE';
           
           document.getElementById('birthday-countdown-2').textContent = tipText;
         }
