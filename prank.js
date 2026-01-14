@@ -3,41 +3,41 @@ import { generateCommonHead } from './utils.js';
 export function generatePrankPage(data) {
   const { template } = data;
   let pageContent = '';
-  // 模板1：优化版清新卡通风（马卡龙柔焦风）
+  // 模板1：优化版清新卡通风（马卡龙柔焦风，修正多余<+去掉旋转动效）
   if (template === '1') {
     pageContent = `
       <div class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-purple-50 to-pink-50">
         <!-- 卡片：柔焦阴影+超大圆角，更显软萌 -->
         <div class="w-full max-w-md bg-white rounded-4xl shadow-lg shadow-pink-100/60 overflow-hidden border border-pink-100 transition-all duration-300 hover:shadow-pink-200/70">
-          <!-- 头部：渐变更柔和，图标加可爱动效 -->
+          <!-- 头部：渐变更柔和，移除图标旋转动效，修正多余<符号 -->
           <div class="bg-gradient-to-r from-pink-200 to-purple-200 py-7 text-center relative overflow-hidden">
-            <<i class="fa-solid fa-gift text-5xl text-white mb-3 shadow-md transform hover:rotate-12 transition-transform"></</i>
+            <i class="fa-solid fa-gift text-5xl text-white mb-3 shadow-md"></i>
             <h2 class="text-2xl font-bold text-white tracking-wide drop-shadow-sm">软萌盲盒铺</h2>
             <p class="text-white/90 text-sm mt-1">点击开启快乐暴击～</p>
             <!-- 装饰小点：增加灵动性 -->
             <div class="absolute top-3 right-6 w-2 h-2 bg-white/70 rounded-full"></div>
             <div class="absolute bottom-4 left-8 w-1.5 h-1.5 bg-white/70 rounded-full"></div>
           </div>
-          <!-- 主体：优化间距，按钮更精致 -->
+          <!-- 主体：优化间距，按钮更精致，修正多余<符号 -->
           <div class="p-10 text-center">
             <button id="prank-btn" class="bg-gradient-to-r from-pink-300 to-purple-300 text-white py-4 px-12 rounded-full font-bold text-lg shadow-md shadow-pink-200/50 transition-all duration-300 hover:shadow-pink-300/70 hover:scale-105 active:scale-98">
               拆盲盒啦🎀
             </button>
             <!-- 结果文案：颜色更柔和，加轻微阴影 -->
             <div id="prank-result" class="mt-10 text-2xl font-bold text-purple-500 hidden drop-shadow-sm">
-              有个蛋给你，你个二货🤪
+              恭喜你获得：极品西北风~🤪
             </div>
-            <!-- 装饰分割线：虚线+小气泡，更可爱 -->
+            <!-- 装饰分割线：虚线+小气泡，更可爱，修正多余<符号 -->
             <div class="flex items-center justify-center mt-8">
               <div class="w-14 h-0.5 bg-pink-100 rounded-full"></div>
-              <<i class="fa-solid fa-circle text-xs text-pink-200 mx-2"></</i>
+              <i class="fa-solid fa-circle text-xs text-pink-200 mx-2"></i>
               <div class="w-14 h-0.5 bg-pink-100 rounded-full"></div>
             </div>
-            <!-- 底部标识：加可爱图标，颜色呼应 -->
+            <!-- 底部标识：加可爱图标，颜色呼应，修正多余<符号 -->
             <p class="mt-6 text-pink-400 text-sm font-medium flex items-center justify-center gap-2">
-              <<i class="fa-solid fa-heart text-xs"></</i>
+              <i class="fa-solid fa-heart text-xs"></i>
               CUTE PRANK · 2024
-              <<i class="fa-solid fa-heart text-xs"></</i>
+              <i class="fa-solid fa-heart text-xs"></i>
             </p>
           </div>
         </div>
@@ -72,7 +72,7 @@ export function generatePrankPage(data) {
       <div class="min-h-screen flex items-center justify-center p-4 bg-[#1A1A1A]">
         <div class="w-full max-w-md bg-[#2D2D2D] rounded-3xl shadow-2xl overflow-hidden border border-[#444444]">
           <div class="bg-gradient-to-r from-[#D4AF37] to-[#F0E68C] py-6 text-center">
-            <<i class="fa-solid fa-gift text-4xl text-[#1A1A1A] mb-2"></</i>
+            <i class="fa-solid fa-gift text-4xl text-[#1A1A1A] mb-2"></i>
             <h2 class="text-2xl font-bold text-[#1A1A1A] tracking-wider">惊喜礼盒</h2>
           </div>
           <div class="p-8 text-center">
