@@ -151,39 +151,40 @@ export function generateFestivalPage(data) {
     `;
   }
 
-  // 模板3：严格匹配最终要求（模糊背景+无扫描线+纯白无发光文字）
+  // 模板3：无多余动效+稳定无波动+移动端适配（最终完美版）
   else if (template === '3') {
     pageContent = `
-      <div class="min-h-screen flex items-center justify-center p-4 overflow-hidden font-[\'Orbitron\',\'Consolas\',monospace,sans-serif]">
-        <!-- 1. 完全复刻最终HTML模糊背景（无任何偏差） -->
+      <div class="min-h-screen flex items-center justify-center p-4 overflow-hidden font-[\'Orbitron\',\'Consolas\',monospace,sans-serif]" style="box-sizing: border-box;">
+        <!-- 1. 静态模糊背景（无缩放动画，消除页面波动） -->
         <div class="absolute inset-0 z-0" style="background: linear-gradient(to bottom right, #0F0B21, #1A143B, #2D1B69);"></div>
         <div class="blur-bg-overlay absolute inset-0 z-0" style="
           background: radial-gradient(circle at 30% 20%, rgba(131, 56, 236, 0.2), transparent 40%),
                       radial-gradient(circle at 70% 80%, rgba(58, 134, 255, 0.2), transparent 40%),
                       radial-gradient(circle at 50% 50%, rgba(253, 29, 29, 0.1), transparent 50%);
           backdrop-filter: blur(50px);
-          animation: blurGlowPulse 8s ease-in-out infinite;
+          opacity: 0.85; /* 固定透明度，无渐变动画，消除波动 */
         "></div>
 
-        <!-- 2. 动态霓虹网格（弱化透明度，适配模糊背景） -->
+        <!-- 2. 静态霓虹网格（无移动/透明度动画，稳定无干扰） -->
         <div class="cyber-grid-bg absolute inset-0 z-0" style="
           background-image: linear-gradient(to right, rgba(58, 134, 255, 0.1) 1px, transparent 1px), 
                             linear-gradient(to bottom, rgba(58, 134, 255, 0.1) 1px, transparent 1px);
-          background-size: 60px 60px;
-          animation: gridMove 20s linear infinite, gridPulse 8s ease-in-out infinite;
-          opacity: 0.6;
+          background-size: 40px 40px;
+          opacity: 0.5; /* 固定透明度，无动画，稳定显示 */
         "></div>
 
-        <!-- 3. 霓虹光晕扫动（叠加模糊，柔和风格，无额外动效） -->
+        <!-- 3. 静态霓虹光晕（无缩放动画，消除页面放大缩小错觉） -->
         <div class="cyber-glow-overlay absolute inset-0 z-0" style="
           background: radial-gradient(circle at 50% 50%, rgba(131, 56, 236, 0.2), rgba(58, 134, 255, 0.15), transparent 70%);
-          animation: glowSweep 6s ease-in-out infinite;
           backdrop-filter: blur(10px);
+          opacity: 0.7; /* 固定透明度，无缩放，稳定无波动 */
         "></div>
 
-        <!-- 4. 赛博核心卡片（毛玻璃+流光边框，无扫描线动效） -->
-        <div class="cyber-card w-full max-w-400px relative z-20" style="
+        <!-- 4. 赛博核心卡片（仅保留霓虹边框流光，无呼吸/缩放动效，稳定显示） -->
+        <div class="cyber-card w-full relative z-20" style="
           max-width: 400px;
+          min-width: 280px;
+          margin: 0 auto;
           background: rgba(18, 15, 41, 0.85);
           backdrop-filter: blur(12px);
           border-radius: 16px;
@@ -197,46 +198,45 @@ export function generateFestivalPage(data) {
                       0 0 40px rgba(58, 134, 255, 0.2), 
                       inset 0 0 10px rgba(253, 29, 29, 0.15);
           overflow: hidden;
-          animation: neonBorderFlow 3s linear infinite, cardBreathe 6s ease-in-out infinite;
+          animation: neonBorderFlow 3s linear infinite; /* 仅保留核心霓虹边框流光，无其他动效 */
         ">
-          <!-- 顶部霓虹栏（移除扫描线动效，无任何额外动画） -->
+          <!-- 顶部霓虹栏（完全静态，无任何动效，无扫描线残留） -->
           <div class="cyber-header" style="
             background: linear-gradient(90deg, #833AB4, #3A86FF, #FD1D1D);
-            padding: 28px 0;
+            padding: 20px 0;
             text-align: center;
             position: relative;
             overflow: hidden;
           ">
-            <!-- 完全移除扫描线相关元素，无任何残留 -->
             <h2 class="festival-name" id="festival-name-3" style="
-              color: #FFFFFF; /* 纯白颜色，无任何发光 */
-              font-size: 2rem;
+              color: #FFFFFF; /* 纯白无发光 */
+              font-size: clamp(1.5rem, 5vw, 2rem); /* 响应式字体，无透明度动画 */
               font-weight: bold;
-              letter-spacing: 2px;
+              letter-spacing: 1px;
               position: relative;
               z-index: 1;
-              /* 彻底删除所有text-shadow，无任何发光效果 */
-              animation: textSoftPulse 4s ease-in-out infinite; /* 仅保留透明度变化，无发光 */
+              padding: 0 10px;
+              opacity: 1; /* 固定透明度，无波动 */
             ">${name}</h2>
           </div>
 
-          <!-- 倒计时区域（无发光，纯白文字，无额外动效） -->
+          <!-- 倒计时区域（完全静态，无任何动效，移动端适配稳定） -->
           <div class="cyber-countdown-area" style="
-            padding: 32px;
+            padding: 20px 16px;
             text-align: center;
             position: relative;
           ">
-            <!-- 赛博分隔线 -->
+            <!-- 赛博分隔线（静态，无动效） -->
             <div class="cyber-divider" style="
               display: flex;
               align-items: center;
               justify-content: center;
               gap: 4px;
-              margin-bottom: 24px;
-              margin-top: 8px;
+              margin-bottom: 16px;
+              margin-top: 4px;
             ">
               <div class="divider-line" style="
-                width: 80px;
+                width: 60px;
                 height: 1px;
                 background: linear-gradient(90deg, transparent, #3A86FF, transparent);
                 border-radius: 50%;
@@ -248,10 +248,10 @@ export function generateFestivalPage(data) {
                 border-radius: 50%;
                 background: #FF00FF;
                 box-shadow: 0 0 3px #FF00FF;
-                animation: dotSoftPulse 2s ease-in-out infinite;
+                opacity: 1; /* 固定透明度，无呼吸动效 */
               "></div>
               <div class="divider-line" style="
-                width: 80px;
+                width: 60px;
                 height: 1px;
                 background: linear-gradient(90deg, transparent, #3A86FF, transparent);
                 border-radius: 50%;
@@ -259,57 +259,63 @@ export function generateFestivalPage(data) {
               "></div>
             </div>
 
-            <!-- 倒计时显示（纯白无发光，功能不变） -->
+            <!-- 倒计时显示（纯白无发光，完全静态，无任何动效，移动端稳定） -->
             <div id="festival-countdown-3" style="
-              font-size: 1.8rem;
+              font-size: clamp(1.2rem, 4vw, 1.8rem);
               font-weight: bold;
-              color: #FFFFFF; /* 纯白颜色，无任何发光 */
-              margin: 32px 0;
-              /* 彻底删除所有text-shadow，无任何发光效果 */
+              color: #FFFFFF;
+              margin: 20px 0;
               letter-spacing: 1px;
-              animation: countdownSoftGlow 3s ease-in-out infinite; /* 仅保留透明度变化，无发光 */
+              line-height: 1.4;
+              padding: 0 10px;
+              word-break: keep-all;
+              opacity: 1; /* 固定透明度，无波动 */
             "></div>
 
-            <!-- 赛博标签栏 -->
+            <!-- 赛博标签栏（完全静态，无悬浮动效，移动端紧凑稳定） -->
             <div class="cyber-tag-bar" style="
               display: flex;
               align-items: center;
               justify-content: center;
-              gap: 12px;
-              margin-top: 24px;
+              gap: 8px;
+              margin-top: 16px;
+              flex-wrap: wrap;
+              padding: 0 10px;
             ">
               <div class="cyber-tag" style="
-                padding: 6px 12px;
+                padding: 4px 10px;
                 background: rgba(26, 20, 59, 0.6);
                 border: 1px solid rgba(58, 134, 255, 0.3);
                 border-radius: 16px;
                 color: #3A86FF;
-                font-size: 12px;
+                font-size: 10px;
                 text-shadow: 0 0 2px rgba(58, 134, 255, 0.5);
-                animation: tagFloat 5s ease-in-out infinite;
+                white-space: nowrap;
+                opacity: 1; /* 固定透明度，无悬浮动效 */
               ">COUNTDOWN SYSTEM</div>
               <div class="cyber-pulse-dot" style="
-                width: 6px;
-                height: 6px;
+                width: 5px;
+                height: 5px;
                 border-radius: 50%;
                 background: #FD1D1D;
                 box-shadow: 0 0 3px #FD1D1D;
-                animation: pulseSoftGlow 2s ease-in-out infinite;
+                opacity: 1; /* 固定透明度，无呼吸动效 */
               "></div>
               <div class="cyber-tag" style="
-                padding: 6px 12px;
+                padding: 4px 10px;
                 background: rgba(26, 20, 59, 0.6);
                 border: 1px solid rgba(58, 134, 255, 0.3);
                 border-radius: 16px;
                 color: #3A86FF;
-                font-size: 12px;
+                font-size: 10px;
                 text-shadow: 0 0 2px rgba(58, 134, 255, 0.5);
-                animation: tagFloat 5s ease-in-out infinite;
+                white-space: nowrap;
+                opacity: 1; /* 固定透明度，无悬浮动效 */
               ">V2.0.0</div>
             </div>
           </div>
 
-          <!-- 卡片底部霓虹条 -->
+          <!-- 卡片底部霓虹条（仅同步霓虹边框流光，无额外动效） -->
           <div class="cyber-card-footer" style="
             position: absolute;
             bottom: 0;
@@ -318,64 +324,32 @@ export function generateFestivalPage(data) {
             height: 2px;
             background: linear-gradient(90deg, #FD1D1D, #3A86FF, #833AB4, #FD1D1D);
             background-size: 400% 100%;
-            animation: footerGlow 5s ease-in-out infinite, neonBorderFlow 3s linear infinite;
+            animation: neonBorderFlow 3s linear infinite;
             opacity: 0.8;
           "></div>
         </div>
 
-        <!-- 全局动画样式（移除扫描线动画，文字动画仅保留透明度变化） -->
+        <!-- 全局样式（仅保留霓虹边框流光动画，删除所有其他多余动效，消除波动） -->
         <style>
-          @keyframes blurGlowPulse {
-            0%, 100% { opacity: 0.7; }
-            50% { opacity: 1; }
+          /* 全局盒模型重置，确保布局稳定无错乱 */
+          * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
           }
-          @keyframes gridMove {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(60px, 60px); }
-          }
-          @keyframes gridPulse {
-            0%, 100% { opacity: 0.4; }
-            50% { opacity: 0.8; }
-          }
-          @keyframes glowSweep {
-            0% { transform: scale(1); opacity: 0.6; }
-            50% { transform: scale(1.2); opacity: 0.9; }
-            100% { transform: scale(1); opacity: 0.6; }
-          }
+          /* 仅保留核心：霓虹边框流光动画（无其他动效，消除页面放大缩小） */
           @keyframes neonBorderFlow {
             0% { background-position: 0% 0%; }
             100% { background-position: 400% 0%; }
           }
-          @keyframes cardBreathe {
-            0%, 100% { box-shadow: 0 0 20px rgba(131, 56, 236, 0.2), 0 0 40px rgba(58, 134, 255, 0.15), inset 0 0 10px rgba(253, 29, 29, 0.1); }
-            50% { box-shadow: 0 0 30px rgba(131, 56, 236, 0.3), 0 0 60px rgba(58, 134, 255, 0.25), inset 0 0 15px rgba(253, 29, 29, 0.15); }
-          }
-          /* 移除headerScan扫描线动画，无任何残留 */
-          @keyframes textSoftPulse {
-            /* 仅保留透明度变化，无任何发光效果，文字始终纯白 */
-            0%, 100% { opacity: 0.8; }
-            50% { opacity: 1; }
-          }
-          @keyframes dotSoftPulse {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 3px #FF00FF; }
-            50% { transform: scale(1.5); box-shadow: 0 0 6px #FF00FF; }
-          }
-          @keyframes countdownSoftGlow {
-            /* 仅保留透明度变化，无任何发光效果，文字始终纯白 */
-            0%, 100% { opacity: 0.8; }
-            50% { opacity: 1; }
-          }
-          @keyframes tagFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-4px); }
-          }
-          @keyframes pulseSoftGlow {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 3px #FD1D1D; }
-            50% { transform: scale(1.2); box-shadow: 0 0 6px #FD1D1D; }
-          }
-          @keyframes footerGlow {
-            0%, 100% { opacity: 0.6; }
-            50% { opacity: 0.9; }
+          /* 适配极小屏（320px以下），布局稳定无挤压 */
+          @media screen and (max-width: 320px) {
+            .festival-name {
+              font-size: 1.2rem !important;
+            }
+            #festival-countdown-3 {
+              font-size: 1rem !important;
+            }
           }
         </style>
       </div>
