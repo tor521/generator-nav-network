@@ -102,53 +102,47 @@ export function generateConfessionPage(data) {
     `;
   }
 
-  // 模板2：极简几何卡片+明暗对比风（完全重构结构，无旋转，与模板1风格鲜明区分）
+  // 模板2：清新森系简约风（结构大幅重构，低饱和柔和配色，无高对比，功能完全保留）
   else if (template === '2') {
     pageContent = `
-      <!-- 结构大幅重构：采用「外层遮罩+中层几何卡片+内层分区布局」，区别于模板1的单层卡片 -->
-      <div class="min-h-screen flex items-center justify-center p-4 bg-[#1A1A2E]">
-        <!-- 外层几何装饰遮罩（新增结构，模板1无此层级） -->
-        <div class="w-full max-w-md relative">
-          <div class="absolute inset-0 bg-[#0F3460] rounded-xl opacity-70 blur-sm"></div>
-          <!-- 中层核心卡片（无任何旋转效果，几何直角+切角设计） -->
-          <div class="relative w-full bg-white rounded-xl overflow-hidden shadow-[0_0_30px_rgba(11,223,255,0.5)] z-10">
-            <!-- 顶部通栏：几何切角+纯色块，区别于模板1的渐变圆角栏 -->
-            <div class="bg-[#E94560] py-5 px-6 relative">
-              <!-- 几何切角装饰（模板1无此元素） -->
-              <div class="absolute top-0 right-0 w-16 h-16">
-                <div class="absolute inset-0 bg-white clip-path-triangle"></div>
-              </div>
-              <h2 class="text-2xl font-bold text-white tracking-wide">致 ${confName}</h2>
-              <p class="text-[#FFEBEF] text-sm mt-1">专属心意 · 不负遇见</p>
+      <!-- 结构大幅重构：采用「外层容器+卡片头部模块+内容主体模块+底部装饰模块」的模块化布局，区别于模板1的单层居中卡片 -->
+      <div class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-[#F0F7F4] to-[#E6F8F3]">
+        <!-- 核心卡片：圆角适度（区别于模板1的大圆角），模块化分区，无高对比色系 -->
+        <div class="w-full max-w-md bg-white rounded-xl overflow-hidden shadow-lg border border-[#D9ECE6]">
+          <!-- 模块1：卡片头部（左侧图标+右侧文字，横向布局，区别于模板1的通栏渐变居中） -->
+          <div class="flex items-center p-5 bg-[#F8FCFB] border-b border-[#D9ECE6]">
+            <div class="w-12 h-12 bg-[#B8E0D2] rounded-lg flex items-center justify-center mr-4">
+              <i class="fa-solid fa-leaf text-[#73B695] text-xl"></i>
             </div>
-            
-            <!-- 中间内容区：双列侧边装饰+主体内容，完全区别于模板1的居中单一区域 -->
-            <div class="flex items-start">
-              <!-- 左侧几何装饰条（新增结构，模板1无侧边装饰） -->
-              <div class="w-2 bg-gradient-to-b from-[#00F5D4] to-[#E94560] h-full"></div>
-              <!-- 右侧内容主体（打字机渲染区域） -->
-              <div class="flex-1 p-6">
-                <div id="confession-content-2" class="bg-[#F8F9FA] rounded-lg p-6 text-[#2D3436] leading-relaxed min-h-[180px] w-full word-break break-all shadow-inner border border-[#E0E0E0] font-sans"></div>
-              </div>
+            <div class="flex-1">
+              <h2 class="text-2xl font-semibold text-[#5A8F7B]">致 ${confName}</h2>
+              <p class="text-[#8CBFA7] text-sm mt-1">一份藏在时光里的心意</p>
             </div>
-            
-            <!-- 底部功能区：网格布局+图标装饰，区别于模板1的居中弹性布局 -->
-            <div class="bg-[#F8F9FA] py-4 px-6 border-t border-[#E0E0E0]">
-              <div class="flex justify-between items-center">
-                <div class="flex gap-3">
-                  <i class="fa-solid fa-star text-[#00F5D4]"></i>
-                  <i class="fa-solid fa-heart text-[#E94560]"></i>
-                  <i class="fa-solid fa-paper-plane text-[#0F3460]"></i>
-                </div>
-                <p class="text-[#6C757D] text-xs">愿岁月静好，温暖相伴</p>
+          </div>
+
+          <!-- 模块2：内容主体（上下留白+内层卡片，区别于模板1的直接居中渲染） -->
+          <div class="p-6">
+            <div id="confession-content-2" class="bg-[#FCFEFD] rounded-lg p-7 text-[#4A6F60] leading-relaxed min-h-[180px] w-full word-break break-all shadow-sm border border-[#E8F3EF] font-normal"></div>
+          </div>
+
+          <!-- 模块3：底部装饰（左侧分隔线+右侧图标组，区别于模板1的居中爱心脉冲） -->
+          <div class="p-5 bg-[#F8FCFB] border-t border-[#D9ECE6]">
+            <div class="flex items-center justify-between">
+              <div class="w-16 h-0.5 bg-gradient-to-r from-[#B8E0D2] to-transparent"></div>
+              <div class="flex gap-4">
+                <i class="fa-solid fa-flower text-[#95C4B2]"></i>
+                <i class="fa-solid fa-seedling text-[#73B695]"></i>
+                <i class="fa-solid fa-heart text-[#B8E0D2]"></i>
               </div>
+              <div class="w-16 h-0.5 bg-gradient-to-l from-[#B8E0D2] to-transparent"></div>
             </div>
+            <p class="text-center text-[#8CBFA7] text-xs mt-4">愿山河无恙，岁月温柔</p>
           </div>
         </div>
       </div>
 
       <script>
-        // 保留所有核心功能：打字机效果、内容替换、换行处理完全不变
+        // 完全保留所有原有核心功能，逻辑无任何改动
         function typeWriterEffect(text, el, speed = 80) {
           let i = 0;
           el.innerHTML = '';
@@ -172,22 +166,16 @@ export function generateConfessionPage(data) {
         
         const style = document.createElement('style');
         style.textContent = \`
-          /* 移除所有旋转相关样式，无任何旋转效果 */
-          /* 新增几何切角样式，支撑模板2独特结构 */
-          .clip-path-triangle {
-            clip-path: polygon(100% 0, 0 0, 100% 100%);
-          }
-          /* 动画调整：保留淡入功能，风格改为硬朗简洁，区别于模板1的柔和动画 */
+          /* 低饱和森系配色，无高对比明暗，区别于模板1的粉蓝渐变 */
           @keyframes fadeIn {
-            from { opacity: 0.7; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0.7; }
+            to { opacity: 1; }
           }
           .animate-fadeIn { animation: fadeIn 1s ease-in-out; }
-          /* 辅助样式：支撑双列布局和几何装饰 */
-          .bg-gradient-to-b.from-\\[\#00F5D4\\].to-\\[\#E94560\\] {
-            background: linear-gradient(to bottom, #00F5D4, #E94560);
+          /* 辅助样式：支撑模块化布局，无旋转、无高对比 */
+          .bg-gradient-to-br.from-\\[\#F0F7F4\\].to-\\[\#E6F8F3\\] {
+            background: linear-gradient(to bottom right, #F0F7F4, #E6F8F3);
           }
-          .shadow-inner { box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); }
         \`;
         document.head.appendChild(style);
       </script>
