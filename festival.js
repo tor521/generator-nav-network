@@ -6,74 +6,36 @@ export function generateFestivalPage(data) {
   const { name, date } = previewData;
   let pageContent = '';
 
-  // 模板1：可爱熊猫+竹子点缀国宝风格（功能不变）
+  // 模板1：移除所有SVG + 优化配色元素（清新浅绿系，无卡通装饰，质感提升）
   if (template === '1') {
     pageContent = `
-      <div class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-[#E8F5E9] to-[#F1F8E9]">
-        <!-- 背景可爱熊猫平铺暗纹（低透明度，不杂乱） -->
-        <div class="absolute inset-0 bg-[url('data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'120\' height=\'120\' viewBox=\'0 0 100 100\'><ellipse cx=\'50\' cy=\'50\' rx=\'32\' ry=\'38\' fill=\'%23C8E6C9\' opacity=\'0.2\'/><circle cx=\'38\' cy=\'40\' r=\'6\' fill=\'%23FFFFFF\' opacity=\'0.3\'/><circle cx=\'62\' cy=\'40\' r=\'6\' fill=\'%23FFFFFF\' opacity=\'0.3\'/><circle cx=\'38\' cy=\'40\' r=\'3\' fill=\'%23212121\' opacity=\'0.3\'/><circle cx=\'62\' cy=\'40\' r=\'3\' fill=\'%23212121\' opacity=\'0.3\'/><ellipse cx=\'50\' cy=\'60\' rx=\'12\' ry=\'10\' fill=\'%23F8C9D1\' opacity=\'0.2\'/></svg>')] repeat opacity-70"></div>
-        <div class="w-full max-w-md bg-white rounded-3xl shadow-xl overflow-hidden border border-[#C8E6C9] relative">
-          <!-- 顶部渐变栏：浅绿主调+超可爱大熊猫SVG（替换原有，更灵动） -->
-          <div class="bg-gradient-to-r from-[#81C784] to-[#A5D6A7] py-6 text-center relative">
-            <!-- 核心元素：超可爱大熊猫SVG（圆脸蛋+腮红+萌系眼睛，辨识度拉满） -->
-            <svg class="w-14 h-14 mx-auto mb-2" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <!-- 熊猫脸蛋（圆润可爱） -->
-              <ellipse cx="50" cy="50" rx="35" ry="38" fill="#FFFFFF" opacity="0.98"/>
-              <!-- 熊猫黑眼圈（萌系椭圆，带高光） -->
-              <ellipse cx="32" cy="42" rx="10" ry="14" fill="#212121"/>
-              <ellipse cx="68" cy="42" rx="10" ry="14" fill="#212121"/>
-              <ellipse cx="30" cy="38" rx="4" ry="6" fill="#FFFFFF" opacity="0.8"/>
-              <ellipse cx="66" cy="38" rx="4" ry="6" fill="#FFFFFF" opacity="0.8"/>
-              <!-- 熊猫眼睛（小圆点，更灵动） -->
-              <circle cx="32" cy="45" r="3" fill="#FFFFFF"/>
-              <circle cx="68" cy="45" r="3" fill="#FFFFFF"/>
-              <!-- 熊猫腮红（浅粉，可爱翻倍） -->
-              <ellipse cx="22" cy="55" rx="8" ry="6" fill="#F8C9D1" opacity="0.7"/>
-              <ellipse cx="78" cy="55" rx="8" ry="6" fill="#F8C9D1" opacity="0.7"/>
-              <!-- 熊猫嘴巴（小弧线，呆萌可爱） -->
-              <path d="M45 65 Q50 72 55 65" stroke="#212121" stroke-width="2" fill="none"/>
-            </svg>
-            <!-- 右上角辅助可爱熊猫装饰（迷你版） -->
-            <svg class="absolute top-2 right-4 w-12 h-12" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <ellipse cx="50" cy="50" rx="30" ry="33" fill="#FFFFFF" opacity="0.8"/>
-              <ellipse cx="32" cy="42" rx="8" ry="11" fill="#212121"/>
-              <ellipse cx="68" cy="42" rx="8" ry="11" fill="#212121"/>
-              <ellipse cx="22" cy="55" rx="6" ry="4" fill="#F8C9D1" opacity="0.6"/>
-              <ellipse cx="78" cy="55" rx="6" ry="4" fill="#F8C9D1" opacity="0.6"/>
-            </svg>
-            <h2 class="text-2xl font-bold text-white tracking-wider">${name}</h2>
+      <div class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-[#E6F7EF] to-[#D4F0E4]">
+        <!-- 背景质感点缀（无SVG，纯CSS渐变纹理，提升层次感） -->
+        <div class="absolute inset-0 bg-grid bg-opacity-10" style="background-image: linear-gradient(to right, #81C784 1px, transparent 1px), linear-gradient(to bottom, #81C784 1px, transparent 1px); background-size: 30px 30px;"></div>
+        <div class="w-full max-w-md bg-white rounded-3xl shadow-xl overflow-hidden border border-[#B3E5CC] relative">
+          <!-- 顶部渐变栏：优化配色（低饱和浅绿渐变，无SVG熊猫） -->
+          <div class="bg-gradient-to-r from-[#66BB6A] to-[#81C784] py-6 text-center relative">
+            <!-- 顶部装饰（纯CSS，无SVG，呼应熊猫主题的浅绿+白点缀） -->
+            <div class="absolute top-2 right-4 w-12 h-12 rounded-full bg-white bg-opacity-20 flex items-center justify-center">
+              <div class="w-8 h-8 rounded-full bg-white bg-opacity-40"></div>
+            </div>
+            <h2 class="text-2xl font-bold text-white tracking-wider relative z-10">${name}</h2>
           </div>
-          <!-- 倒计时区域：浅绿主调+迷你可爱熊猫分隔+竹子点缀 -->
+          <!-- 倒计时区域：优化配色+纯CSS分隔元素（移除SVG，质感提升） -->
           <div class="p-8 text-center relative">
             <div id="festival-countdown" class="text-2xl font-semibold text-[#2E7D32] my-6">
               <!-- 文案由JS动态填充，功能不变 -->
             </div>
-            <!-- 分隔线：迷你可爱熊猫SVG（简化版，带腮红） -->
+            <!-- 分隔线：纯CSS实现（移除SVG熊猫/竹子，优化浅绿渐变） -->
             <div class="flex items-center justify-center gap-3">
-              <div class="w-16 h-1 bg-[#C8E6C9] rounded-full"></div>
-              <svg class="w-7 h-7" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <ellipse cx="50" cy="50" rx="20" ry="22" fill="#FFFFFF" opacity="0.9"/>
-                <ellipse cx="38" cy="45" rx="5" ry="7" fill="#212121"/>
-                <ellipse cx="62" cy="45" rx="5" ry="7" fill="#212121"/>
-                <ellipse cx="30" cy="55" rx="4" ry="3" fill="#F8C9D1" opacity="0.7"/>
-                <ellipse cx="70" cy="55" rx="4" ry="3" fill="#F8C9D1" opacity="0.7"/>
-              </svg>
-              <div class="w-16 h-1 bg-[#C8E6C9] rounded-full"></div>
+              <div class="w-16 h-1 bg-[#B3E5CC] rounded-full"></div>
+              <div class="w-3 h-3 rounded-full bg-[#66BB6A]"></div>
+              <div class="w-16 h-1 bg-[#B3E5CC] rounded-full"></div>
             </div>
             <p class="mt-6 text-[#558B2F] text-sm flex items-center justify-center gap-2">
               <span>专属定制 · 美好时刻</span>
-              <!-- 底部点缀：替换为竹子SVG（呼应大熊猫主题，清新自然） -->
-              <svg class="w-5 h-5" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M50 0 V100" stroke="#81C784" stroke-width="6" stroke-linecap="round" fill="none"/>
-                <path d="M50 20 L70 15" stroke="#81C784" stroke-width="4" stroke-linecap="round" fill="none"/>
-                <path d="M50 40 L65 35" stroke="#81C784" stroke-width="4" stroke-linecap="round" fill="none"/>
-                <path d="M50 60 L70 55" stroke="#81C784" stroke-width="4" stroke-linecap="round" fill="none"/>
-                <path d="M50 80 L65 75" stroke="#81C784" stroke-width="4" stroke-linecap="round" fill="none"/>
-                <path d="M50 20 L30 15" stroke="#81C784" stroke-width="4" stroke-linecap="round" fill="none"/>
-                <path d="M50 40 L35 35" stroke="#81C784" stroke-width="4" stroke-linecap="round" fill="none"/>
-                <path d="M50 60 L30 55" stroke="#81C784" stroke-width="4" stroke-linecap="round" fill="none"/>
-                <path d="M50 80 L35 75" stroke="#81C784" stroke-width="4" stroke-linecap="round" fill="none"/>
-              </svg>
+              <!-- 底部点缀：纯CSS实现（移除SVG竹子，低饱和绿点缀） -->
+              <div class="w-2 h-4 bg-[#81C784] rounded-sm"></div>
             </p>
           </div>
         </div>
@@ -126,7 +88,7 @@ export function generateFestivalPage(data) {
             <!-- 中式标题区域：朱砂红+毛笔字体 -->
             <div class="text-center mb-8 relative z-10">
               <i class="fa-solid fa-scroll text-4xl text-[#C41E3A] mb-4"></i>
-              <h2 class="text-3xl md:text-4xl font-bold text-[#2B2B2B] tracking-wider font-['MaShanZheng', 'SimHei', 'serif']">${name}</h2>
+              <h2 class="text-3xl md:text-4xl font-bold text-[#2B2B2B] tracking-wider font-[\'MaShanZheng\',\'SimHei\',\'serif\']">${name}</h2>
               <!-- 中式回纹分隔线 -->
               <div class="w-full max-w-xs mx-auto mt-3 flex items-center justify-between">
                 <div class="w-24 h-0.5 bg-[#A67C52]"></div>
@@ -139,23 +101,23 @@ export function generateFestivalPage(data) {
             
             <!-- 倒计时区域：仿古宣纸+中式印章点缀 -->
             <div class="text-center p-4 bg-white/50 backdrop-blur-sm rounded-lg border border-[#D4B996]/30 relative z-10">
-              <div id="festival-countdown-2" class="text-2xl md:text-3xl font-semibold text-[#8A2B1A] my-4 leading-relaxed font-['STKaiti', 'SimKai', 'serif']"></div>
+              <div id="festival-countdown-2" class="text-2xl md:text-3xl font-semibold text-[#8A2B1A] my-4 leading-relaxed font-[\'STKaiti\',\'SimKai\',\'serif\']"></div>
               <!-- 中式梅花分隔符 -->
               <div class="flex items-center justify-center gap-3 my-3">
                 <div class="w-16 h-0.5 bg-[#D4B996]/50"></div>
                 <i class="fa-solid fa-flower text-[#C41E3A] text-lg"></i>
                 <div class="w-16 h-0.5 bg-[#D4B996]/50"></div>
               </div>
-              <p class="mt-2 text-[#6B5B49] text-sm font-['SimSun', 'serif']">岁时更迭 · 美好常伴</p>
+              <p class="mt-2 text-[#6B5B49] text-sm font-[\'SimSun\',\'serif\']">岁时更迭 · 美好常伴</p>
             </div>
             
             <!-- 中式篆刻印章（右下角） -->
-            <div class="absolute bottom-4 right-4 w-16 h-16 bg-[#C41E3A] rounded-sm flex items-center justify-center text-white text-xs font-bold font-['STZhongsong', 'serif'] rotate-6 shadow-md">
+            <div class="absolute bottom-4 right-4 w-16 h-16 bg-[#C41E3A] rounded-sm flex items-center justify-center text-white text-xs font-bold font-[\'STZhongSong\',\'serif\'] rotate-6 shadow-md">
               吉庆有余
             </div>
             
             <!-- 左侧中式竖排题字（装饰性） -->
-            <div class="absolute top-1/2 -left-8 transform -translate-y-1/2 rotate-90 text-[#6B5B49] text-xs font-['STKaiti'] tracking-wider">
+            <div class="absolute top-1/2 -left-8 transform -translate-y-1/2 rotate-90 text-[#6B5B49] text-xs font-[\'STKaiti\',\'serif\'] tracking-wider">
               佳节将至
             </div>
           </div>
@@ -182,8 +144,8 @@ export function generateFestivalPage(data) {
           const isPassed = !isToday && targetDate < now && nextTargetDate.getFullYear() > now.getFullYear();
           
           let tipText = '';
-          if (isToday) tipText = '恭贺${name}，喜乐安康！';
-          else if (isPassed) tipText = '${name}已至，岁岁年年皆如意～';
+          if (isToday) tipText = '祝你「${name}」快乐无忧！';
+          else if (isPassed) tipText = '「${name}」已过，但美好永存，天天开心～';
           else tipText = '距${name}尚有 ' + days + '日 ' + hours + '时 ' + minutes + '分 ' + seconds + '秒';
           
           document.getElementById('festival-countdown-2').textContent = tipText;
@@ -195,5 +157,5 @@ export function generateFestivalPage(data) {
   }
 
   // 拼接完整HTML
-  return generateCommonHead() + `<body>${pageContent}</body></html>`;
+  return generateCommonHead() + `<body>${pageContent}</body>`;
 }
