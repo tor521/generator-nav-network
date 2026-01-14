@@ -1,12 +1,12 @@
 import { generateCommonHead } from './utils.js';
 
-// 生成节日分类分享页面（模板1/2）
+// 生成节日分类分享页面（模板1/2/3）
 export function generateFestivalPage(data) {
   const { template, previewData } = data;
   const { name, date } = previewData;
   let pageContent = '';
 
-  // 模板1：移除所有SVG + 优化配色元素（清新浅绿系，无卡通装饰，质感提升）
+  // 模板1：清新浅绿系（保持原有优化后的样式，功能不变）
   if (template === '1') {
     pageContent = `
       <div class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-[#F8FBF9] to-[#EFF7F3]">
@@ -70,7 +70,7 @@ export function generateFestivalPage(data) {
     `;
   }
 
-  // 模板2：国风新中式（优化背景，功能不变）
+  // 模板2：国风新中式（保持原有优化后的样式，功能不变）
   else if (template === '2') {
     pageContent = `
       <div class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-[#FCF9F4] to-[#F8F2E9]">
@@ -110,11 +110,6 @@ export function generateFestivalPage(data) {
               </div>
               <p class="mt-2 text-[#6B5B49]/80 text-sm font-[\'SimSun\',\'serif\']">岁时更迭 · 美好常伴</p>
             </div>
-                        <!-- 中式篆刻印章（右下角）
-            <div class="absolute bottom-4 right-4 w-16 h-16 bg-[#C41E3A]/80 rounded-sm flex items-center justify-center text-white text-xs font-bold font-[\'STZhongSong\',\'serif\'] rotate-6 shadow-md">
-              吉庆有余
-            </div> -->
-
             
             <!-- 左侧中式竖排题字（装饰性） -->
             <div class="absolute top-1/2 -left-8 transform -translate-y-1/2 rotate-90 text-[#6B5B49]/70 text-xs font-[\'STKaiti\',\'serif\'] tracking-wider">
@@ -149,6 +144,95 @@ export function generateFestivalPage(data) {
           else tipText = '距${name}尚有 ' + days + '日 ' + hours + '时 ' + minutes + '分 ' + seconds + '秒';
           
           document.getElementById('festival-countdown-2').textContent = tipText;
+        }
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+      </script>
+    `;
+  }
+
+  // 模板3：赛博朋克科技风（新增酷炫视觉，核心功能与前两者一致）
+  else if (template === '3') {
+    pageContent = `
+      <div class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-[#0F0B21] to-[#1A143B] relative overflow-hidden">
+        <!-- 背景科技网格动效（酷炫氛围铺垫） -->
+        <div class="absolute inset-0 bg-grid-tech" style="background-image: linear-gradient(to right, #3A86FF 1px, transparent 1px), linear-gradient(to bottom, #3A86FF 1px, transparent 1px); background-size: 60px 60px; animation: gridMove 20s linear infinite;"></div>
+        <!-- 背景光晕扫动效果 -->
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(131,56,236,0.2),transparent_70%)]">
+          <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent to rgba(58,134,255,0.1) animate-pulse" style="animation-duration: 4s;"></div>
+        </div>
+        <!-- 核心科技卡片容器 -->
+        <div class="w-full max-w-md relative z-10 bg-[#120F29]/80 backdrop-blur-md rounded-2xl border border-[#3A86FF]/30 shadow-[0_0_30px_rgba(131,56,236,0.3)] overflow-hidden">
+          <!-- 顶部霓虹渐变栏 + 扫描动效 -->
+          <div class="bg-gradient-to-r from-[#833AB4] via-[#3A86FF] to-[#FD1D1D] py-7 text-center relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent to #3A86FF to transparent animate-[scan_3s_ease-in-out_infinite]"></div>
+            <h2 class="text-2xl md:text-3xl font-bold text-white tracking-wider relative z-10 drop-shadow-[0_0_8px_rgba(58,134,255,0.8)]">${name}</h2>
+            <!-- 顶部霓虹点缀 -->
+            <div class="absolute top-4 right-6 w-10 h-10 rounded-full bg-[#FD1D1D]/20 flex items-center justify-center">
+              <div class="w-6 h-6 rounded-full bg-[#FD1D1D]/40 drop-shadow-[0_0_6px_rgba(253,29,29,0.8)]"></div>
+            </div>
+          </div>
+          <!-- 倒计时核心区域（科技感数字显示） -->
+          <div class="p-8 text-center relative">
+            <!-- 科技分隔线（霓虹发光） -->
+            <div class="flex items-center justify-center gap-4 mb-6 mt-2">
+              <div class="w-20 h-1 bg-gradient-to-r from-transparent to #3A86FF to transparent rounded-full"></div>
+              <div class="w-4 h-4 rounded-full bg-[#833AB4] drop-shadow-[0_0_4px_rgba(131,56,236,1)]"></div>
+              <div class="w-20 h-1 bg-gradient-to-r from-transparent to #3A86FF to transparent rounded-full"></div>
+            </div>
+            <!-- 倒计时显示容器（霓虹文字+发光效果） -->
+            <div id="festival-countdown-3" class="text-2xl md:text-3xl font-bold text-[#E0EFFF] my-8 drop-shadow-[0_0_10px_rgba(58,134,255,0.6)] font-[\'Orbitron\',\'monospace\']"></div>
+            <!-- 底部科技标签 + 霓虹点缀 -->
+            <div class="flex items-center justify-center gap-3 text-xs text-[#3A86FF]/70 mt-6">
+              <span class="px-3 py-1 bg-[#1A143B]/60 rounded-full border border-[#3A86FF]/20">COUNTDOWN SYSTEM</span>
+              <div class="w-2 h-2 rounded-full bg-[#FD1D1D] animate-pulse" style="animation-duration: 2s;"></div>
+              <span class="px-3 py-1 bg-[#1A143B]/60 rounded-full border border-[#3A86FF]/20">V1.0.0</span>
+            </div>
+          </div>
+          <!-- 卡片底部霓虹边框动效 -->
+          <div class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#FD1D1D] via-[#3A86FF] to-[#833AB4] animate-[glow_5s_ease-in-out_infinite]"></div>
+        </div>
+        <!-- 全局动画样式定义 -->
+        <style>
+          @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(60px, 60px); }
+          }
+          @keyframes scan {
+            0% { left: -100%; }
+            50% { left: 100%; }
+            100% { left: -100%; }
+          }
+          @keyframes glow {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+          }
+        </style>
+      </div>
+      <script>
+        // 核心功能与模板1/2完全一致：倒计时计算、日期判断、1秒刷新，仅修改DOM元素ID
+        function updateCountdown() {
+          const now = new Date();
+          const targetDate = new Date('${date}');
+          const nextTargetDate = new Date(targetDate);
+          if (nextTargetDate < now) nextTargetDate.setFullYear(now.getFullYear() + 1);
+          const diffTime = nextTargetDate - now - 28800000;
+          const days = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+          const hours = Math.floor((diffTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          const minutes = Math.floor((diffTime % (1000 * 60 * 60)) / (1000 * 60));
+          const seconds = Math.floor((diffTime % (1000 * 60)) / 1000);
+
+          const isToday = now.getFullYear() === targetDate.getFullYear() &&
+                          now.getMonth() === targetDate.getMonth() &&
+                          now.getDate() === targetDate.getDate();
+          const isPassed = !isToday && targetDate < now && nextTargetDate.getFullYear() > now.getFullYear();
+          
+          let tipText = '';
+          if (isToday) tipText = '祝你「${name}」快乐无忧！';
+          else if (isPassed) tipText = '「${name}」已过，但美好永存，天天开心～';
+          else tipText = '距离${name}还有 ' + days + '天 ' + hours + '时 ' + minutes + '分 ' + seconds + '秒';
+          
+          document.getElementById('festival-countdown-3').textContent = tipText;
         }
         updateCountdown();
         setInterval(updateCountdown, 1000);
