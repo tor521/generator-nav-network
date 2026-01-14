@@ -6,56 +6,73 @@ export function generateFestivalPage(data) {
   const { name, date } = previewData;
   let pageContent = '';
 
-  // 模板1：直观大熊猫国宝风格（替换爪印为大熊猫元素，强化风格辨识度，功能不变）
+  // 模板1：可爱熊猫+竹子点缀国宝风格（功能不变）
   if (template === '1') {
     pageContent = `
       <div class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-[#E8F5E9] to-[#F1F8E9]">
-        <!-- 背景大熊猫平铺暗纹（直观熊猫轮廓，低透明度不杂乱，强化风格） -->
-        <div class="absolute inset-0 bg-[url('data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'120\' height=\'120\' viewBox=\'0 0 100 100\'><ellipse cx=\'50\' cy=\'45\' rx=\'35\' ry=\'40\' fill=\'%23C8E6C9\' opacity=\'0.2\'/><circle cx=\'30\' cy=\'35\' r=\'8\' fill=\'%23FFFFFF\' opacity=\'0.3\'/><circle cx=\'70\' cy=\'35\' r=\'8\' fill=\'%23FFFFFF\' opacity=\'0.3\'/><circle cx=\'30\' cy=\'35\' r=\'4\' fill=\'%23212121\' opacity=\'0.3\'/><circle cx=\'70\' cy=\'35\' r=\'4\' fill=\'%23212121\' opacity=\'0.3\'/><ellipse cx=\'50\' cy=\'55\' rx=\'15\' ry=\'12\' fill=\'%23F8C9D1\' opacity=\'0.2\'/></svg>')] repeat opacity-70"></div>
+        <!-- 背景可爱熊猫平铺暗纹（低透明度，不杂乱） -->
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'120\' height=\'120\' viewBox=\'0 0 100 100\'><ellipse cx=\'50\' cy=\'50\' rx=\'32\' ry=\'38\' fill=\'%23C8E6C9\' opacity=\'0.2\'/><circle cx=\'38\' cy=\'40\' r=\'6\' fill=\'%23FFFFFF\' opacity=\'0.3\'/><circle cx=\'62\' cy=\'40\' r=\'6\' fill=\'%23FFFFFF\' opacity=\'0.3\'/><circle cx=\'38\' cy=\'40\' r=\'3\' fill=\'%23212121\' opacity=\'0.3\'/><circle cx=\'62\' cy=\'40\' r=\'3\' fill=\'%23212121\' opacity=\'0.3\'/><ellipse cx=\'50\' cy=\'60\' rx=\'12\' ry=\'10\' fill=\'%23F8C9D1\' opacity=\'0.2\'/></svg>')] repeat opacity-70"></div>
         <div class="w-full max-w-md bg-white rounded-3xl shadow-xl overflow-hidden border border-[#C8E6C9] relative">
-          <!-- 顶部渐变栏：浅绿主调+直观大熊猫SVG（替换爪印，强化核心形象） -->
+          <!-- 顶部渐变栏：浅绿主调+超可爱大熊猫SVG（替换原有，更灵动） -->
           <div class="bg-gradient-to-r from-[#81C784] to-[#A5D6A7] py-6 text-center relative">
-            <!-- 核心元素：替换爪印为可爱大熊猫SVG（直观醒目，浅粉点缀脸部） -->
-            <svg class="w-12 h-12 mx-auto mb-2" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <ellipse cx="50" cy="45" rx="30" ry="35" fill="#FFFFFF" opacity="0.95"/>
-              <circle cx="35" cy="35" r="7" fill="#212121"/>
-              <circle cx="65" cy="35" r="7" fill="#212121"/>
-              <circle cx="35" cy="35" r="3" fill="#FFFFFF"/>
-              <circle cx="65" cy="35" r="3" fill="#FFFFFF"/>
-              <ellipse cx="50" cy="58" rx="12" ry="10" fill="#F8C9D1" opacity="0.9"/>
-              <path d="M45 65 Q50 70 55 65" stroke="#212121" stroke-width="1" fill="none"/>
+            <!-- 核心元素：超可爱大熊猫SVG（圆脸蛋+腮红+萌系眼睛，辨识度拉满） -->
+            <svg class="w-14 h-14 mx-auto mb-2" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- 熊猫脸蛋（圆润可爱） -->
+              <ellipse cx="50" cy="50" rx="35" ry="38" fill="#FFFFFF" opacity="0.98"/>
+              <!-- 熊猫黑眼圈（萌系椭圆，带高光） -->
+              <ellipse cx="32" cy="42" rx="10" ry="14" fill="#212121"/>
+              <ellipse cx="68" cy="42" rx="10" ry="14" fill="#212121"/>
+              <ellipse cx="30" cy="38" rx="4" ry="6" fill="#FFFFFF" opacity="0.8"/>
+              <ellipse cx="66" cy="38" rx="4" ry="6" fill="#FFFFFF" opacity="0.8"/>
+              <!-- 熊猫眼睛（小圆点，更灵动） -->
+              <circle cx="32" cy="45" r="3" fill="#FFFFFF"/>
+              <circle cx="68" cy="45" r="3" fill="#FFFFFF"/>
+              <!-- 熊猫腮红（浅粉，可爱翻倍） -->
+              <ellipse cx="22" cy="55" rx="8" ry="6" fill="#F8C9D1" opacity="0.7"/>
+              <ellipse cx="78" cy="55" rx="8" ry="6" fill="#F8C9D1" opacity="0.7"/>
+              <!-- 熊猫嘴巴（小弧线，呆萌可爱） -->
+              <path d="M45 65 Q50 72 55 65" stroke="#212121" stroke-width="2" fill="none"/>
             </svg>
-            <!-- 右上角辅助大熊猫装饰（迷你版，呼应核心元素） -->
+            <!-- 右上角辅助可爱熊猫装饰（迷你版） -->
             <svg class="absolute top-2 right-4 w-12 h-12" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <ellipse cx="50" cy="45" rx="25" ry="30" fill="#FFFFFF" opacity="0.8"/>
-              <circle cx="35" cy="35" r="6" fill="#212121"/>
-              <circle cx="65" cy="35" r="6" fill="#212121"/>
-              <ellipse cx="50" cy="55" rx="10" ry="8" fill="#F8C9D1" opacity="0.8"/>
+              <ellipse cx="50" cy="50" rx="30" ry="33" fill="#FFFFFF" opacity="0.8"/>
+              <ellipse cx="32" cy="42" rx="8" ry="11" fill="#212121"/>
+              <ellipse cx="68" cy="42" rx="8" ry="11" fill="#212121"/>
+              <ellipse cx="22" cy="55" rx="6" ry="4" fill="#F8C9D1" opacity="0.6"/>
+              <ellipse cx="78" cy="55" rx="6" ry="4" fill="#F8C9D1" opacity="0.6"/>
             </svg>
             <h2 class="text-2xl font-bold text-white tracking-wider">${name}</h2>
           </div>
-          <!-- 倒计时区域：浅绿主调+大熊猫分隔元素（替换爪印，风格统一） -->
+          <!-- 倒计时区域：浅绿主调+迷你可爱熊猫分隔+竹子点缀 -->
           <div class="p-8 text-center relative">
             <div id="festival-countdown" class="text-2xl font-semibold text-[#2E7D32] my-6">
               <!-- 文案由JS动态填充，功能不变 -->
             </div>
-            <!-- 分隔线：替换爪印为迷你大熊猫，浅绿+浅粉呼应主题 -->
+            <!-- 分隔线：迷你可爱熊猫SVG（简化版，带腮红） -->
             <div class="flex items-center justify-center gap-3">
               <div class="w-16 h-1 bg-[#C8E6C9] rounded-full"></div>
-              <svg class="w-6 h-6" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <ellipse cx="50" cy="45" rx="15" ry="18" fill="#F8C9D1" opacity="0.9"/>
-                <circle cx="40" cy="38" r="3" fill="#212121"/>
-                <circle cx="60" cy="38" r="3" fill="#212121"/>
+              <svg class="w-7 h-7" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="50" cy="50" rx="20" ry="22" fill="#FFFFFF" opacity="0.9"/>
+                <ellipse cx="38" cy="45" rx="5" ry="7" fill="#212121"/>
+                <ellipse cx="62" cy="45" rx="5" ry="7" fill="#212121"/>
+                <ellipse cx="30" cy="55" rx="4" ry="3" fill="#F8C9D1" opacity="0.7"/>
+                <ellipse cx="70" cy="55" rx="4" ry="3" fill="#F8C9D1" opacity="0.7"/>
               </svg>
               <div class="w-16 h-1 bg-[#C8E6C9] rounded-full"></div>
             </div>
             <p class="mt-6 text-[#558B2F] text-sm flex items-center justify-center gap-2">
               <span>专属定制 · 美好时刻</span>
-              <!-- 底部点缀：替换爪印为超迷你大熊猫，细节呼应主题 -->
-              <svg class="w-4 h-4" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <ellipse cx="50" cy="45" rx="10" ry="12" fill="#F8C9D1" opacity="0.8"/>
-                <circle cx="40" cy="38" r="2" fill="#212121"/>
-                <circle cx="60" cy="38" r="2" fill="#212121"/>
+              <!-- 底部点缀：替换为竹子SVG（呼应大熊猫主题，清新自然） -->
+              <svg class="w-5 h-5" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M50 0 V100" stroke="#81C784" stroke-width="6" stroke-linecap="round" fill="none"/>
+                <path d="M50 20 L70 15" stroke="#81C784" stroke-width="4" stroke-linecap="round" fill="none"/>
+                <path d="M50 40 L65 35" stroke="#81C784" stroke-width="4" stroke-linecap="round" fill="none"/>
+                <path d="M50 60 L70 55" stroke="#81C784" stroke-width="4" stroke-linecap="round" fill="none"/>
+                <path d="M50 80 L65 75" stroke="#81C784" stroke-width="4" stroke-linecap="round" fill="none"/>
+                <path d="M50 20 L30 15" stroke="#81C784" stroke-width="4" stroke-linecap="round" fill="none"/>
+                <path d="M50 40 L35 35" stroke="#81C784" stroke-width="4" stroke-linecap="round" fill="none"/>
+                <path d="M50 60 L30 55" stroke="#81C784" stroke-width="4" stroke-linecap="round" fill="none"/>
+                <path d="M50 80 L35 75" stroke="#81C784" stroke-width="4" stroke-linecap="round" fill="none"/>
               </svg>
             </p>
           </div>
@@ -91,7 +108,7 @@ export function generateFestivalPage(data) {
     `;
   }
 
-  // 模板2：国风新中式（保持之前优化后的版本，功能不变）
+  // 模板2：国风新中式（保持不变，功能不变）
   else if (template === '2') {
     pageContent = `
       <div class="min-h-screen flex items-center justify-center p-4 bg-[url('data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'200\' height=\'200\'><pattern id=\'bg-pattern\' width=\'20\' height=\'20\' patternUnits=\'userSpaceOnUse\'><path d=\'M0 10h20M10 0v20\' stroke=\'%23E8DFD0\' stroke-width=\'0.5\' fill=\'none\'/></pattern><rect width=\'100%\' height=\'100%\' fill=\'url(%23bg-pattern)\'/><rect width=\'100%\' height=\'100%\' fill=\'%23F5F0E8\' fill-opacity=\'0.95\'/></svg>')]">
