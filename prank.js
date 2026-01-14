@@ -36,7 +36,7 @@ export function generatePrankPage(data) {
             <!-- 底部标识：加可爱图标，颜色呼应，修正多余<符号 -->
             <p class="mt-6 text-pink-400 text-sm font-medium flex items-center justify-center gap-2">
               <i class="fa-solid fa-heart text-xs"></i>
-              CUTE PRANK · 2024
+              CUTE PRANK · HXJ
               <i class="fa-solid fa-heart text-xs"></i>
             </p>
           </div>
@@ -115,3 +115,4 @@ export function generatePrankPage(data) {
   // 拼接完整HTML
   return generateCommonHead() + `<body>${pageContent}</body></html>`;
 }
+
