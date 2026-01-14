@@ -81,7 +81,7 @@ export function generatePrankPage(data) {
             </button>
             <div id="prank-result-2" class="mt-8 text-xl font-bold text-[#D4AF37] hidden"></div>
             <div class="w-24 h-1 bg-[#444444] mx-auto mt-6 rounded-full"></div>
-            <p class="mt-6 text-[#888888] text-sm">LUXURY SURPRISE · 2024</p>
+            <p class="mt-6 text-[#888888] text-sm">LUXURY SURPRISE · 2026</p>
           </div>
         </div>
       </div>
@@ -115,4 +115,5 @@ export function generatePrankPage(data) {
   // 拼接完整HTML
   return generateCommonHead() + `<body>${pageContent}</body></html>`;
 }
+
 
