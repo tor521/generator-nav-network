@@ -151,103 +151,247 @@ export function generateFestivalPage(data) {
     `;
   }
 
-  // 模板3：升级款赛博朋克科技风（优化视觉效果，核心功能不变）
+  // 模板3：严格对齐最终满意版（模糊背景+低调赛博，功能不变）
   else if (template === '3') {
     pageContent = `
-      <div class="min-h-screen flex items-center justify-center p-4 bg-[#000000] relative overflow-hidden">
-        <!-- 多层背景叠加：科技网格+故障纹理+渐变光晕 -->
-        <div class="absolute inset-0 bg-grid-tech opacity-20" style="background-image: linear-gradient(to right, #00ffff 1px, transparent 1px), linear-gradient(to bottom, #00ffff 1px, transparent 1px); background-size: 40px 40px; animation: gridMove 15s linear infinite;"></div>
-        <div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(255,0,255,0.3),transparent_60%),radial-gradient(circle_at_70%_80%,rgba(0,200,255,0.2),transparent_60%)]"></div>
-        <div class="absolute inset-0 bg-[url('data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'200\' height=\'200\' viewBox=\'0_0_200_200\'><path d=\'M0 100 Q 50 50, 100 100 T 200 100\' fill=\'none\' stroke=\'%23ff00ff\' stroke-width=\'0.5\' opacity=\'0.2\'/><path d=\'M0 80 Q 50 30, 100 80 T 200 80\' fill=\'none\' stroke=\'%2300ffff\' stroke-width=\'0.5\' opacity=\'0.2\'/><path d=\'M0 120 Q 50 170, 100 120 T 200 120\' fill=\'none\' stroke=\'%23ffff00\' stroke-width=\'0.5\' opacity=\'0.2\'/></svg>')] repeat opacity-20"></div>
-        
-        <!-- 故障风扫描线 -->
-        <div class="absolute inset-0 pointer-events-none">
-          <div class="absolute top-0 left-0 w-full h-1 bg-[#00ffff] opacity-30 animate-scan-line"></div>
-        </div>
+      <div class="min-h-screen flex items-center justify-center p-4 overflow-hidden font-[\'Orbitron\',\'Consolas\',monospace,sans-serif]">
+        <!-- 1. 模糊背景核心层（与最终HTML完全一致） -->
+        <div class="absolute inset-0 z-0" style="background: linear-gradient(to bottom right, #0F0B21, #1A143B, #2D1B69);"></div>
+        <div class="blur-bg-overlay absolute inset-0 z-0" style="
+          background: radial-gradient(circle at 30% 20%, rgba(131, 56, 236, 0.2), transparent 40%),
+                      radial-gradient(circle at 70% 80%, rgba(58, 134, 255, 0.2), transparent 40%),
+                      radial-gradient(circle at 50% 50%, rgba(253, 29, 29, 0.1), transparent 50%);
+          backdrop-filter: blur(50px);
+          animation: blurGlowPulse 8s ease-in-out infinite;
+        "></div>
 
-        <!-- 核心科技卡片容器（悬浮+多层霓虹边框） -->
-        <div class="w-full max-w-md relative z-10 bg-[#0a041b]/90 backdrop-blur-xl rounded-2xl 
-                    border border-[#ff00ff]/40 
-                    shadow-[0_0_15px_rgba(255,0,255,0.5),0_0_30px_rgba(0,200,255,0.3)] 
-                    overflow-hidden transform hover:scale-[1.02] transition-transform duration-300">
-          
-          <!-- 顶部霓虹渐变栏 + 故障动效 -->
-          <div class="bg-gradient-to-r from-[#ff00ff] via-[#00ffff] to-[#ffff00] py-7 text-center relative overflow-hidden">
-            <!-- 故障偏移层 -->
-            <div class="absolute inset-0 bg-gradient-to-r from-[#ff00ff] via-[#00ffff] to-[#ffff00] left-2 top-1 opacity-50"></div>
-            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent to #00ffff to transparent animate-scan"></div>
-            <h2 class="text-2xl md:text-3xl font-bold text-white tracking-wider relative z-10 
-                       drop-shadow-[0_0_10px_rgba(0,255,255,1)] 
-                       font-[\'Orbitron\',\'monospace\']">${name}</h2>
-            <!-- 顶部霓虹装饰点（呼吸动效） -->
-            <div class="absolute top-4 right-6 w-10 h-10 rounded-full bg-[#ff00ff]/30 flex items-center justify-center animate-pulse" style="animation-duration: 3s;">
-              <div class="w-6 h-6 rounded-full bg-[#ff00ff]/50 drop-shadow-[0_0_8px_rgba(255,0,255,1)]"></div>
+        <!-- 2. 动态霓虹网格（弱化透明度，适配模糊背景） -->
+        <div class="cyber-grid-bg absolute inset-0 z-0" style="
+          background-image: linear-gradient(to right, rgba(58, 134, 255, 0.1) 1px, transparent 1px), 
+                            linear-gradient(to bottom, rgba(58, 134, 255, 0.1) 1px, transparent 1px);
+          background-size: 60px 60px;
+          animation: gridMove 20s linear infinite, gridPulse 8s ease-in-out infinite;
+          opacity: 0.6;
+        "></div>
+
+        <!-- 3. 霓虹光晕扫动（叠加模糊，柔和风格） -->
+        <div class="cyber-glow-overlay absolute inset-0 z-0" style="
+          background: radial-gradient(circle at 50% 50%, rgba(131, 56, 236, 0.2), rgba(58, 134, 255, 0.15), transparent 70%);
+          animation: glowSweep 6s ease-in-out infinite;
+          backdrop-filter: blur(10px);
+        "></div>
+
+        <!-- 4. 赛博核心卡片（毛玻璃+流光边框，与最终HTML一致） -->
+        <div class="cyber-card w-full max-w-400px relative z-20" style="
+          max-width: 400px;
+          background: rgba(18, 15, 41, 0.85);
+          backdrop-filter: blur(12px);
+          border-radius: 16px;
+          border: 2px solid transparent;
+          background-clip: padding-box, border-box;
+          background-origin: padding-box, border-box;
+          background-image: linear-gradient(#120F29, #120F29), 
+                            linear-gradient(90deg, #FF00FF, #00FFFF, #FD1D1D, #FF00FF);
+          background-size: 400% 100%;
+          box-shadow: 0 0 20px rgba(131, 56, 236, 0.3), 
+                      0 0 40px rgba(58, 134, 255, 0.2), 
+                      inset 0 0 10px rgba(253, 29, 29, 0.15);
+          overflow: hidden;
+          animation: neonBorderFlow 3s linear infinite, cardBreathe 6s ease-in-out infinite;
+        ">
+          <!-- 顶部霓虹栏（无多重发光，柔和扫描） -->
+          <div class="cyber-header" style="
+            background: linear-gradient(90deg, #833AB4, #3A86FF, #FD1D1D);
+            padding: 28px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+          ">
+            <div style="
+              content: '';
+              position: absolute;
+              top: 0;
+              left: -100%;
+              width: 100%;
+              height: 100%;
+              background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+              animation: headerScan 3s ease-in-out infinite;
+            "></div>
+            <h2 class="festival-name" id="festival-name-3" style="
+              color: #FFFFFF;
+              font-size: 2rem;
+              font-weight: bold;
+              letter-spacing: 2px;
+              position: relative;
+              z-index: 1;
+              text-shadow: 0 0 3px rgba(255, 255, 255, 0.5);
+              animation: textSoftPulse 4s ease-in-out infinite;
+            ">${name}</h2>
+          </div>
+
+          <!-- 倒计时区域（无多重发光，柔和风格） -->
+          <div class="cyber-countdown-area" style="
+            padding: 32px;
+            text-align: center;
+            position: relative;
+          ">
+            <!-- 赛博分隔线 -->
+            <div class="cyber-divider" style="
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              gap: 4px;
+              margin-bottom: 24px;
+              margin-top: 8px;
+            ">
+              <div class="divider-line" style="
+                width: 80px;
+                height: 1px;
+                background: linear-gradient(90deg, transparent, #3A86FF, transparent);
+                border-radius: 50%;
+                opacity: 0.7;
+              "></div>
+              <div class="divider-dot" style="
+                width: 4px;
+                height: 4px;
+                border-radius: 50%;
+                background: #FF00FF;
+                box-shadow: 0 0 3px #FF00FF;
+                animation: dotSoftPulse 2s ease-in-out infinite;
+              "></div>
+              <div class="divider-line" style="
+                width: 80px;
+                height: 1px;
+                background: linear-gradient(90deg, transparent, #3A86FF, transparent);
+                border-radius: 50%;
+                opacity: 0.7;
+              "></div>
+            </div>
+
+            <!-- 倒计时显示（保留原有ID，功能不变） -->
+            <div id="festival-countdown-3" style="
+              font-size: 1.8rem;
+              font-weight: bold;
+              color: #E0EFFF;
+              margin: 32px 0;
+              text-shadow: 0 0 2px rgba(224, 239, 255, 0.6);
+              letter-spacing: 1px;
+              animation: countdownSoftGlow 3s ease-in-out infinite;
+            "></div>
+
+            <!-- 赛博标签栏 -->
+            <div class="cyber-tag-bar" style="
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              gap: 12px;
+              margin-top: 24px;
+            ">
+              <div class="cyber-tag" style="
+                padding: 6px 12px;
+                background: rgba(26, 20, 59, 0.6);
+                border: 1px solid rgba(58, 134, 255, 0.3);
+                border-radius: 16px;
+                color: #3A86FF;
+                font-size: 12px;
+                text-shadow: 0 0 2px rgba(58, 134, 255, 0.5);
+                animation: tagFloat 5s ease-in-out infinite;
+              ">COUNTDOWN SYSTEM</div>
+              <div class="cyber-pulse-dot" style="
+                width: 6px;
+                height: 6px;
+                border-radius: 50%;
+                background: #FD1D1D;
+                box-shadow: 0 0 3px #FD1D1D;
+                animation: pulseSoftGlow 2s ease-in-out infinite;
+              "></div>
+              <div class="cyber-tag" style="
+                padding: 6px 12px;
+                background: rgba(26, 20, 59, 0.6);
+                border: 1px solid rgba(58, 134, 255, 0.3);
+                border-radius: 16px;
+                color: #3A86FF;
+                font-size: 12px;
+                text-shadow: 0 0 2px rgba(58, 134, 255, 0.5);
+                animation: tagFloat 5s ease-in-out infinite;
+              ">V2.0.0</div>
             </div>
           </div>
 
-          <!-- 倒计时核心区域（科技感数字显示+故障文字效果） -->
-          <div class="p-8 text-center relative">
-            <!-- 科技分隔线（双层霓虹发光） -->
-            <div class="flex items-center justify-center gap-4 mb-8 mt-4">
-              <div class="w-24 h-1 bg-gradient-to-r from-transparent to #00ffff to transparent rounded-full"></div>
-              <div class="w-6 h-6 rounded-full bg-[#ff00ff] drop-shadow-[0_0_6px_rgba(255,0,255,1)] animate-pulse" style="animation-duration: 2s;"></div>
-              <div class="w-24 h-1 bg-gradient-to-r from-transparent to #00ffff to transparent rounded-full"></div>
-            </div>
-            
-            <!-- 倒计时显示容器（故障文字+霓虹发光） -->
-            <div class="relative">
-              <div id="festival-countdown-3" class="text-2xl md:text-4xl font-bold text-[#ffffff] my-8 
-                         drop-shadow-[0_0_15px_rgba(0,255,255,0.8)] 
-                         font-[\'Orbitron\',\'monospace\'] relative z-10"></div>
-              <!-- 故障偏移副本 -->
-              <div id="festival-countdown-3-glitch" class="absolute top-0 left-2 text-2xl md:text-4xl font-bold text-[#ff00ff] my-8 
-                         opacity-40 font-[\'Orbitron\',\'monospace\'] pointer-events-none"></div>
-            </div>
-
-            <!-- 底部科技标签组 + 霓虹指示灯 -->
-            <div class="flex flex-wrap justify-center items-center gap-3 text-xs text-[#00ffff] mt-8">
-              <span class="px-4 py-2 bg-[#120729]/80 rounded-full border border-[#00ffff]/30 
-                          drop-shadow-[0_0_5px_rgba(0,255,255,0.4)]">COUNTDOWN SYSTEM</span>
-              <div class="w-3 h-3 rounded-full bg-[#ff00ff] animate-pulse" style="animation-duration: 1.5s;"></div>
-              <span class="px-4 py-2 bg-[#120729]/80 rounded-full border border-[#00ffff]/30 
-                          drop-shadow-[0_0_5px_rgba(0,255,255,0.4)]">V2.0.0</span>
-              <div class="w-3 h-3 rounded-full bg-[#ffff00] animate-pulse" style="animation-duration: 2s;"></div>
-              <span class="px-4 py-2 bg-[#120729]/80 rounded-full border border-[#00ffff]/30 
-                          drop-shadow-[0_0_5px_rgba(0,255,255,0.4)]">CYBER FESTIVAL</span>
-            </div>
-          </div>
-
-          <!-- 卡片底部双层霓虹边框动效 -->
-          <div class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#ff00ff] via-[#00ffff] to-[#ffff00] animate-glow"></div>
-          <div class="absolute bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-[#ffff00] via-[#00ffff] to-[#ff00ff] animate-glow" style="animation-delay: 1s;"></div>
+          <!-- 卡片底部霓虹条 -->
+          <div class="cyber-card-footer" style="
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, #FD1D1D, #3A86FF, #833AB4, #FD1D1D);
+            background-size: 400% 100%;
+            animation: footerGlow 5s ease-in-out infinite, neonBorderFlow 3s linear infinite;
+            opacity: 0.8;
+          "></div>
         </div>
 
-        <!-- 全局动画样式定义 -->
+        <!-- 全局动画样式（与最终HTML完全一致，无多余动效） -->
         <style>
-          @keyframes gridMove {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(40px, 40px); }
-          }
-          @keyframes scan {
-            0% { left: -100%; }
-            50% { left: 100%; }
-            100% { left: -100%; }
-          }
-          @keyframes glow {
+          @keyframes blurGlowPulse {
             0%, 100% { opacity: 0.7; }
             50% { opacity: 1; }
           }
-          @keyframes scan-line {
-            0% { top: -5%; }
-            100% { top: 105%; }
+          @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(60px, 60px); }
           }
-          .animate-scan-line {
-            animation: scan-line 8s linear infinite;
+          @keyframes gridPulse {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 0.8; }
+          }
+          @keyframes glowSweep {
+            0% { transform: scale(1); opacity: 0.6; }
+            50% { transform: scale(1.2); opacity: 0.9; }
+            100% { transform: scale(1); opacity: 0.6; }
+          }
+          @keyframes neonBorderFlow {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 400% 0%; }
+          }
+          @keyframes cardBreathe {
+            0%, 100% { box-shadow: 0 0 20px rgba(131, 56, 236, 0.2), 0 0 40px rgba(58, 134, 255, 0.15), inset 0 0 10px rgba(253, 29, 29, 0.1); }
+            50% { box-shadow: 0 0 30px rgba(131, 56, 236, 0.3), 0 0 60px rgba(58, 134, 255, 0.25), inset 0 0 15px rgba(253, 29, 29, 0.15); }
+          }
+          @keyframes headerScan {
+            0% { left: -100%; }
+            50% { left: 100%; }
+            100% { left: 100%; }
+          }
+          @keyframes textSoftPulse {
+            0%, 100% { opacity: 0.8; text-shadow: 0 0 3px rgba(255, 255, 255, 0.5); }
+            50% { opacity: 1; text-shadow: 0 0 5px rgba(255, 255, 255, 0.8); }
+          }
+          @keyframes dotSoftPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 3px #FF00FF; }
+            50% { transform: scale(1.5); box-shadow: 0 0 6px #FF00FF; }
+          }
+          @keyframes countdownSoftGlow {
+            0%, 100% { opacity: 0.8; text-shadow: 0 0 2px rgba(224, 239, 255, 0.6); }
+            50% { opacity: 1; text-shadow: 0 0 4px rgba(224, 239, 255, 0.9); }
+          }
+          @keyframes tagFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+          }
+          @keyframes pulseSoftGlow {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 3px #FD1D1D; }
+            50% { transform: scale(1.2); box-shadow: 0 0 6px #FD1D1D; }
+          }
+          @keyframes footerGlow {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 0.9; }
           }
         </style>
       </div>
       <script>
-        // 核心功能与模板1/2完全一致：倒计时计算、日期判断、1秒刷新
+        // 核心功能与模板1/2完全一致（无任何修改，确保功能不变）
         function updateCountdown() {
           const now = new Date();
           const targetDate = new Date('${date}');
@@ -269,10 +413,9 @@ export function generateFestivalPage(data) {
           else if (isPassed) tipText = '「${name}」已过，但美好永存，天天开心～';
           else tipText = '距离${name}还有 ' + days + '天 ' + hours + '时 ' + minutes + '分 ' + seconds + '秒';
           
-          // 同步更新主倒计时和故障偏移层文字
           document.getElementById('festival-countdown-3').textContent = tipText;
-          document.getElementById('festival-countdown-3-glitch').textContent = tipText;
         }
+        // 初始化+1秒刷新（保留原有功能逻辑）
         updateCountdown();
         setInterval(updateCountdown, 1000);
       </script>
