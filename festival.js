@@ -6,7 +6,7 @@ export function generateFestivalPage(data) {
   const { name, date } = previewData;
   let pageContent = '';
 
-  // 模板1：经典版
+  // 模板1：经典现代版（保持不变，作为风格对比）
   if (template === '1') {
     pageContent = `
       <div class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-emerald-50 to-cyan-50">
@@ -52,57 +52,63 @@ export function generateFestivalPage(data) {
     `;
   }
 
-  // 模板2：国风新中式（强化中国风）
+  // 模板2：国风新中式（修复符号泄露+优化配色+强化中式元素）
   else if (template === '2') {
     pageContent = `
-      <div class="min-h-screen flex items-center justify-center p-4 bg-[url('data:image/svg+xml;utf8,<svg xmlns=\\"http://www.w3.org/2000/svg\\" width=\\"200\\" height=\\"200\\"><pattern id=\\"bg-pattern\\" width=\\"20\\" height=\\"20\\" patternUnits=\\"userSpaceOnUse\\"><path d=\\"M0 10h20M10 0v20\\" stroke=\\"%23E8DFD0\\" stroke-width=\\"0.5\\" fill=\\"none\\"/></pattern><rect width=\\"100%\\" height=\\"100%\\" fill=\\"url(%23bg-pattern)\\"/><rect width=\\"100%\\" height=\\"100%\\" fill=\\"%23F5F0E8\\" fill-opacity=\\"0.95\\"/></svg>')]">
-        <div class="w-full max-w-md bg-white rounded-3xl shadow-xl overflow-hidden border-2 border-[#E8DFD0] relative">
-          <!-- 中式祥云装饰 -->
-          <div class="absolute top-0 left-0 w-full h-16 bg-gradient-to-r from-[#C41E3A] to-[#A81A30] overflow-hidden">
-            <svg class="absolute top-0 left-0 w-full h-full opacity-20" viewBox="0 0 100 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M0 15C15 5 30 25 45 15C60 5 75 25 90 15C105 5 120 25 135 15" stroke="white" stroke-width="2" fill="none"/>
-              <path d="M0 20C15 10 30 30 45 20C60 10 75 30 90 20C105 10 120 30 135 20" stroke="white" stroke-width="1.5" fill="none"/>
-            </svg>
+      <div class="min-h-screen flex items-center justify-center p-4 bg-[url('data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'200\' height=\'200\'><pattern id=\'bg-pattern\' width=\'20\' height=\'20\' patternUnits=\'userSpaceOnUse\'><path d=\'M0 10h20M10 0v20\' stroke=\'%23E8DFD0\' stroke-width=\'0.5\' fill=\'none\'/></pattern><rect width=\'100%\' height=\'100%\' fill=\'url(%23bg-pattern)\'/><rect width=\'100%\' height=\'100%\' fill=\'%23F5F0E8\' fill-opacity=\'0.95\'/></svg>')]">
+        <!-- 核心容器：中式卷轴风格，彻底区别于模板1的圆角卡片 -->
+        <div class="w-full max-w-md relative">
+          <!-- 中式卷轴顶部 -->
+          <div class="w-full h-8 bg-[#D4B996] rounded-t-lg shadow-md flex items-center justify-center">
+            <div class="w-16 h-1 bg-[#A67C52] rounded-full"></div>
           </div>
-          
-          <!-- 主标题区域 -->
-          <div class="pt-16 pb-4 text-center relative">
-            <i class="fa-solid fa-scroll text-5xl text-[#C41E3A] mb-3"></i>
-            <h2 class="text-3xl font-bold text-[#2B2B2B] tracking-wider font-['MaShanZheng', 'SimHei']">${name}</h2>
-            <div class="w-32 h-0.5 bg-[#C41E3A] mx-auto mt-2"></div>
-          </div>
-          
-          <!-- 倒计时区域 -->
-          <div class="p-8 text-center font-['Microsoft_YaHei'] bg-[url('data:image/svg+xml;utf8,<svg xmlns=\\"http://www.w3.org/2000/svg\\" width=\\"100\\" height=\\"100\\"><path d=\\"M25 0 L75 0 L75 100 L25 100 Z M0 25 L100 25 L100 75 L0 75 Z\\" fill=\\"none\\" stroke=\\"%23E8DFD0\\" stroke-width=\\"0.5\\"/></svg>')]">
-            <div id="festival-countdown-2" class="text-2xl font-semibold text-[#8A2B1A] my-6 leading-relaxed font-['STKaiti', 'SimKai']"></div>
-            <!-- 中式分隔线 -->
-            <div class="flex items-center justify-center gap-2 my-4">
-              <div class="w-16 h-0.5 bg-[#E8DFD0]"></div>
-              <i class="fa-solid fa-flower text-[#C41E3A] text-sm"></i>
-              <div class="w-16 h-0.5 bg-[#E8DFD0]"></div>
+          <!-- 卷轴主体：仿古宣纸质感 -->
+          <div class="bg-[#F9F3E8] rounded-b-lg shadow-xl border-l-2 border-r-2 border-[#D4B996] p-6 md:p-8 relative overflow-hidden">
+            <!-- 背景中式暗纹：梅兰竹菊简化纹（无符号泄露） -->
+            <div class="absolute inset-0 bg-[url('data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\' viewBox=\'0 0 100 100\'><path d=\'M50 20C60 10 70 20 80 15C90 10 95 30 85 40C75 50 60 45 50 55C40 45 25 50 15 40C5 30 10 10 20 15C30 20 40 10 50 20Z\' fill=\'none\' stroke=\'%23D4B996\' stroke-width=\'0.3\' opacity=\'0.3\'/></svg>')] repeat opacity-50"></div>
+            
+            <!-- 中式标题区域：朱砂红+毛笔字体 -->
+            <div class="text-center mb-8 relative z-10">
+              <i class="fa-solid fa-scroll text-4xl text-[#C41E3A] mb-4"></i>
+              <h2 class="text-3xl md:text-4xl font-bold text-[#2B2B2B] tracking-wider font-['MaShanZheng', 'SimHei', 'serif']">${name}</h2>
+              <!-- 中式回纹分隔线 -->
+              <div class="w-full max-w-xs mx-auto mt-3 flex items-center justify-between">
+                <div class="w-24 h-0.5 bg-[#A67C52]"></div>
+                <svg width="24" height="12" viewBox="0 0 24 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M0 6H4V0H6V6H10V0H12V6H16V0H18V6H24V8H18V12H16V8H12V12H10V8H6V12H4V8H0V6Z" fill="#C41E3A" opacity="0.7"/>
+                </svg>
+                <div class="w-24 h-0.5 bg-[#A67C52]"></div>
+              </div>
             </div>
-            <p class="mt-2 text-[#8A7F6F] text-sm font-['SimSun']">岁时更迭 · 美好常伴</p>
+            
+            <!-- 倒计时区域：仿古宣纸+中式印章点缀 -->
+            <div class="text-center p-4 bg-white/50 backdrop-blur-sm rounded-lg border border-[#D4B996]/30 relative z-10">
+              <div id="festival-countdown-2" class="text-2xl md:text-3xl font-semibold text-[#8A2B1A] my-4 leading-relaxed font-['STKaiti', 'SimKai', 'serif']"></div>
+              <!-- 中式梅花分隔符 -->
+              <div class="flex items-center justify-center gap-3 my-3">
+                <div class="w-16 h-0.5 bg-[#D4B996]/50"></div>
+                <i class="fa-solid fa-flower text-[#C41E3A] text-lg"></i>
+                <div class="w-16 h-0.5 bg-[#D4B996]/50"></div>
+              </div>
+              <p class="mt-2 text-[#6B5B49] text-sm font-['SimSun', 'serif']">岁时更迭 · 美好常伴</p>
+            </div>
+            
+            <!-- 中式篆刻印章（右下角） -->
+            <div class="absolute bottom-4 right-4 w-16 h-16 bg-[#C41E3A] rounded-sm flex items-center justify-center text-white text-xs font-bold font-['STZhongsong', 'serif'] rotate-6 shadow-md">
+              吉庆有余
+            </div>
+            
+            <!-- 左侧中式竖排题字（装饰性） -->
+            <div class="absolute top-1/2 -left-8 transform -translate-y-1/2 rotate-90 text-[#6B5B49] text-xs font-['STKaiti'] tracking-wider">
+              佳节将至
+            </div>
           </div>
-          
-          <!-- 中式印章装饰 -->
-          <div class="absolute bottom-4 right-4 w-14 h-14 bg-[#C41E3A] rounded-full flex items-center justify-center text-white text-xs font-bold font-['STZhongsong'] rotate-12 shadow-md">
-            吉庆
-          </div>
-          
-          <!-- 侧边中式纹样 -->
-          <div class="absolute top-1/2 -left-1 transform -translate-y-1/2">
-            <svg viewBox="0 0 10 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M5 0V60M0 10L10 10M0 20L10 20M0 30L10 30M0 40L10 40M0 50L10 50" stroke="#E8DFD0" stroke-width="1"/>
-            </svg>
-          </div>
-          <div class="absolute top-1/2 -right-1 transform -translate-y-1/2">
-            <svg viewBox="0 0 10 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M5 0V60M0 10L10 10M0 20L10 20M0 30L10 30M0 40L10 40M0 50L10 50" stroke="#E8DFD0" stroke-width="1"/>
-            </svg>
-          </div>
+          <!-- 中式卷轴底部 -->
+          <div class="w-full h-8 bg-[#D4B996] rounded-b-lg shadow-md"></div>
         </div>
       </div>
       <script>
+        // 核心功能完全不变：倒计时计算、日期判断、1秒刷新
         function updateCountdown() {
           const now = new Date();
           const targetDate = new Date('${date}');
