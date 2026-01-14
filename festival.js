@@ -151,66 +151,128 @@ export function generateFestivalPage(data) {
     `;
   }
 
-  // 模板3：赛博朋克科技风（新增酷炫视觉，核心功能与前两者一致）
+  // 模板3：颠覆性大改（数字卡片化+立体交互，功能与前两者完全一致）
   else if (template === '3') {
     pageContent = `
-      <div class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-[#0F0B21] to-[#1A143B] relative overflow-hidden">
-        <!-- 背景科技网格动效（酷炫氛围铺垫） -->
-        <div class="absolute inset-0 bg-grid-tech" style="background-image: linear-gradient(to right, #3A86FF 1px, transparent 1px), linear-gradient(to bottom, #3A86FF 1px, transparent 1px); background-size: 60px 60px; animation: gridMove 20s linear infinite;"></div>
-        <!-- 背景光晕扫动效果 -->
-        <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(131,56,236,0.2),transparent_70%)]">
-          <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent to rgba(58,134,255,0.1) animate-pulse" style="animation-duration: 4s;"></div>
-        </div>
-        <!-- 核心科技卡片容器 -->
-        <div class="w-full max-w-md relative z-10 bg-[#120F29]/80 backdrop-blur-md rounded-2xl border border-[#3A86FF]/30 shadow-[0_0_30px_rgba(131,56,236,0.3)] overflow-hidden">
-          <!-- 顶部霓虹渐变栏 + 扫描动效 -->
-          <div class="bg-gradient-to-r from-[#833AB4] via-[#3A86FF] to-[#FD1D1D] py-7 text-center relative overflow-hidden">
-            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent to #3A86FF to transparent animate-[scan_3s_ease-in-out_infinite]"></div>
-            <h2 class="text-2xl md:text-3xl font-bold text-white tracking-wider relative z-10 drop-shadow-[0_0_8px_rgba(58,134,255,0.8)]">${name}</h2>
-            <!-- 顶部霓虹点缀 -->
-            <div class="absolute top-4 right-6 w-10 h-10 rounded-full bg-[#FD1D1D]/20 flex items-center justify-center">
-              <div class="w-6 h-6 rounded-full bg-[#FD1D1D]/40 drop-shadow-[0_0_6px_rgba(253,29,29,0.8)]"></div>
+      <div class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-[#05021A] to-[#120A38] relative overflow-hidden">
+        <!-- 背景星空粒子动效（与模板1/2的静态背景本质区别） -->
+        <div class="absolute inset-0" id="star-bg"></div>
+        <!-- 核心容器：立体悬浮卡片，与模板1/2的扁平布局区别 -->
+        <div class="w-full max-w-lg relative z-10">
+          <!-- 节日标题：悬浮发光样式 -->
+          <div class="text-center mb-8">
+            <h2 class="text-3xl md:text-4xl font-bold text-white drop-shadow-[0_0_15px_rgba(100,216,255,0.7)] tracking-wider relative">
+              <span class="relative inline-block animate-[float_6s_ease-in-out_infinite]">${name}</span>
+              <div class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-3/4 h-1 bg-gradient-to-r from-transparent to #64D8FF to transparent rounded-full"></div>
+            </h2>
+          </div>
+
+          <!-- 状态提示区域（对应今日/已过/倒计时三种场景） -->
+          <div class="text-center mb-6">
+            <p id="countdown-status" class="text-lg text-[#A8CFFF] drop-shadow-[0_0_8px_rgba(168,207,255,0.5)]"></p>
+          </div>
+
+          <!-- 颠覆性核心：数字拆分卡片化（与模板1/2的文字段落本质区别） -->
+          <div id="countdown-cards" class="flex justify-center gap-4 md:gap-6 flex-wrap">
+            <!-- 天卡片 -->
+            <div class="countdown-card group">
+              <div class="card-front bg-[#101848]/90 backdrop-blur-md border border-[#64D8FF]/30 rounded-xl shadow-[0_4px_20px_rgba(0,119,255,0.2)] p-4 md:p-6 relative overflow-hidden">
+                <div class="card-number text-4xl md:text-6xl font-bold text-[#64D8FF] drop-shadow-[0_0_10px_rgba(100,216,255,0.8)] font-[\'Orbitron\',\'monospace\']" id="days-num">00</div>
+                <div class="card-label text-xs md:text-sm text-[#A8CFFF]/80 mt-2 text-center">天</div>
+                <!-- 卡片hover动效装饰 -->
+                <div class="absolute inset-0 bg-gradient-to-r from-transparent to rgba(100,216,255,0.1) to transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              </div>
+            </div>
+            <!-- 时卡片 -->
+            <div class="countdown-card group">
+              <div class="card-front bg-[#101848]/90 backdrop-blur-md border border-[#64D8FF]/30 rounded-xl shadow-[0_4px_20px_rgba(0,119,255,0.2)] p-4 md:p-6 relative overflow-hidden">
+                <div class="card-number text-4xl md:text-6xl font-bold text-[#64D8FF] drop-shadow-[0_0_10px_rgba(100,216,255,0.8)] font-[\'Orbitron\',\'monospace\']" id="hours-num">00</div>
+                <div class="card-label text-xs md:text-sm text-[#A8CFFF]/80 mt-2 text-center">时</div>
+                <div class="absolute inset-0 bg-gradient-to-r from-transparent to rgba(100,216,255,0.1) to transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              </div>
+            </div>
+            <!-- 分卡片 -->
+            <div class="countdown-card group">
+              <div class="card-front bg-[#101848]/90 backdrop-blur-md border border-[#64D8FF]/30 rounded-xl shadow-[0_4px_20px_rgba(0,119,255,0.2)] p-4 md:p-6 relative overflow-hidden">
+                <div class="card-number text-4xl md:text-6xl font-bold text-[#64D8FF] drop-shadow-[0_0_10px_rgba(100,216,255,0.8)] font-[\'Orbitron\',\'monospace\']" id="minutes-num">00</div>
+                <div class="card-label text-xs md:text-sm text-[#A8CFFF]/80 mt-2 text-center">分</div>
+                <div class="absolute inset-0 bg-gradient-to-r from-transparent to rgba(100,216,255,0.1) to transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              </div>
+            </div>
+            <!-- 秒卡片 -->
+            <div class="countdown-card group">
+              <div class="card-front bg-[#101848]/90 backdrop-blur-md border border-[#64D8FF]/30 rounded-xl shadow-[0_4px_20px_rgba(0,119,255,0.2)] p-4 md:p-6 relative overflow-hidden">
+                <div class="card-number text-4xl md:text-6xl font-bold text-[#64D8FF] drop-shadow-[0_0_10px_rgba(100,216,255,0.8)] font-[\'Orbitron\',\'monospace\']" id="seconds-num">00</div>
+                <div class="card-label text-xs md:text-sm text-[#A8CFFF]/80 mt-2 text-center">秒</div>
+                <div class="absolute inset-0 bg-gradient-to-r from-transparent to rgba(100,216,255,0.1) to transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <!-- 秒卡片专属脉冲动效 -->
+                <div class="absolute top-2 right-2 w-2 h-2 rounded-full bg-[#64D8FF] animate-[pulse_1s_ease-in-out_infinite]"></div>
+              </div>
             </div>
           </div>
-          <!-- 倒计时核心区域（科技感数字显示） -->
-          <div class="p-8 text-center relative">
-            <!-- 科技分隔线（霓虹发光） -->
-            <div class="flex items-center justify-center gap-4 mb-6 mt-2">
-              <div class="w-20 h-1 bg-gradient-to-r from-transparent to #3A86FF to transparent rounded-full"></div>
-              <div class="w-4 h-4 rounded-full bg-[#833AB4] drop-shadow-[0_0_4px_rgba(131,56,236,1)]"></div>
-              <div class="w-20 h-1 bg-gradient-to-r from-transparent to #3A86FF to transparent rounded-full"></div>
-            </div>
-            <!-- 倒计时显示容器（霓虹文字+发光效果） -->
-            <div id="festival-countdown-3" class="text-2xl md:text-3xl font-bold text-[#E0EFFF] my-8 drop-shadow-[0_0_10px_rgba(58,134,255,0.6)] font-[\'Orbitron\',\'monospace\']"></div>
-            <!-- 底部科技标签 + 霓虹点缀 -->
-            <div class="flex items-center justify-center gap-3 text-xs text-[#3A86FF]/70 mt-6">
-              <span class="px-3 py-1 bg-[#1A143B]/60 rounded-full border border-[#3A86FF]/20">COUNTDOWN SYSTEM</span>
-              <div class="w-2 h-2 rounded-full bg-[#FD1D1D] animate-pulse" style="animation-duration: 2s;"></div>
-              <span class="px-3 py-1 bg-[#1A143B]/60 rounded-full border border-[#3A86FF]/20">V1.0.0</span>
-            </div>
+
+          <!-- 底部科技感标识 -->
+          <div class="text-center mt-8 text-xs text-[#A8CFFF]/50">
+            <span class="px-2 py-1 bg-[#101848]/50 rounded-full border border-[#64D8FF]/20">COUNTDOWN CARD SYSTEM V2.0</span>
           </div>
-          <!-- 卡片底部霓虹边框动效 -->
-          <div class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#FD1D1D] via-[#3A86FF] to-[#833AB4] animate-[glow_5s_ease-in-out_infinite]"></div>
         </div>
-        <!-- 全局动画样式定义 -->
+
+        <!-- 全局动画与样式定义 -->
         <style>
-          @keyframes gridMove {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(60px, 60px); }
+          /* 悬浮动画 */
+          @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
           }
-          @keyframes scan {
-            0% { left: -100%; }
-            50% { left: 100%; }
-            100% { left: -100%; }
+          /* 脉冲动画 */
+          @keyframes pulse {
+            0%, 100% { opacity: 0.6; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1); }
           }
-          @keyframes glow {
-            0%, 100% { opacity: 0.6; }
-            50% { opacity: 1; }
+          /* 卡片hover立体提升 */
+          .countdown-card {
+            transition: transform 0.3s ease-in-out;
+          }
+          .countdown-card:hover {
+            transform: translateY(-6px) scale(1.05);
           }
         </style>
       </div>
+
       <script>
-        // 核心功能与模板1/2完全一致：倒计时计算、日期判断、1秒刷新，仅修改DOM元素ID
+        // 1. 背景星空粒子生成（增强酷炫感，与模板1/2静态背景区别）
+        function createStarBg() {
+          const starBg = document.getElementById('star-bg');
+          const starCount = 150;
+          for (let i = 0; i < starCount; i++) {
+            const star = document.createElement('div');
+            const size = Math.random() * 2 + 1;
+            star.style.cssText = \`
+              position: absolute;
+              width: \${size}px;
+              height: \${size}px;
+              background: white;
+              border-radius: 50%;
+              top: \${Math.random() * 100}%;
+              left: \${Math.random() * 100}%;
+              opacity: \${Math.random() * 0.8 + 0.2};
+              animation: starTwinkle \${Math.random() * 5 + 3}s ease-in-out infinite;
+            \`;
+            starBg.appendChild(star);
+          }
+          // 星星闪烁动画
+          const style = document.createElement('style');
+          style.textContent = \`
+            @keyframes starTwinkle {
+              0%, 100% { opacity: 0.2; }
+              50% { opacity: 0.8; }
+            }
+          \`;
+          document.head.appendChild(style);
+        }
+        createStarBg();
+
+        // 2. 核心倒计时功能（完全保留原有逻辑，仅修改DOM渲染方式）
         function updateCountdown() {
           const now = new Date();
           const targetDate = new Date('${date}');
@@ -227,13 +289,30 @@ export function generateFestivalPage(data) {
                           now.getDate() === targetDate.getDate();
           const isPassed = !isToday && targetDate < now && nextTargetDate.getFullYear() > now.getFullYear();
           
-          let tipText = '';
-          if (isToday) tipText = '祝你「${name}」快乐无忧！';
-          else if (isPassed) tipText = '「${name}」已过，但美好永存，天天开心～';
-          else tipText = '距离${name}还有 ' + days + '天 ' + hours + '时 ' + minutes + '分 ' + seconds + '秒';
-          
-          document.getElementById('festival-countdown-3').textContent = tipText;
+          // 状态文案（对应原有三种场景，功能不变）
+          const statusEl = document.getElementById('countdown-status');
+          const cardsContainer = document.getElementById('countdown-cards');
+          if (isToday) {
+            statusEl.textContent = '祝你「${name}」快乐无忧！';
+            cardsContainer.style.opacity = '0.5'; // 非倒计时状态弱化卡片
+          } else if (isPassed) {
+            statusEl.textContent = '「${name}」已过，但美好永存，天天开心～';
+            cardsContainer.style.opacity = '0.5'; // 非倒计时状态弱化卡片
+          } else {
+            statusEl.textContent = '距离节日开启，倒计时进行中';
+            cardsContainer.style.opacity = '1'; // 倒计时状态正常显示卡片
+          }
+
+          // 颠覆性渲染：数字填充到独立卡片（与模板1/2的文字段落本质区别）
+          // 补零处理，让数字更规整美观
+          const formatNum = (num) => num.toString().padStart(2, '0');
+          document.getElementById('days-num').textContent = formatNum(days);
+          document.getElementById('hours-num').textContent = formatNum(hours);
+          document.getElementById('minutes-num').textContent = formatNum(minutes);
+          document.getElementById('seconds-num').textContent = formatNum(seconds);
         }
+
+        // 3. 初始化+1秒刷新（保留原有核心功能，无任何改动）
         updateCountdown();
         setInterval(updateCountdown, 1000);
       </script>
