@@ -6,19 +6,42 @@ export function generateFestivalPage(data) {
   const { name, date } = previewData;
   let pageContent = '';
 
-  // 模板1：经典现代版（保持不变，作为风格对比）
+  // 模板1：大熊猫国宝风格（强化辨识度+浅绿主调+浅粉点缀，功能不变）
   if (template === '1') {
     pageContent = `
-      <div class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-emerald-50 to-cyan-50">
-        <div class="w-full max-w-md bg-white rounded-3xl shadow-xl overflow-hidden border border-emerald-100">
-          <div class="bg-gradient-to-r from-emerald-500 to-cyan-500 py-6 text-center">
-            <i class="fa-solid fa-calendar-days text-4xl text-white mb-2"></i>
+      <div class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-[#E8F5E9] to-[#F1F8E9]">
+        <!-- 背景大熊猫浅纹装饰（强化国宝辨识度，不杂乱） -->
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\' viewBox=\'0 0 100 100\'><circle cx=\'30\' cy=\'30\' r=\'8\' fill=\'%23C8E6C9\' opacity=\'0.3\'/><circle cx=\'45\' cy=\'25\' r=\'12\' fill=\'%23C8E6C9\' opacity=\'0.3\'/><circle cx=\'60\' cy=\'30\' r=\'8\' fill=\'%23C8E6C9\' opacity=\'0.3\'/><path d=\'M25 50 Q50 70 75 50\' stroke=\'%23F8C9D1\' stroke-width=\'2\' fill=\'none\' opacity=\'0.2\'/></svg>')] repeat opacity-50"></div>
+        <div class="w-full max-w-md bg-white rounded-3xl shadow-xl overflow-hidden border border-[#C8E6C9] relative">
+          <!-- 顶部渐变栏：浅绿主调+大熊猫图标（强化国宝辨识度） -->
+          <div class="bg-gradient-to-r from-[#81C784] to-[#A5D6A7] py-6 text-center relative">
+            <i class="fa-solid fa-paw text-4xl text-white mb-2 drop-shadow-sm"></i>
+            <!-- 大熊猫简笔画装饰（顶部右侧，浅粉点缀） -->
+            <svg class="absolute top-2 right-4 w-16 h-16" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="30" cy="30" r="10" fill="#FFFFFF" opacity="0.8"/>
+              <circle cx="70" cy="30" r="10" fill="#FFFFFF" opacity="0.8"/>
+              <circle cx="30" cy="30" r="5" fill="#212121"/>
+              <circle cx="70" cy="30" r="5" fill="#212121"/>
+              <ellipse cx="50" cy="50" rx="25" ry="20" fill="#F8C9D1" opacity="0.9"/>
+              <ellipse cx="50" cy="55" rx="15" ry="12" fill="#FFFFFF" opacity="0.9"/>
+            </svg>
             <h2 class="text-2xl font-bold text-white tracking-wider">${name}</h2>
           </div>
-          <div class="p-8 text-center">
-            <div id="festival-countdown" class="text-2xl font-semibold text-gray-700 my-6"></div>
-            <div class="w-24 h-1 bg-emerald-200 mx-auto rounded-full"></div>
-            <p class="mt-6 text-gray-500 text-sm">专属定制 · 美好时刻</p>
+          <!-- 倒计时区域：浅绿点缀+大熊猫爪印分隔 -->
+          <div class="p-8 text-center relative">
+            <div id="festival-countdown" class="text-2xl font-semibold text-[#2E7D32] my-6">
+              <!-- 文案由JS动态填充，功能不变 -->
+            </div>
+            <!-- 分隔线：浅绿主调+大熊猫爪印（浅粉点缀，强化国宝辨识度） -->
+            <div class="flex items-center justify-center gap-3">
+              <div class="w-16 h-1 bg-[#C8E6C9] rounded-full"></div>
+              <i class="fa-solid fa-paw text-[#F8C9D1] text-sm"></i>
+              <div class="w-16 h-1 bg-[#C8E6C9] rounded-full"></div>
+            </div>
+            <p class="mt-6 text-[#558B2F] text-sm flex items-center justify-center gap-2">
+              <span>专属定制 · 美好时刻</span>
+              <i class="fa-solid fa-paw text-[#F8C9D1] text-xs"></i>
+            </p>
           </div>
         </div>
       </div>
@@ -52,7 +75,7 @@ export function generateFestivalPage(data) {
     `;
   }
 
-  // 模板2：国风新中式（修复符号泄露+优化配色+强化中式元素）
+  // 模板2：国风新中式（保持之前优化后的版本，功能不变）
   else if (template === '2') {
     pageContent = `
       <div class="min-h-screen flex items-center justify-center p-4 bg-[url('data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'200\' height=\'200\'><pattern id=\'bg-pattern\' width=\'20\' height=\'20\' patternUnits=\'userSpaceOnUse\'><path d=\'M0 10h20M10 0v20\' stroke=\'%23E8DFD0\' stroke-width=\'0.5\' fill=\'none\'/></pattern><rect width=\'100%\' height=\'100%\' fill=\'url(%23bg-pattern)\'/><rect width=\'100%\' height=\'100%\' fill=\'%23F5F0E8\' fill-opacity=\'0.95\'/></svg>')]">
