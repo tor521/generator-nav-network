@@ -257,7 +257,7 @@ function generateCategoryIndependentPage(category, title, colorKey) {
     festival: `
       <option value="1">模板1（经典）</option>
       <option value="2">模板2（原木）</option>
-      <option value="2">模板2（炫酷）</option>
+      <option value="3">模板3（炫酷）</option>
     `,
     birthday: `
       <option value="1">模板1（经典）</option>
@@ -574,5 +574,6 @@ function generateCategoryIndependentPage(category, title, colorKey) {
 </html>
   `;
 }
+
 
 
