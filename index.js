@@ -172,11 +172,10 @@ function generateIndexPage() {
   <main class="container mx-auto px-4 py-16 max-w-4xl">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
       <!-- 节日分类入口 - 跳转至 /festival 独立页面 -->
-        <title>@一条无聊的桀</title>
       <a href="/festival" class="block bg-festival/10 rounded-2xl p-8 text-center hover:bg-festival/20 transition-all hover:shadow-md hover:scale-[1.02]">
         <i class="fa-solid fa-calendar-days text-5xl text-festival mb-6"></i>
         <h2 class="text-xl font-bold text-festival">节日生成网</h2>
-        <p class="mt-4 text-gray-600 text-sm">模板1（经典）| 模板2（国风）</p>
+        <p class="mt-4 text-gray-600 text-sm">模板1（经典）| 模板2（原木）</p>
         <!-- <div class="mt-6 inline-block bg-festival/20 text-festival px-4 py-2 rounded-lg text-sm hover:bg-festival/30 transition-all">
           进入生成 →
         </div> -->
@@ -186,7 +185,7 @@ function generateIndexPage() {
       <a href="/birthday" class="block bg-birthday/10 rounded-2xl p-8 text-center hover:bg-birthday/20 transition-all hover:shadow-md hover:scale-[1.02]">
         <i class="fa-solid fa-cake-candles text-5xl text-birthday mb-6"></i>
         <h2 class="text-xl font-bold text-birthday">生日生成网</h2>
-        <p class="mt-4 text-gray-600 text-sm">模板1（经典）| 模板2（极简）</p>
+        <p class="mt-4 text-gray-600 text-sm">模板1（经典）| 模板2（科技）</p>
         <!-- <div class="mt-6 inline-block bg-birthday/20 text-birthday px-4 py-2 rounded-lg text-sm hover:bg-birthday/30 transition-all">
           进入生成 →
         </div> -->
@@ -196,7 +195,7 @@ function generateIndexPage() {
       <a href="/prank" class="block bg-prank/10 rounded-2xl p-8 text-center hover:bg-prank/20 transition-all hover:shadow-md hover:scale-[1.02]">
         <i class="fa-solid fa-face-grin-tongue text-5xl text-prank mb-6"></i>
         <h2 class="text-xl font-bold text-prank">整蛊生成网</h2>
-        <p class="mt-4 text-gray-600 text-sm">模板1（经典）| 模板2（轻奢）</p>
+        <p class="mt-4 text-gray-600 text-sm">模板1（可爱）| 模板2（高级）</p>
         <!-- <div class="mt-6 inline-block bg-prank/20 text-prank px-4 py-2 rounded-lg text-sm hover:bg-prank/30 transition-all">
           进入生成 →
         </div> -->
@@ -206,7 +205,7 @@ function generateIndexPage() {
       <a href="/confession" class="block bg-confession/10 rounded-2xl p-8 text-center hover:bg-confession/20 transition-all hover:shadow-md hover:scale-[1.02]">
         <i class="fa-solid fa-heart text-5xl text-confession mb-6"></i>
         <h2 class="text-xl font-bold text-confession">表白生成网</h2>
-        <p class="mt-4 text-gray-600 text-sm">模板1（高级）| 模板2（卡通）</p>
+        <p class="mt-4 text-gray-600 text-sm">模板1（可爱）| 模板2（简约）</p>
         <!-- <div class="mt-6 inline-block bg-confession/20 text-confession px-4 py-2 rounded-lg text-sm hover:bg-confession/30 transition-all">
           进入生成 →
         </div> -->
@@ -259,11 +258,11 @@ function generateCategoryIndependentPage(category, title, colorKey) {
     case 'festival':
       formHtml = `
         <div class="mb-4">
-          <label class="block text-gray-700 mb-2">节日名称 <span class="text-red-500 text-xs">（选填，默认春节）</span></label>
+          <label class="block text-gray-700 mb-2">节日名称 <span class="text-red-500 text-xs">（默认春节）</span></label>
           <input type="text" id="festival-name" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-${colorKey}/50 focus:border-${colorKey}" placeholder="例如：春节、中秋节">
         </div>
         <div class="mb-4">
-          <label class="block text-gray-700 mb-2">节日日期 <span class="text-red-500 text-xs">（选填）</span></label>
+          <label class="block text-gray-700 mb-2">节日日期 <span class="text-red-500 text-xs">（必填）</span></label>
           <input type="date" id="festival-date" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-${colorKey}/50 focus:border-${colorKey}">
         </div>
       `;
@@ -271,11 +270,11 @@ function generateCategoryIndependentPage(category, title, colorKey) {
     case 'birthday':
       formHtml = `
         <div class="mb-4">
-          <label class="block text-gray-700 mb-2">姓名 <span class="text-red-500 text-xs">（选填，默认朋友）</span></label>
+          <label class="block text-gray-700 mb-2">姓名 <span class="text-red-500 text-xs">（默认朋友）</span></label>
           <input type="text" id="birthday-name" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-${colorKey}/50 focus:border-${colorKey}" placeholder="例如：小明">
         </div>
         <div class="mb-4">
-          <label class="block text-gray-700 mb-2">生日日期 <span class="text-red-500 text-xs">（选填）</span></label>
+          <label class="block text-gray-700 mb-2">生日日期 <span class="text-red-500 text-xs">（必填）</span></label>
           <input type="date" id="birthday-date" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-${colorKey}/50 focus:border-${colorKey}">
         </div>
       `;
@@ -554,5 +553,3 @@ function generateCategoryIndependentPage(category, title, colorKey) {
 </html>
   `;
 }
-
-
