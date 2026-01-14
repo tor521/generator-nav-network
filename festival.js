@@ -6,41 +6,57 @@ export function generateFestivalPage(data) {
   const { name, date } = previewData;
   let pageContent = '';
 
-  // 模板1：大熊猫国宝风格（强化辨识度+浅绿主调+浅粉点缀，功能不变）
+  // 模板1：直观大熊猫国宝风格（替换爪印为大熊猫元素，强化风格辨识度，功能不变）
   if (template === '1') {
     pageContent = `
       <div class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-[#E8F5E9] to-[#F1F8E9]">
-        <!-- 背景大熊猫浅纹装饰（强化国宝辨识度，不杂乱） -->
-        <div class="absolute inset-0 bg-[url('data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\' viewBox=\'0 0 100 100\'><circle cx=\'30\' cy=\'30\' r=\'8\' fill=\'%23C8E6C9\' opacity=\'0.3\'/><circle cx=\'45\' cy=\'25\' r=\'12\' fill=\'%23C8E6C9\' opacity=\'0.3\'/><circle cx=\'60\' cy=\'30\' r=\'8\' fill=\'%23C8E6C9\' opacity=\'0.3\'/><path d=\'M25 50 Q50 70 75 50\' stroke=\'%23F8C9D1\' stroke-width=\'2\' fill=\'none\' opacity=\'0.2\'/></svg>')] repeat opacity-50"></div>
+        <!-- 背景大熊猫平铺暗纹（直观熊猫轮廓，低透明度不杂乱，强化风格） -->
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'120\' height=\'120\' viewBox=\'0 0 100 100\'><ellipse cx=\'50\' cy=\'45\' rx=\'35\' ry=\'40\' fill=\'%23C8E6C9\' opacity=\'0.2\'/><circle cx=\'30\' cy=\'35\' r=\'8\' fill=\'%23FFFFFF\' opacity=\'0.3\'/><circle cx=\'70\' cy=\'35\' r=\'8\' fill=\'%23FFFFFF\' opacity=\'0.3\'/><circle cx=\'30\' cy=\'35\' r=\'4\' fill=\'%23212121\' opacity=\'0.3\'/><circle cx=\'70\' cy=\'35\' r=\'4\' fill=\'%23212121\' opacity=\'0.3\'/><ellipse cx=\'50\' cy=\'55\' rx=\'15\' ry=\'12\' fill=\'%23F8C9D1\' opacity=\'0.2\'/></svg>')] repeat opacity-70"></div>
         <div class="w-full max-w-md bg-white rounded-3xl shadow-xl overflow-hidden border border-[#C8E6C9] relative">
-          <!-- 顶部渐变栏：浅绿主调+大熊猫图标（强化国宝辨识度） -->
+          <!-- 顶部渐变栏：浅绿主调+直观大熊猫SVG（替换爪印，强化核心形象） -->
           <div class="bg-gradient-to-r from-[#81C784] to-[#A5D6A7] py-6 text-center relative">
-            <i class="fa-solid fa-paw text-4xl text-white mb-2 drop-shadow-sm"></i>
-            <!-- 大熊猫简笔画装饰（顶部右侧，浅粉点缀） -->
-            <svg class="absolute top-2 right-4 w-16 h-16" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="30" cy="30" r="10" fill="#FFFFFF" opacity="0.8"/>
-              <circle cx="70" cy="30" r="10" fill="#FFFFFF" opacity="0.8"/>
-              <circle cx="30" cy="30" r="5" fill="#212121"/>
-              <circle cx="70" cy="30" r="5" fill="#212121"/>
-              <ellipse cx="50" cy="50" rx="25" ry="20" fill="#F8C9D1" opacity="0.9"/>
-              <ellipse cx="50" cy="55" rx="15" ry="12" fill="#FFFFFF" opacity="0.9"/>
+            <!-- 核心元素：替换爪印为可爱大熊猫SVG（直观醒目，浅粉点缀脸部） -->
+            <svg class="w-12 h-12 mx-auto mb-2" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <ellipse cx="50" cy="45" rx="30" ry="35" fill="#FFFFFF" opacity="0.95"/>
+              <circle cx="35" cy="35" r="7" fill="#212121"/>
+              <circle cx="65" cy="35" r="7" fill="#212121"/>
+              <circle cx="35" cy="35" r="3" fill="#FFFFFF"/>
+              <circle cx="65" cy="35" r="3" fill="#FFFFFF"/>
+              <ellipse cx="50" cy="58" rx="12" ry="10" fill="#F8C9D1" opacity="0.9"/>
+              <path d="M45 65 Q50 70 55 65" stroke="#212121" stroke-width="1" fill="none"/>
+            </svg>
+            <!-- 右上角辅助大熊猫装饰（迷你版，呼应核心元素） -->
+            <svg class="absolute top-2 right-4 w-12 h-12" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <ellipse cx="50" cy="45" rx="25" ry="30" fill="#FFFFFF" opacity="0.8"/>
+              <circle cx="35" cy="35" r="6" fill="#212121"/>
+              <circle cx="65" cy="35" r="6" fill="#212121"/>
+              <ellipse cx="50" cy="55" rx="10" ry="8" fill="#F8C9D1" opacity="0.8"/>
             </svg>
             <h2 class="text-2xl font-bold text-white tracking-wider">${name}</h2>
           </div>
-          <!-- 倒计时区域：浅绿点缀+大熊猫爪印分隔 -->
+          <!-- 倒计时区域：浅绿主调+大熊猫分隔元素（替换爪印，风格统一） -->
           <div class="p-8 text-center relative">
             <div id="festival-countdown" class="text-2xl font-semibold text-[#2E7D32] my-6">
               <!-- 文案由JS动态填充，功能不变 -->
             </div>
-            <!-- 分隔线：浅绿主调+大熊猫爪印（浅粉点缀，强化国宝辨识度） -->
+            <!-- 分隔线：替换爪印为迷你大熊猫，浅绿+浅粉呼应主题 -->
             <div class="flex items-center justify-center gap-3">
               <div class="w-16 h-1 bg-[#C8E6C9] rounded-full"></div>
-              <i class="fa-solid fa-paw text-[#F8C9D1] text-sm"></i>
+              <svg class="w-6 h-6" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="50" cy="45" rx="15" ry="18" fill="#F8C9D1" opacity="0.9"/>
+                <circle cx="40" cy="38" r="3" fill="#212121"/>
+                <circle cx="60" cy="38" r="3" fill="#212121"/>
+              </svg>
               <div class="w-16 h-1 bg-[#C8E6C9] rounded-full"></div>
             </div>
             <p class="mt-6 text-[#558B2F] text-sm flex items-center justify-center gap-2">
               <span>专属定制 · 美好时刻</span>
-              <i class="fa-solid fa-paw text-[#F8C9D1] text-xs"></i>
+              <!-- 底部点缀：替换爪印为超迷你大熊猫，细节呼应主题 -->
+              <svg class="w-4 h-4" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="50" cy="45" rx="10" ry="12" fill="#F8C9D1" opacity="0.8"/>
+                <circle cx="40" cy="38" r="2" fill="#212121"/>
+                <circle cx="60" cy="38" r="2" fill="#212121"/>
+              </svg>
             </p>
           </div>
         </div>
