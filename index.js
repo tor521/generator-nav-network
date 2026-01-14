@@ -346,13 +346,14 @@ function generateCategoryIndependentPage(category, title, colorKey) {
       </div>
       ${formHtml}
 
-      <!-- 生成分享链接按钮（保留优化后配色） -->
-      <button onclick="generateShare('${category}')" class="bg-${colorKey} text-white px-6 py-3 rounded-lg hover:bg-${colorKey}/90 transition-all shadow hover:shadow-${colorKey}/30 font-medium">
-        <i class="fa-solid fa-link mr-2"></i>生成链接
-      </button>
-      <button onclick="deleteAllHistory('${category}')" class="bg-gray-200 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-300 transition-all ml-4 font-medium">
-        <i class="fa-solid fa-trash-can mr-2"></i>清空历史
-      </button>
+      <div class="flex flex-col sm:flex-row gap-4">
+        <button onclick="generateShare('${category}')" class="bg-${colorKey} text-white px-6 py-3 rounded-lg hover:bg-${colorKey}/90 transition-all shadow hover:shadow-${colorKey}/30 font-medium w-full sm:w-auto">
+          <i class="fa-solid fa-link mr-2"></i>生成链接
+        </button>
+        <button onclick="deleteAllHistory('${category}')" class="bg-gray-200 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-300 transition-all font-medium w-full sm:w-auto">
+          <i class="fa-solid fa-trash-can mr-2"></i>清空历史
+        </button>
+      </div>
 
       <!-- 分享链接展示区域（保留一键复制功能） -->
       <div id="${category}-share-area" class="mt-6 hidden">
@@ -572,3 +573,4 @@ function generateCategoryIndependentPage(category, title, colorKey) {
 </html>
   `;
 }
+
