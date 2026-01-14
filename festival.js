@@ -151,52 +151,82 @@ export function generateFestivalPage(data) {
     `;
   }
 
-  // 模板3：赛博朋克科技风（新增酷炫视觉，核心功能与前两者一致）
+  // 模板3：升级款赛博朋克科技风（优化视觉效果，核心功能不变）
   else if (template === '3') {
     pageContent = `
-      <div class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-[#0F0B21] to-[#1A143B] relative overflow-hidden">
-        <!-- 背景科技网格动效（酷炫氛围铺垫） -->
-        <div class="absolute inset-0 bg-grid-tech" style="background-image: linear-gradient(to right, #3A86FF 1px, transparent 1px), linear-gradient(to bottom, #3A86FF 1px, transparent 1px); background-size: 60px 60px; animation: gridMove 20s linear infinite;"></div>
-        <!-- 背景光晕扫动效果 -->
-        <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(131,56,236,0.2),transparent_70%)]">
-          <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent to rgba(58,134,255,0.1) animate-pulse" style="animation-duration: 4s;"></div>
+      <div class="min-h-screen flex items-center justify-center p-4 bg-[#000000] relative overflow-hidden">
+        <!-- 多层背景叠加：科技网格+故障纹理+渐变光晕 -->
+        <div class="absolute inset-0 bg-grid-tech opacity-20" style="background-image: linear-gradient(to right, #00ffff 1px, transparent 1px), linear-gradient(to bottom, #00ffff 1px, transparent 1px); background-size: 40px 40px; animation: gridMove 15s linear infinite;"></div>
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(255,0,255,0.3),transparent_60%),radial-gradient(circle_at_70%_80%,rgba(0,200,255,0.2),transparent_60%)]"></div>
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'200\' height=\'200\' viewBox=\'0_0_200_200\'><path d=\'M0 100 Q 50 50, 100 100 T 200 100\' fill=\'none\' stroke=\'%23ff00ff\' stroke-width=\'0.5\' opacity=\'0.2\'/><path d=\'M0 80 Q 50 30, 100 80 T 200 80\' fill=\'none\' stroke=\'%2300ffff\' stroke-width=\'0.5\' opacity=\'0.2\'/><path d=\'M0 120 Q 50 170, 100 120 T 200 120\' fill=\'none\' stroke=\'%23ffff00\' stroke-width=\'0.5\' opacity=\'0.2\'/></svg>')] repeat opacity-20"></div>
+        
+        <!-- 故障风扫描线 -->
+        <div class="absolute inset-0 pointer-events-none">
+          <div class="absolute top-0 left-0 w-full h-1 bg-[#00ffff] opacity-30 animate-scan-line"></div>
         </div>
-        <!-- 核心科技卡片容器 -->
-        <div class="w-full max-w-md relative z-10 bg-[#120F29]/80 backdrop-blur-md rounded-2xl border border-[#3A86FF]/30 shadow-[0_0_30px_rgba(131,56,236,0.3)] overflow-hidden">
-          <!-- 顶部霓虹渐变栏 + 扫描动效 -->
-          <div class="bg-gradient-to-r from-[#833AB4] via-[#3A86FF] to-[#FD1D1D] py-7 text-center relative overflow-hidden">
-            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent to #3A86FF to transparent animate-[scan_3s_ease-in-out_infinite]"></div>
-            <h2 class="text-2xl md:text-3xl font-bold text-white tracking-wider relative z-10 drop-shadow-[0_0_8px_rgba(58,134,255,0.8)]">${name}</h2>
-            <!-- 顶部霓虹点缀 -->
-            <div class="absolute top-4 right-6 w-10 h-10 rounded-full bg-[#FD1D1D]/20 flex items-center justify-center">
-              <div class="w-6 h-6 rounded-full bg-[#FD1D1D]/40 drop-shadow-[0_0_6px_rgba(253,29,29,0.8)]"></div>
+
+        <!-- 核心科技卡片容器（悬浮+多层霓虹边框） -->
+        <div class="w-full max-w-md relative z-10 bg-[#0a041b]/90 backdrop-blur-xl rounded-2xl 
+                    border border-[#ff00ff]/40 
+                    shadow-[0_0_15px_rgba(255,0,255,0.5),0_0_30px_rgba(0,200,255,0.3)] 
+                    overflow-hidden transform hover:scale-[1.02] transition-transform duration-300">
+          
+          <!-- 顶部霓虹渐变栏 + 故障动效 -->
+          <div class="bg-gradient-to-r from-[#ff00ff] via-[#00ffff] to-[#ffff00] py-7 text-center relative overflow-hidden">
+            <!-- 故障偏移层 -->
+            <div class="absolute inset-0 bg-gradient-to-r from-[#ff00ff] via-[#00ffff] to-[#ffff00] left-2 top-1 opacity-50"></div>
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent to #00ffff to transparent animate-scan"></div>
+            <h2 class="text-2xl md:text-3xl font-bold text-white tracking-wider relative z-10 
+                       drop-shadow-[0_0_10px_rgba(0,255,255,1)] 
+                       font-[\'Orbitron\',\'monospace\']">${name}</h2>
+            <!-- 顶部霓虹装饰点（呼吸动效） -->
+            <div class="absolute top-4 right-6 w-10 h-10 rounded-full bg-[#ff00ff]/30 flex items-center justify-center animate-pulse" style="animation-duration: 3s;">
+              <div class="w-6 h-6 rounded-full bg-[#ff00ff]/50 drop-shadow-[0_0_8px_rgba(255,0,255,1)]"></div>
             </div>
           </div>
-          <!-- 倒计时核心区域（科技感数字显示） -->
+
+          <!-- 倒计时核心区域（科技感数字显示+故障文字效果） -->
           <div class="p-8 text-center relative">
-            <!-- 科技分隔线（霓虹发光） -->
-            <div class="flex items-center justify-center gap-4 mb-6 mt-2">
-              <div class="w-20 h-1 bg-gradient-to-r from-transparent to #3A86FF to transparent rounded-full"></div>
-              <div class="w-4 h-4 rounded-full bg-[#833AB4] drop-shadow-[0_0_4px_rgba(131,56,236,1)]"></div>
-              <div class="w-20 h-1 bg-gradient-to-r from-transparent to #3A86FF to transparent rounded-full"></div>
+            <!-- 科技分隔线（双层霓虹发光） -->
+            <div class="flex items-center justify-center gap-4 mb-8 mt-4">
+              <div class="w-24 h-1 bg-gradient-to-r from-transparent to #00ffff to transparent rounded-full"></div>
+              <div class="w-6 h-6 rounded-full bg-[#ff00ff] drop-shadow-[0_0_6px_rgba(255,0,255,1)] animate-pulse" style="animation-duration: 2s;"></div>
+              <div class="w-24 h-1 bg-gradient-to-r from-transparent to #00ffff to transparent rounded-full"></div>
             </div>
-            <!-- 倒计时显示容器（霓虹文字+发光效果） -->
-            <div id="festival-countdown-3" class="text-2xl md:text-3xl font-bold text-[#E0EFFF] my-8 drop-shadow-[0_0_10px_rgba(58,134,255,0.6)] font-[\'Orbitron\',\'monospace\']"></div>
-            <!-- 底部科技标签 + 霓虹点缀 -->
-            <div class="flex items-center justify-center gap-3 text-xs text-[#3A86FF]/70 mt-6">
-              <span class="px-3 py-1 bg-[#1A143B]/60 rounded-full border border-[#3A86FF]/20">COUNTDOWN SYSTEM</span>
-              <div class="w-2 h-2 rounded-full bg-[#FD1D1D] animate-pulse" style="animation-duration: 2s;"></div>
-              <span class="px-3 py-1 bg-[#1A143B]/60 rounded-full border border-[#3A86FF]/20">V1.0.0</span>
+            
+            <!-- 倒计时显示容器（故障文字+霓虹发光） -->
+            <div class="relative">
+              <div id="festival-countdown-3" class="text-2xl md:text-4xl font-bold text-[#ffffff] my-8 
+                         drop-shadow-[0_0_15px_rgba(0,255,255,0.8)] 
+                         font-[\'Orbitron\',\'monospace\'] relative z-10"></div>
+              <!-- 故障偏移副本 -->
+              <div id="festival-countdown-3-glitch" class="absolute top-0 left-2 text-2xl md:text-4xl font-bold text-[#ff00ff] my-8 
+                         opacity-40 font-[\'Orbitron\',\'monospace\'] pointer-events-none"></div>
+            </div>
+
+            <!-- 底部科技标签组 + 霓虹指示灯 -->
+            <div class="flex flex-wrap justify-center items-center gap-3 text-xs text-[#00ffff] mt-8">
+              <span class="px-4 py-2 bg-[#120729]/80 rounded-full border border-[#00ffff]/30 
+                          drop-shadow-[0_0_5px_rgba(0,255,255,0.4)]">COUNTDOWN SYSTEM</span>
+              <div class="w-3 h-3 rounded-full bg-[#ff00ff] animate-pulse" style="animation-duration: 1.5s;"></div>
+              <span class="px-4 py-2 bg-[#120729]/80 rounded-full border border-[#00ffff]/30 
+                          drop-shadow-[0_0_5px_rgba(0,255,255,0.4)]">V2.0.0</span>
+              <div class="w-3 h-3 rounded-full bg-[#ffff00] animate-pulse" style="animation-duration: 2s;"></div>
+              <span class="px-4 py-2 bg-[#120729]/80 rounded-full border border-[#00ffff]/30 
+                          drop-shadow-[0_0_5px_rgba(0,255,255,0.4)]">CYBER FESTIVAL</span>
             </div>
           </div>
-          <!-- 卡片底部霓虹边框动效 -->
-          <div class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#FD1D1D] via-[#3A86FF] to-[#833AB4] animate-[glow_5s_ease-in-out_infinite]"></div>
+
+          <!-- 卡片底部双层霓虹边框动效 -->
+          <div class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#ff00ff] via-[#00ffff] to-[#ffff00] animate-glow"></div>
+          <div class="absolute bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-[#ffff00] via-[#00ffff] to-[#ff00ff] animate-glow" style="animation-delay: 1s;"></div>
         </div>
+
         <!-- 全局动画样式定义 -->
         <style>
           @keyframes gridMove {
             0% { transform: translate(0, 0); }
-            100% { transform: translate(60px, 60px); }
+            100% { transform: translate(40px, 40px); }
           }
           @keyframes scan {
             0% { left: -100%; }
@@ -204,13 +234,20 @@ export function generateFestivalPage(data) {
             100% { left: -100%; }
           }
           @keyframes glow {
-            0%, 100% { opacity: 0.6; }
+            0%, 100% { opacity: 0.7; }
             50% { opacity: 1; }
+          }
+          @keyframes scan-line {
+            0% { top: -5%; }
+            100% { top: 105%; }
+          }
+          .animate-scan-line {
+            animation: scan-line 8s linear infinite;
           }
         </style>
       </div>
       <script>
-        // 核心功能与模板1/2完全一致：倒计时计算、日期判断、1秒刷新，仅修改DOM元素ID
+        // 核心功能与模板1/2完全一致：倒计时计算、日期判断、1秒刷新
         function updateCountdown() {
           const now = new Date();
           const targetDate = new Date('${date}');
@@ -232,7 +269,9 @@ export function generateFestivalPage(data) {
           else if (isPassed) tipText = '「${name}」已过，但美好永存，天天开心～';
           else tipText = '距离${name}还有 ' + days + '天 ' + hours + '时 ' + minutes + '分 ' + seconds + '秒';
           
+          // 同步更新主倒计时和故障偏移层文字
           document.getElementById('festival-countdown-3').textContent = tipText;
+          document.getElementById('festival-countdown-3-glitch').textContent = tipText;
         }
         updateCountdown();
         setInterval(updateCountdown, 1000);
