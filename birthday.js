@@ -45,13 +45,13 @@ export function generateBirthdayPage(data) {
     `;
   }
 
-  // 模板2：酷炫赛博朋克风（彻底重构布局+优化文案）
+  // 模板2：酷炫赛博朋克风（仅修复SVG引号冲突，其他功能/布局完全不变）
   else if (template === '2') {
     pageContent = `
       <div class="min-h-screen flex flex-col items-center justify-center p-4 bg-gradient-to-br from-[#0F172A] via-[#1E293B] to-[#0F172A] relative overflow-hidden">
-        <!-- 背景装饰：动态网格线+光点 -->
+        <!-- 背景装饰：动态网格线+光点（修复SVG引号冲突，将内部双引号转义为单引号） -->
         <div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(120,69,255,0.15),transparent_40%),radial-gradient(circle_at_70%_80%,rgba(45,212,191,0.15),transparent_40%)]"></div>
-        <div class="absolute inset-0 bg-[url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"100\" viewBox=\"0 0 100 100\"><path fill=\"none\" stroke=\"rgba(120,69,255,0.05)\" stroke-width=\"0.5\" d=\"M0 50h100M50 0v100\"/></svg>')] repeat"></div>
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\' viewBox=\'0 0 100 100\'><path fill=\'none\' stroke=\'rgba(120,69,255,0.05)\' stroke-width=\'0.5\' d=\'M0 50h100M50 0v100\'/></svg>')] repeat"></div>
         
         <!-- 顶部装饰：悬浮霓虹标题 -->
         <div class="absolute top-12 left-0 right-0 text-center">
