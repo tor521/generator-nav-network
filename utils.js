@@ -9,6 +9,7 @@ export function generateCommonHead() {
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+  <title>@一条无聊的桀</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
