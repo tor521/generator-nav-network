@@ -109,12 +109,11 @@ export function generateFestivalPage(data) {
                 <div class="w-16 h-0.5 bg-[#D4B996]/50"></div>
               </div>
               <p class="mt-2 text-[#6B5B49] text-sm font-[\'SimSun\',\'serif\']">岁时更迭 · 美好常伴</p>
-            <!-- 中式篆刻印章（右下角） -->
+            </div>
+                        <!-- 中式篆刻印章（右下角）
             <div class="absolute bottom-4 right-4 w-16 h-16 bg-[#C41E3A] rounded-sm flex items-center justify-center text-white text-xs font-bold font-[\'STZhongSong\',\'serif\'] rotate-6 shadow-md">
               吉庆有余
-            </div>
-            </div>
-            
+            </div> -->
 
             
             <!-- 左侧中式竖排题字（装饰性） -->
@@ -160,5 +159,6 @@ export function generateFestivalPage(data) {
   // 拼接完整HTML
   return generateCommonHead() + `<body>${pageContent}</body>`;
 }
+
 
 
