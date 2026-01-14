@@ -151,11 +151,11 @@ export function generateFestivalPage(data) {
     `;
   }
 
-  // 模板3：严格对齐最终满意版（模糊背景+低调赛博，功能不变）
+  // 模板3：严格匹配最终要求（模糊背景+无扫描线+纯白无发光文字）
   else if (template === '3') {
     pageContent = `
       <div class="min-h-screen flex items-center justify-center p-4 overflow-hidden font-[\'Orbitron\',\'Consolas\',monospace,sans-serif]">
-        <!-- 1. 模糊背景核心层（与最终HTML完全一致） -->
+        <!-- 1. 完全复刻最终HTML模糊背景（无任何偏差） -->
         <div class="absolute inset-0 z-0" style="background: linear-gradient(to bottom right, #0F0B21, #1A143B, #2D1B69);"></div>
         <div class="blur-bg-overlay absolute inset-0 z-0" style="
           background: radial-gradient(circle at 30% 20%, rgba(131, 56, 236, 0.2), transparent 40%),
@@ -174,14 +174,14 @@ export function generateFestivalPage(data) {
           opacity: 0.6;
         "></div>
 
-        <!-- 3. 霓虹光晕扫动（叠加模糊，柔和风格） -->
+        <!-- 3. 霓虹光晕扫动（叠加模糊，柔和风格，无额外动效） -->
         <div class="cyber-glow-overlay absolute inset-0 z-0" style="
           background: radial-gradient(circle at 50% 50%, rgba(131, 56, 236, 0.2), rgba(58, 134, 255, 0.15), transparent 70%);
           animation: glowSweep 6s ease-in-out infinite;
           backdrop-filter: blur(10px);
         "></div>
 
-        <!-- 4. 赛博核心卡片（毛玻璃+流光边框，与最终HTML一致） -->
+        <!-- 4. 赛博核心卡片（毛玻璃+流光边框，无扫描线动效） -->
         <div class="cyber-card w-full max-w-400px relative z-20" style="
           max-width: 400px;
           background: rgba(18, 15, 41, 0.85);
@@ -199,7 +199,7 @@ export function generateFestivalPage(data) {
           overflow: hidden;
           animation: neonBorderFlow 3s linear infinite, cardBreathe 6s ease-in-out infinite;
         ">
-          <!-- 顶部霓虹栏（无多重发光，柔和扫描） -->
+          <!-- 顶部霓虹栏（移除扫描线动效，无任何额外动画） -->
           <div class="cyber-header" style="
             background: linear-gradient(90deg, #833AB4, #3A86FF, #FD1D1D);
             padding: 28px 0;
@@ -207,29 +207,20 @@ export function generateFestivalPage(data) {
             position: relative;
             overflow: hidden;
           ">
-            <div style="
-              content: '';
-              position: absolute;
-              top: 0;
-              left: -100%;
-              width: 100%;
-              height: 100%;
-              background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-              animation: headerScan 3s ease-in-out infinite;
-            "></div>
+            <!-- 完全移除扫描线相关元素，无任何残留 -->
             <h2 class="festival-name" id="festival-name-3" style="
-              color: #FFFFFF;
+              color: #FFFFFF; /* 纯白颜色，无任何发光 */
               font-size: 2rem;
               font-weight: bold;
               letter-spacing: 2px;
               position: relative;
               z-index: 1;
-              text-shadow: 0 0 3px rgba(255, 255, 255, 0.5);
-              animation: textSoftPulse 4s ease-in-out infinite;
+              /* 彻底删除所有text-shadow，无任何发光效果 */
+              animation: textSoftPulse 4s ease-in-out infinite; /* 仅保留透明度变化，无发光 */
             ">${name}</h2>
           </div>
 
-          <!-- 倒计时区域（无多重发光，柔和风格） -->
+          <!-- 倒计时区域（无发光，纯白文字，无额外动效） -->
           <div class="cyber-countdown-area" style="
             padding: 32px;
             text-align: center;
@@ -268,15 +259,15 @@ export function generateFestivalPage(data) {
               "></div>
             </div>
 
-            <!-- 倒计时显示（保留原有ID，功能不变） -->
+            <!-- 倒计时显示（纯白无发光，功能不变） -->
             <div id="festival-countdown-3" style="
               font-size: 1.8rem;
               font-weight: bold;
-              color: #E0EFFF;
+              color: #FFFFFF; /* 纯白颜色，无任何发光 */
               margin: 32px 0;
-              text-shadow: 0 0 2px rgba(224, 239, 255, 0.6);
+              /* 彻底删除所有text-shadow，无任何发光效果 */
               letter-spacing: 1px;
-              animation: countdownSoftGlow 3s ease-in-out infinite;
+              animation: countdownSoftGlow 3s ease-in-out infinite; /* 仅保留透明度变化，无发光 */
             "></div>
 
             <!-- 赛博标签栏 -->
@@ -332,7 +323,7 @@ export function generateFestivalPage(data) {
           "></div>
         </div>
 
-        <!-- 全局动画样式（与最终HTML完全一致，无多余动效） -->
+        <!-- 全局动画样式（移除扫描线动画，文字动画仅保留透明度变化） -->
         <style>
           @keyframes blurGlowPulse {
             0%, 100% { opacity: 0.7; }
@@ -359,22 +350,20 @@ export function generateFestivalPage(data) {
             0%, 100% { box-shadow: 0 0 20px rgba(131, 56, 236, 0.2), 0 0 40px rgba(58, 134, 255, 0.15), inset 0 0 10px rgba(253, 29, 29, 0.1); }
             50% { box-shadow: 0 0 30px rgba(131, 56, 236, 0.3), 0 0 60px rgba(58, 134, 255, 0.25), inset 0 0 15px rgba(253, 29, 29, 0.15); }
           }
-          @keyframes headerScan {
-            0% { left: -100%; }
-            50% { left: 100%; }
-            100% { left: 100%; }
-          }
+          /* 移除headerScan扫描线动画，无任何残留 */
           @keyframes textSoftPulse {
-            0%, 100% { opacity: 0.8; text-shadow: 0 0 3px rgba(255, 255, 255, 0.5); }
-            50% { opacity: 1; text-shadow: 0 0 5px rgba(255, 255, 255, 0.8); }
+            /* 仅保留透明度变化，无任何发光效果，文字始终纯白 */
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
           }
           @keyframes dotSoftPulse {
             0%, 100% { transform: scale(1); box-shadow: 0 0 3px #FF00FF; }
             50% { transform: scale(1.5); box-shadow: 0 0 6px #FF00FF; }
           }
           @keyframes countdownSoftGlow {
-            0%, 100% { opacity: 0.8; text-shadow: 0 0 2px rgba(224, 239, 255, 0.6); }
-            50% { opacity: 1; text-shadow: 0 0 4px rgba(224, 239, 255, 0.9); }
+            /* 仅保留透明度变化，无任何发光效果，文字始终纯白 */
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
           }
           @keyframes tagFloat {
             0%, 100% { transform: translateY(0); }
