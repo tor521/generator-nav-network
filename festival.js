@@ -52,33 +52,53 @@ export function generateFestivalPage(data) {
     `;
   }
 
-  // 模板2：国风新中式
+  // 模板2：国风新中式（强化中国风）
   else if (template === '2') {
     pageContent = `
-      <div class="min-h-screen flex items-center justify-center p-4 bg-[#F5F0E8]">
-        <div class="w-full max-w-md bg-white rounded-3xl shadow-xl overflow-hidden border border-[#E8DFD0] relative">
-          <div class="absolute top-0 right-0 w-24 h-24 opacity-10">
-            <svg viewBox="0 0 100 100" fill="#C41E3A">
-              <path d="M10,10 L90,10 L90,90 L10,90 Z M20,20 L80,20 L80,80 L20,80 Z M30,30 L70,30 L70,70 L30,70 Z" stroke="#C41E3A" stroke-width="2" fill="none"/>
+      <div class="min-h-screen flex items-center justify-center p-4 bg-[url('data:image/svg+xml;utf8,<svg xmlns=\\"http://www.w3.org/2000/svg\\" width=\\"200\\" height=\\"200\\"><pattern id=\\"bg-pattern\\" width=\\"20\\" height=\\"20\\" patternUnits=\\"userSpaceOnUse\\"><path d=\\"M0 10h20M10 0v20\\" stroke=\\"%23E8DFD0\\" stroke-width=\\"0.5\\" fill=\\"none\\"/></pattern><rect width=\\"100%\\" height=\\"100%\\" fill=\\"url(%23bg-pattern)\\"/><rect width=\\"100%\\" height=\\"100%\\" fill=\\"%23F5F0E8\\" fill-opacity=\\"0.95\\"/></svg>')]">
+        <div class="w-full max-w-md bg-white rounded-3xl shadow-xl overflow-hidden border-2 border-[#E8DFD0] relative">
+          <!-- 中式祥云装饰 -->
+          <div class="absolute top-0 left-0 w-full h-16 bg-gradient-to-r from-[#C41E3A] to-[#A81A30] overflow-hidden">
+            <svg class="absolute top-0 left-0 w-full h-full opacity-20" viewBox="0 0 100 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M0 15C15 5 30 25 45 15C60 5 75 25 90 15C105 5 120 25 135 15" stroke="white" stroke-width="2" fill="none"/>
+              <path d="M0 20C15 10 30 30 45 20C60 10 75 30 90 20C105 10 120 30 135 20" stroke="white" stroke-width="1.5" fill="none"/>
             </svg>
           </div>
-          <div class="bg-gradient-to-r from-[#C41E3A] to-[#A81A30] py-6 text-center relative">
-            <i class="fa-solid fa-scroll text-4xl text-white mb-2"></i>
-            <h2 class="text-2xl font-bold text-white tracking-wider font-['SimHei']">${name}</h2>
-            <div class="absolute top-2 left-4 text-white opacity-50">
-              <i class="fa-solid fa-cloud text-xl"></i>
-            </div>
-            <div class="absolute top-2 right-4 text-white opacity-50">
-              <i class="fa-solid fa-cloud text-xl"></i>
-            </div>
+          
+          <!-- 主标题区域 -->
+          <div class="pt-16 pb-4 text-center relative">
+            <i class="fa-solid fa-scroll text-5xl text-[#C41E3A] mb-3"></i>
+            <h2 class="text-3xl font-bold text-[#2B2B2B] tracking-wider font-['MaShanZheng', 'SimHei']">${name}</h2>
+            <div class="w-32 h-0.5 bg-[#C41E3A] mx-auto mt-2"></div>
           </div>
-          <div class="p-8 text-center font-['Microsoft_YaHei']">
-            <div id="festival-countdown-2" class="text-2xl font-semibold text-[#2B2B2B] my-6 leading-relaxed font-['SimKai']"></div>
-            <div class="w-24 h-1 bg-[#E8DFD0] mx-auto rounded-full"></div>
-            <p class="mt-6 text-[#8A7F6F] text-sm">岁时更迭 · 美好常伴</p>
-            <div class="absolute bottom-4 right-4 w-12 h-12 bg-[#C41E3A] rounded-full flex items-center justify-center text-white text-xs font-bold">
-              吉庆
+          
+          <!-- 倒计时区域 -->
+          <div class="p-8 text-center font-['Microsoft_YaHei'] bg-[url('data:image/svg+xml;utf8,<svg xmlns=\\"http://www.w3.org/2000/svg\\" width=\\"100\\" height=\\"100\\"><path d=\\"M25 0 L75 0 L75 100 L25 100 Z M0 25 L100 25 L100 75 L0 75 Z\\" fill=\\"none\\" stroke=\\"%23E8DFD0\\" stroke-width=\\"0.5\\"/></svg>')]">
+            <div id="festival-countdown-2" class="text-2xl font-semibold text-[#8A2B1A] my-6 leading-relaxed font-['STKaiti', 'SimKai']"></div>
+            <!-- 中式分隔线 -->
+            <div class="flex items-center justify-center gap-2 my-4">
+              <div class="w-16 h-0.5 bg-[#E8DFD0]"></div>
+              <i class="fa-solid fa-flower text-[#C41E3A] text-sm"></i>
+              <div class="w-16 h-0.5 bg-[#E8DFD0]"></div>
             </div>
+            <p class="mt-2 text-[#8A7F6F] text-sm font-['SimSun']">岁时更迭 · 美好常伴</p>
+          </div>
+          
+          <!-- 中式印章装饰 -->
+          <div class="absolute bottom-4 right-4 w-14 h-14 bg-[#C41E3A] rounded-full flex items-center justify-center text-white text-xs font-bold font-['STZhongsong'] rotate-12 shadow-md">
+            吉庆
+          </div>
+          
+          <!-- 侧边中式纹样 -->
+          <div class="absolute top-1/2 -left-1 transform -translate-y-1/2">
+            <svg viewBox="0 0 10 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5 0V60M0 10L10 10M0 20L10 20M0 30L10 30M0 40L10 40M0 50L10 50" stroke="#E8DFD0" stroke-width="1"/>
+            </svg>
+          </div>
+          <div class="absolute top-1/2 -right-1 transform -translate-y-1/2">
+            <svg viewBox="0 0 10 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5 0V60M0 10L10 10M0 20L10 20M0 30L10 30M0 40L10 40M0 50L10 50" stroke="#E8DFD0" stroke-width="1"/>
+            </svg>
           </div>
         </div>
       </div>
