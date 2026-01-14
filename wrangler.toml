@@ -1,0 +1,10 @@
+name = "generator-nav-network"
+main = "index.js"
+compatibility_date = "2026-01-01"
+# 关键补充：你的 Cloudflare 账户 ID（替换为自己的真实 account_id）
+account_id = "d383148a661d86a0617fcc3f7b71992d"
+
+# 绑定 KV 命名空间（替换为你的 KV ID）
+[[kv_namespaces]]
+binding = "TIME_KV"
+id = "64e305e814164aac9b0a8a961f00bc85"
