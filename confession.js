@@ -11,7 +11,7 @@ export function generateConfessionPage(data) {
     .replace(/'/g, "\\'");
   let pageContent = '';
 
-  // 模板1：奶油粉蓝高级版
+  // 模板1：奶油粉蓝高级版（保持不变）
   if (template === '1') {
     pageContent = `
       <div class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-cream-blue to-cream-pink">
@@ -102,32 +102,38 @@ export function generateConfessionPage(data) {
     `;
   }
 
-  // 模板2：卡通可爱风
+  // 模板2：童趣涂鸦撞色风（大幅修改，与模板1风格差异化）
   else if (template === '2') {
     pageContent = `
-      <div class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-[#FFE6F2] to-[#C8E6C9]">
-        <div class="w-full max-w-md bg-white rounded-3xl shadow-xl overflow-hidden border border-[#FFD6E0] relative">
-          <div class="absolute top-4 left-4 text-[#FFAB91] text-2xl animate-bounce">
+      <div class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-[#FFF267] to-[#FF67AB]">
+        <div class="w-full max-w-md bg-white rounded-[24px] shadow-[0_0_20px_rgba(255,103,171,0.3)] overflow-hidden border-4 border-dashed border-[#67E5FF] relative rotate-1">
+          <!-- 涂鸦装饰元素 -->
+          <div class="absolute -top-6 -left-6 w-16 h-16 bg-[#FF67AB] rounded-full flex items-center justify-center text-white text-2xl rotate-12">
+            <i class="fa-solid fa-candy-cane"></i>
+          </div>
+          <div class="absolute -bottom-6 -right-6 w-16 h-16 bg-[#67E5FF] rounded-full flex items-center justify-center text-white text-2xl -rotate-12">
             <i class="fa-solid fa-star"></i>
           </div>
-          <div class="absolute top-4 right-4 text-[#81C784] text-2xl animate-pulse">
-            <i class="fa-solid fa-heart"></i>
+          <!-- 标题栏 -->
+          <div class="bg-gradient-to-r from-[#FF67AB] to-[#67E5FF] py-6 text-center px-4 relative">
+            <div class="absolute top-0 left-0 w-full h-full bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ3aGl0ZSIvPjxwYXRoIGQ9Ik0wIDBoNjAwVjEwMEgwVjB6IiBmaWxsPSJub25lIiBzdHJva2U9IiNGRkZGRTUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PC9zdmc+')] opacity-50"></div>
+            <h2 class="text-2xl font-bold text-white tracking-wider relative z-10 drop-shadow-md">🎨 给 ${confName} 的小涂鸦 🎨</h2>
           </div>
-          <div class="bg-gradient-to-r from-[#FF80AB] to-[#81D4FA] py-6 text-center">
-            <h2 class="text-2xl font-bold text-white tracking-wider">✨ 给 ${confName} 的悄悄话 ✨</h2>
-          </div>
-          <div class="p-6 text-center">
-            <div id="confession-content-2" class="bg-[#FFF9C4] rounded-2xl p-6 text-[#616161] leading-relaxed mb-4 min-h-[180px] w-full word-break break-all shadow-sm border border-[#FFE082] font-['Comic_Sans_MS']"></div>
-            <div class="flex justify-center gap-3 mt-4">
-              <span class="inline-block w-4 h-4 bg-[#FF80AB] rounded-full animate-pulse"></span>
-              <span class="inline-block w-4 h-4 bg-[#81D4FA] rounded-full animate-pulse delay-100"></span>
-              <span class="inline-block w-4 h-4 bg-[#81C784] rounded-full animate-pulse delay-200"></span>
+          <!-- 内容区域 -->
+          <div class="p-6 text-center bg-[#FFF9E8]">
+            <div id="confession-content-2" class="bg-white rounded-[16px] p-6 text-[#FF4D88] leading-relaxed mb-4 min-h-[180px] w-full word-break break-all shadow-[inset_0_0_10px_rgba(103,229,255,0.2)] border-2 border-[#FF67AB] font-['Ma_Shan_Zheng',_cursive] text-lg"></div>
+            <!-- 装饰圆点 -->
+            <div class="flex justify-center gap-4 mt-4">
+              <span class="inline-block w-6 h-6 bg-[#FF67AB] rounded-full animate-bounce"></span>
+              <span class="inline-block w-6 h-6 bg-[#67E5FF] rounded-full animate-spin-slow"></span>
+              <span class="inline-block w-6 h-6 bg-[#FFF267] rounded-full animate-bounce delay-200"></span>
             </div>
-            <p class="mt-4 text-[#9E9E9E] text-sm">💖 超喜欢你哦 💖</p>
+            <p class="mt-4 text-[#FF4D88] text-sm mt-6 drop-shadow-sm">🍬 把甜甜的话都送给你 🍬</p>
           </div>
         </div>
       </div>
       <script>
+        // 保留原有打字机功能，仅微调随机表情更贴合涂鸦风格
         function cuteTypeWriterEffect(text, el, speed = 100) {
           let i = 0;
           el.innerHTML = '';
@@ -138,8 +144,9 @@ export function generateConfessionPage(data) {
                 i += 4;
               } else {
                 el.innerHTML += text.charAt(i);
-                if (Math.random() > 0.9 && i % 10 === 0) {
-                  el.innerHTML += ['🥰', '✨', '🍬', '🌸', '💓'][Math.floor(Math.random()*5)];
+                // 随机插入涂鸦风表情，频率略调整
+                if (Math.random() > 0.92 && i % 8 === 0) {
+                  el.innerHTML += ['🍭', '🎨', '🖍️', '🌈', '🍩'][Math.floor(Math.random()*5)];
                 }
                 i++;
               }
@@ -154,21 +161,30 @@ export function generateConfessionPage(data) {
         
         const style = document.createElement('style');
         style.textContent = \`
+          /* 新增/修改动画，区别于模板1的柔和动画 */
           @keyframes fadeIn {
-            from { opacity: 0.8; transform: scale(0.98); }
-            to { opacity: 1; transform: scale(1); }
+            from { opacity: 0.7; transform: scale(0.95) rotate(-1deg); }
+            to { opacity: 1; transform: scale(1) rotate(0); }
           }
           .animate-fadeIn { animation: fadeIn 1s ease-in-out; }
           @keyframes bounce {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
+            50% { transform: translateY(-8px); }
           }
-          .animate-bounce { animation: bounce 2s infinite ease-in-out; }
-          @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.8; }
-            50% { transform: scale(1.3); opacity: 1; }
+          .animate-bounce { animation: bounce 1.8s infinite ease-in-out; }
+          @keyframes spin-slow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
           }
-          .animate-pulse { animation: pulse 2s infinite ease-in-out; }
+          .animate-spin-slow { animation: spin-slow 3s infinite linear; }
+          /* 手写字体引入（可选） */
+          @import url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap');
+          .font-['Ma_Shan_Zheng',_cursive] { font-family: 'Ma Shan Zheng', cursive; }
+          .rotate-1 { transform: rotate(1deg); }
+          .-rotate-12 { transform: rotate(-12deg); }
+          .rotate-12 { transform: rotate(12deg); }
+          .drop-shadow-md { text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+          .drop-shadow-sm { text-shadow: 0 1px 2px rgba(0,0,0,0.1); }
         \`;
         document.head.appendChild(style);
       </script>
