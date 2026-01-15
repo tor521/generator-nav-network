@@ -1,27 +1,38 @@
-// lottery.js - 抽奖模板生成逻辑（两个差异化模板）
+// lottery.js - 抽奖模板生成逻辑（修改中文逗号、日期格式化）
 import { generateCommonHead } from './utils.js';
 export function generateLotteryPage(data) {
+  // 容错处理：防止传入data为空或格式异常
+  if (!data || typeof data !== 'object') {
+    data = {
+      previewData: {},
+      template: '1'
+    };
+  }
+
   const { previewData, template } = data;
-  // 解构自定义参数，提供默认值防止报错
+  // 解构自定义参数，提供更严谨的默认值
   const {
     title = '未知抽奖活动',
     prizes = '无奖品',
     time = '未设置',
     drawCount = 1,
     name = '幸运用户'
-  } = previewData;
+  } = previewData || {};
 
-  // 格式化时间（兼容 datetime-local 格式和普通文本）
+  // 【修改核心】格式化时间 - 适配日期格式（YYYY-MM-DD），显示为"XXXX年XX月XX日"（一整天）
   const formatTime = (timeStr) => {
-    if (!timeStr) return '未设置';
+    if (!timeStr || timeStr === '未设置') return '未设置';
     try {
       const date = new Date(timeStr);
-      return date.toLocaleString('zh-CN', {
+      // 容错：防止无效日期字符串导致返回Invalid Date
+      if (isNaN(date.getTime())) {
+        return timeStr;
+      }
+      // 格式化为中文日期（一整天）
+      return date.toLocaleDateString('zh-CN', {
         year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit'
+        month: 'long',
+        day: 'long'
       });
     } catch (e) {
       return timeStr;
@@ -29,12 +40,22 @@ export function generateLotteryPage(data) {
   };
   const formattedTime = formatTime(time);
 
-  // 处理奖品列表（逗号分隔转数组，去空去重）
-  const prizeList = prizes.split(',')
+  // 【修改核心】处理奖品列表 - 支持中文逗号（，）分隔，同时兼容英文逗号（,）
+  const prizeList = prizes.split(/[,，]/) // 正则匹配中文/英文逗号
     .map(prize => prize.trim())
-    .filter(prize => prize);
+    .filter(prize => prize && prize.length > 0); // 严格过滤空字符串
 
-  // 模板1：经典喜庆风格（暖色调、传统排版，适合节日/生日抽奖）
+  // 容错：如果奖品列表为空，补充默认值
+  if (prizeList.length === 0) {
+    prizeList.push('无有效奖品配置');
+  }
+
+  // 容错：确保drawCount是合法数字
+  const validDrawCount = Number.isInteger(Number(drawCount)) && Number(drawCount) > 0 
+    ? Number(drawCount) 
+    : 1;
+
+  // 模板1：经典喜庆风格
   if (template === '1') {
     return `
 <!DOCTYPE html>
@@ -62,21 +83,21 @@ export function generateLotteryPage(data) {
 </head>
 <body>
   <div class="lottery-card">
-    <h1 class="title">🎉 ${title} 🎉</h1>
-    <div class="info-item">📅 抽奖时间：${formattedTime}</div>
-    <div class="count-box">🎁 每人可抽奖次数：${drawCount} 次</div>
+    <h1 class="title">🎉 ${escapeHtml(title)} 🎉</h1>
+    <div class="info-item">📅 抽奖日期：${escapeHtml(formattedTime)}（全天）</div>
+    <div class="count-box">🎁 每人可抽奖次数：${validDrawCount} 次</div>
     <div class="prizes-title">🎯 奖品列表</div>
     <ul class="prize-list">
-      ${prizeList.map(prize => `<li class="prize-item">${prize}</li>`).join('')}
+      ${prizeList.map(prize => `<li class="prize-item">${escapeHtml(prize)}</li>`).join('')}
     </ul>
-    <div class="footer">祝 ${name} 好运连连，抽中大奖！</div>
+    <div class="footer">祝 ${escapeHtml(name)} 好运连连，抽中大奖！</div>
   </div>
 </body>
 </html>
-    `;
+    `.trim();
   }
 
-  // 模板2：科技简约风格（深色背景、模糊效果，适合企业/活动抽奖）
+  // 模板2：科技简约风格
   if (template === '2') {
     return `
 <!DOCTYPE html>
@@ -107,26 +128,39 @@ export function generateLotteryPage(data) {
 </head>
 <body>
   <div class="lottery-card">
-    <h1 class="title">✨ ${title} ✨</h1>
+    <h1 class="title">✨ ${escapeHtml(title)} ✨</h1>
     <div class="info-wrapper">
-      <div class="info-item">📅 抽奖时间：${formattedTime}</div>
-      <div class="info-item">👤 参与用户：${name || '所有用户'}</div>
+      <div class="info-item">📅 抽奖日期：${escapeHtml(formattedTime)}（全天）</div>
+      <div class="info-item">👤 参与用户：${escapeHtml(name || '所有用户')}</div>
     </div>
-    <div class="count-box">🎮 可抽奖次数：${drawCount} 次/人</div>
+    <div class="count-box">🎮 可抽奖次数：${validDrawCount} 次/人</div>
     <div class="prizes-title">🏆 奖品池</div>
     <ul class="prize-list">
-      ${prizeList.map(prize => `<li class="prize-item">${prize}</li>`).join('')}
+      ${prizeList.map(prize => `<li class="prize-item">${escapeHtml(prize)}</li>`).join('')}
     </ul>
     <div class="footer">本次活动最终解释权归主办方所有</div>
   </div>
 </body>
 </html>
-    `;
+    `.trim();
   }
 
-  // 默认返回模板1（防止无效模板值）
+  // 默认返回模板1
   return generateLotteryPage({
-    previewData,
+    previewData: data.previewData,
     template: '1'
   });
+}
+
+// HTML转义函数（保持不变，防止XSS）
+function escapeHtml(str) {
+  if (!str || typeof str !== 'string') return '';
+  const escapeMap = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  };
+  return str.replace(/[&<>"']/g, char => escapeMap[char] || char);
 }
