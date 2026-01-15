@@ -6,7 +6,7 @@ export function generateBirthdayPage(data) {
   const { name, date } = previewData;
   let pageContent = '';
 
-  // 通用抽奖模块（抽离公共逻辑，模板1/2共用）
+  // 通用抽奖模块（抽离公共逻辑，模板1/2共用，已升级年度抽奖）
   const lotteryModule = `
     <style>
       .lottery-btn {
@@ -65,7 +65,7 @@ export function generateBirthdayPage(data) {
         { amount: 58.88, text: '58.88元微信红包' }
       ];
 
-      // 生成用户唯一标识（基于浏览器指纹，简化版）
+      // 生成用户唯一标识（基于浏览器指纹，简化版，如需更高唯一性可对接微信OpenID等）
       function getUserId() {
         const fingerprint = [
           navigator.userAgent,
@@ -76,38 +76,42 @@ export function generateBirthdayPage(data) {
         return btoa(fingerprint).replace(/[^a-zA-Z0-9]/g, '');
       }
 
-      // KV操作封装（假设环境已提供KV读写API，需根据实际环境适配）
+      // 【关键】适配Cloudflare Workers KV（已绑定TIME_KV）
       const KV = {
-        // 读取KV值
+        // 读取TIME_KV中的值（Cloudflare KV 原生API）
         async get(key) {
           try {
-            return await kv.get(key); // 替换为实际KV读取方法
+            // 直接使用绑定的TIME_KV，无需额外配置，Cloudflare会自动注入
+            return await TIME_KV.get(key);
           } catch (e) {
-            console.error('KV读取失败:', e);
+            console.error('TIME_KV读取失败:', e);
             return null;
           }
         },
-        // 写入KV值
+        // 写入数据到TIME_KV（Cloudflare KV 原生API）
         async set(key, value) {
           try {
-            await kv.put(key, value); // 替换为实际KV写入方法
+            // 写入数据，可可选配置过期时间（此处不配置，永久存储抽奖记录）
+            await TIME_KV.put(key, value);
           } catch (e) {
-            console.error('KV写入失败:', e);
+            console.error('TIME_KV写入失败:', e);
           }
         }
       };
 
-      // 初始化抽奖状态
+      // 初始化抽奖状态（升级为年度抽奖校验）
       async function initLottery() {
         const now = new Date();
         const birthDate = new Date('${date}');
-        const isToday = now.getMonth() === birthDate.getMonth() && now.getDate() === birthDate.getDate();
+        const currentYear = now.getFullYear(); // 当前年份
+        const isBirthdayToday = now.getMonth() === birthDate.getMonth() && now.getDate() === birthDate.getDate();
         
         // 非生日当天，不显示抽奖区域
-        if (!isToday) return;
+        if (!isBirthdayToday) return;
 
         const userId = getUserId();
-        const lotteryKey = \`lottery_${name}_\${userId}\`; // 唯一抽奖标识（姓名+用户ID）
+        // 【关键】生成年度唯一抽奖标识（年份+姓名+用户ID），确保每年仅能抽1次
+        const lotteryKey = \`lottery_${currentYear}_\${name}_\${userId}\`;
         const lotteryContainer = document.getElementById('lottery-container');
         const lotteryBtn = document.getElementById('lottery-btn');
         const lotteryResult = document.getElementById('lottery-result');
@@ -116,19 +120,19 @@ export function generateBirthdayPage(data) {
         // 显示抽奖区域
         lotteryContainer.style.display = 'block';
 
-        // 检查是否已抽奖
-        const hasLottery = await KV.get(lotteryKey);
-        if (hasLottery) {
+        // 检查当前年度是否已抽奖（从TIME_KV读取记录）
+        const hasLotteryThisYear = await KV.get(lotteryKey);
+        if (hasLotteryThisYear) {
           lotteryBtn.disabled = true;
-          lotteryBtn.textContent = '今日已抽奖';
-          lotteryTips.textContent = '每个用户生日当天仅可抽奖1次，感谢参与！';
+          lotteryBtn.textContent = '本年度已抽奖';
+          lotteryTips.textContent = '每个用户每年生日仅可抽奖1次，敬请期待明年生日！';
           return;
         }
 
         // 绑定抽奖点击事件
         lotteryBtn.addEventListener('click', async () => {
           try {
-            // 禁用按钮防止重复点击
+            // 禁用按钮防止重复点击（避免并发请求导致多次抽奖）
             lotteryBtn.disabled = true;
             lotteryBtn.textContent = '正在抽奖...';
 
@@ -136,17 +140,21 @@ export function generateBirthdayPage(data) {
             const randomIndex = Math.floor(Math.random() * prizes.length);
             const prize = prizes[randomIndex];
 
-            // 记录抽奖结果到KV（TIME_KV空间）
-            await KV.set(lotteryKey, JSON.stringify({
-              prize: prize.amount,
-              time: new Date().toISOString(),
-              name: '${name}'
-            }));
+            // 【关键】记录年度抽奖结果到TIME_KV（永久存储，下一年自动失效因Key包含年份）
+            const lotteryRecord = JSON.stringify({
+              prizeAmount: prize.amount,
+              prizeText: prize.text,
+              lotteryTime: new Date().toISOString(),
+              userName: '${name}',
+              userFingerprint: userId,
+              lotteryYear: currentYear
+            });
+            await KV.set(lotteryKey, lotteryRecord);
 
             // 显示抽奖结果
             lotteryResult.style.display = 'block';
             lotteryResult.textContent = \`恭喜你抽中：\${prize.text} 🎉\`;
-            lotteryBtn.textContent = '今日已抽奖';
+            lotteryBtn.textContent = '本年度已抽奖';
             lotteryTips.textContent = '红包将自动发放至你的微信账户，请注意查收！';
           } catch (e) {
             console.error('抽奖失败:', e);
