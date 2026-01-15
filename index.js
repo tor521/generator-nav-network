@@ -281,9 +281,9 @@ function generateIndexPage() {
   `;
 }
 
-// 生成分类独立页面（新增抽奖表单，保持原有交互逻辑一致）
+// 生成分类独立页面（仅修改抽奖相关部分，其他不变）
 function generateCategoryIndependentPage(category, title, colorKey) {
-  // 定义每个分类的模板下拉选项（新增抽奖模板选项）
+  // 定义每个分类的模板下拉选项（保持不变，仅抽奖模板选项保留）
   const templateOptions = {
     festival: `
       <option value="1">模板1（经典）</option>
@@ -302,16 +302,16 @@ function generateCategoryIndependentPage(category, title, colorKey) {
       <option value="1">模板1（可爱）</option>
       <option value="2">模板2（简约）</option>
     `,
-    lottery: ` // 新增：抽奖模板选项
+    lottery: `
       <option value="1">模板1（经典喜庆）</option>
       <option value="2">模板2（科技简约）</option>
     `
   };
 
-  // 复用原有表单逻辑，新增抽奖表单（保持样式和交互一致）
+  // 复用原有表单逻辑，仅修改抽奖表单部分
   let formHtml = '';
   switch (category) {
-    case 'festival':
+    case 'festival': // 保持不变
       formHtml = `
         <div class="mb-4">
           <label class="block text-gray-700 mb-2">节日名称 <span class="text-red-500 text-xs">（默认春节）</span></label>
@@ -324,7 +324,7 @@ function generateCategoryIndependentPage(category, title, colorKey) {
         </div>
       `;
       break;
-    case 'birthday':
+    case 'birthday': // 保持不变
       formHtml = `
         <div class="mb-4">
           <label class="block text-gray-700 mb-2">姓名 <span class="text-red-500 text-xs">（默认朋友）</span></label>
@@ -337,7 +337,7 @@ function generateCategoryIndependentPage(category, title, colorKey) {
         </div>
       `;
       break;
-    case 'confession':
+    case 'confession': // 保持不变
       formHtml = `
         <div class="mb-4">
           <label class="block text-gray-700 mb-2">对方姓名 <span class="text-red-500">*</span></label>
@@ -351,10 +351,10 @@ function generateCategoryIndependentPage(category, title, colorKey) {
         </div>
       `;
       break;
-    case 'prank':
+    case 'prank': // 保持不变
       formHtml = '<p class="text-gray-700 mb-4">整蛊模板无需额外参数，直接生成即可～</p>';
       break;
-    case 'lottery': // 新增：抽奖表单（和其他分类样式一致，带必填校验）
+    case 'lottery': // 【修改核心】抽奖表单更新
       formHtml = `
         <div class="mb-4">
           <label class="block text-gray-700 mb-2">抽奖标题 <span class="text-red-500">*</span></label>
@@ -363,34 +363,34 @@ function generateCategoryIndependentPage(category, title, colorKey) {
         </div>
         <div class="mb-4">
           <label class="block text-gray-700 mb-2">奖品列表 <span class="text-red-500">*</span></label>
-          <input type="text" id="lottery-prizes" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-${colorKey}/50 focus:border-${colorKey}" placeholder="多个奖品用英文逗号分隔，例如：一等奖手机,二等奖耳机" required>
+          <input type="text" id="lottery-prizes" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-${colorKey}/50 focus:border-${colorKey}" placeholder="多个奖品用中文逗号分隔，例如：一等奖手机，二等奖耳机" required>
           <p id="lottery-prizes-error" class="text-red-500 text-xs mt-1 hidden">请输入奖品列表</p>
         </div>
         <div class="mb-4">
-          <label class="block text-gray-700 mb-2">抽奖时间 <span class="text-red-500">*</span></label>
-          <input type="datetime-local" id="lottery-time" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-${colorKey}/50 focus:border-${colorKey}" required>
-          <p id="lottery-time-error" class="text-red-500 text-xs mt-1 hidden">请选择抽奖时间</p>
+          <label class="block text-gray-700 mb-2">抽奖日期 <span class="text-red-500">*</span></label>
+          <input type="date" id="lottery-time" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-${colorKey}/50 focus:border-${colorKey}" required>
+          <p id="lottery-time-error" class="text-red-500 text-xs mt-1 hidden">请选择抽奖日期</p>
         </div>
         <div class="mb-4">
           <label class="block text-gray-700 mb-2">每人抽奖次数 <span class="text-red-500">*</span></label>
           <input type="number" id="lottery-count" min="1" value="1" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-${colorKey}/50 focus:border-${colorKey}" placeholder="例如：1" required>
-          <p id="lottery-count-error" class="text-red-500 text-xs mt-1 hidden">请输入有效抽奖次数</p>
+          <p id="lottery-count-error" class="text-red-500 text-xs mt-1 hidden">请输入大于等于1的抽奖次数</p>
         </div>
         <div class="mb-4">
-          <label class="block text-gray-700 mb-2">参与用户名称 <span class="text-red-500 text-xs">（可选）</span></label>
-          <input type="text" id="lottery-name" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-${colorKey}/50 focus:border-${colorKey}" placeholder="例如：公司员工、粉丝群成员">
+          <label class="block text-gray-700 mb-2">参与用户名称 <span class="text-red-500">*</span></label>
+          <input type="text" id="lottery-name" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-${colorKey}/50 focus:border-${colorKey}" placeholder="例如：公司员工、粉丝群成员" required>
+          <p id="lottery-name-error" class="text-red-500 text-xs mt-1 hidden">请输入参与用户名称</p>
         </div>
       `;
       break;
   }
 
-  // 独立页面完整HTML结构（保持原有交互，兼容抽奖分类）
+  // 后续HTML结构保持不变，仅更新表单校验和数据收集逻辑（在script标签内）
   return generateCommonHead() + `
 <body class="bg-gray-50 min-h-screen font-sans text-gray-800 scroll-smooth">
   <header class="bg-white shadow-sm sticky top-0 z-10">
     <div class="container mx-auto px-4 py-4 flex justify-between items-center">
       <a href="/" class="text-primary font-bold text-xl">专属模板生成平台</a>
-      <!-- 返回主页按钮，方便切换 -->
       <a href="/" class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-all text-sm">
         <i class="fa-solid fa-arrow-left mr-1"></i>返回主页
       </a>
@@ -398,13 +398,11 @@ function generateCategoryIndependentPage(category, title, colorKey) {
   </header>
 
   <main class="container mx-auto px-4 py-8 max-w-4xl">
-    <!-- 分类标题 -->
     <div class="text-center mb-8">
       <h1 class="text-[clamp(1.5rem,3vw,2.2rem)] font-bold text-${colorKey}">${title}生成工具</h1>
       <p class="text-gray-500 mt-2">选择模板，一键生成可分享专属链接</p>
     </div>
 
-    <!-- 核心生成面板（保留所有原有功能，兼容抽奖分类） -->
     <div class="bg-white rounded-2xl shadow-sm p-6 hover:shadow-md transition-all">
       <div class="mb-6">
         <label class="block text-gray-700 mb-2">选择模板</label>
@@ -423,7 +421,6 @@ function generateCategoryIndependentPage(category, title, colorKey) {
         </button>
       </div>
 
-      <!-- 分享链接展示区域（保留一键复制功能，兼容抽奖分类） -->
       <div id="${category}-share-area" class="mt-6 hidden">
         <div class="border border-${colorKey}/30 rounded-lg p-4 bg-${colorKey}/5">
           <h3 class="text-sm text-gray-700 mb-2">生成结果（可直接复制）</h3>
@@ -436,7 +433,6 @@ function generateCategoryIndependentPage(category, title, colorKey) {
         </div>
       </div>
 
-      <!-- 生成历史（保留刷新按钮，删除弹窗提示，兼容抽奖分类） -->
       <div class="mt-8">
         <div class="flex justify-between items-center mb-4">
           <h3 class="text-lg font-semibold text-gray-800">生成历史</h3>
@@ -445,7 +441,6 @@ function generateCategoryIndependentPage(category, title, colorKey) {
           </button>
         </div>
         <div id="${category}-history-list" class="max-h-60 overflow-y-auto">
-          <!-- 历史记录由JS加载 -->
         </div>
       </div>
     </div>
@@ -458,7 +453,7 @@ function generateCategoryIndependentPage(category, title, colorKey) {
   </footer>
 
   <script>
-    // 加载历史记录（核心功能不变，复用为刷新功能的基础，兼容抽奖分类）
+    // 保持原有函数不变：loadHistory、refreshHistory、deleteSingleHistory、deleteAllHistory、copyShareUrl
     async function loadHistory(category) {
       try {
         const res = await fetch(\`/api/get-history?category=\${category}\`);
@@ -489,21 +484,16 @@ function generateCategoryIndependentPage(category, title, colorKey) {
       }
     }
 
-    // 刷新历史记录功能（删除刷新完成弹窗，保留加载反馈，兼容抽奖分类）
     async function refreshHistory(category) {
       const refreshBtn = document.getElementById(\`\${category}-refresh-btn\`);
       const originalText = refreshBtn.innerHTML;
-      
-      // 刷新中状态：禁用按钮 + 旋转图标 + 文字提示
       refreshBtn.innerHTML = '<i class="fa-solid fa-refresh fa-spin mr-1"></i>刷新中...';
       refreshBtn.disabled = true;
       refreshBtn.classList.remove('hover:bg-${colorKey}/20');
       refreshBtn.classList.add('bg-gray-100', 'cursor-not-allowed', 'opacity-70');
       
-      // 重新加载历史记录
       await loadHistory(category);
       
-      // 恢复按钮状态（删除弹窗提示）
       setTimeout(() => {
         refreshBtn.innerHTML = originalText;
         refreshBtn.disabled = false;
@@ -512,7 +502,6 @@ function generateCategoryIndependentPage(category, title, colorKey) {
       }, 800);
     }
 
-    // 删除单条历史（核心功能不变，兼容抽奖分类）
     async function deleteSingleHistory(category, id, shareId) {
       if (!confirm('确定删除这条记录吗？删除后链接将失效～')) return;
       try {
@@ -530,7 +519,6 @@ function generateCategoryIndependentPage(category, title, colorKey) {
       }
     }
 
-    // 一键删除所有（核心功能不变，兼容抽奖分类）
     async function deleteAllHistory(category) {
       if (!confirm('确定删除该分类所有记录吗？所有对应链接都将失效～')) return;
       try {
@@ -548,7 +536,6 @@ function generateCategoryIndependentPage(category, title, colorKey) {
       }
     }
 
-    // 一键复制链接（核心功能不变，兼容抽奖分类）
     async function copyShareUrl(inputId) {
       const input = document.getElementById(inputId);
       if (!input.value) return alert('暂无可复制的链接～');
@@ -569,17 +556,15 @@ function generateCategoryIndependentPage(category, title, colorKey) {
       }
     }
 
-    // 表单校验函数（新增抽奖表单校验，保持原有逻辑一致）
+    // 【修改核心】表单校验函数 - 新增用户名称必填、适配日期选择
     function validateForm(category) {
       let isValid = true;
       
-      // 清空所有错误提示
       document.querySelectorAll('[id$="-error"]').forEach(el => {
         el.classList.add('hidden');
         el.textContent = '';
       });
 
-      // 分类专属校验
       if (category === 'festival') {
         const date = document.getElementById('festival-date').value;
         if (!date) {
@@ -613,11 +598,12 @@ function generateCategoryIndependentPage(category, title, colorKey) {
           errorEl.textContent = '请输入表白内容';
           errorEl.classList.remove('hidden');
         }
-      } else if (category === 'lottery') { // 新增：抽奖表单校验
+      } else if (category === 'lottery') { // 抽奖校验更新
         const title = document.getElementById('lottery-title').value.trim();
         const prizes = document.getElementById('lottery-prizes').value.trim();
         const time = document.getElementById('lottery-time').value;
         const drawCount = document.getElementById('lottery-count').value;
+        const name = document.getElementById('lottery-name').value.trim(); // 新增用户名称校验
         
         if (!title) {
           isValid = false;
@@ -636,7 +622,7 @@ function generateCategoryIndependentPage(category, title, colorKey) {
         if (!time) {
           isValid = false;
           const errorEl = document.getElementById('lottery-time-error');
-          errorEl.textContent = '请选择抽奖时间';
+          errorEl.textContent = '请选择抽奖日期';
           errorEl.classList.remove('hidden');
         }
         
@@ -646,22 +632,27 @@ function generateCategoryIndependentPage(category, title, colorKey) {
           errorEl.textContent = '请输入大于等于1的抽奖次数';
           errorEl.classList.remove('hidden');
         }
+        
+        // 新增：用户名称必填校验
+        if (!name) {
+          isValid = false;
+          const errorEl = document.getElementById('lottery-name-error');
+          errorEl.textContent = '请输入参与用户名称';
+          errorEl.classList.remove('hidden');
+        }
       }
 
       return isValid;
     }
 
-    // 生成分享链接（优化校验+交互，新增抽奖数据收集，保持原有逻辑一致）
+    // 【修改核心】生成分享链接 - 数据收集更新（中文逗号、日期、用户名称）
     async function generateShare(category) {
-      // 先做表单校验
       if (!validateForm(category)) {
         return;
       }
 
       const generateBtn = document.querySelector(\`button[onclick="generateShare('\${category}')"]\`);
       const originalText = generateBtn.innerHTML;
-      
-      // 禁用按钮并显示加载状态
       generateBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>生成中...';
       generateBtn.disabled = true;
       generateBtn.classList.add('opacity-70', 'cursor-not-allowed');
@@ -685,13 +676,13 @@ function generateCategoryIndependentPage(category, title, colorKey) {
             name: document.getElementById('confession-name').value.trim(),
             content: document.getElementById('confession-content').value.trim()
           };
-        } else if (category === 'lottery') { // 新增：抽奖数据收集（和其他分类格式一致）
+        } else if (category === 'lottery') { // 抽奖数据收集更新
           previewData = {
             title: document.getElementById('lottery-title').value.trim(),
-            prizes: document.getElementById('lottery-prizes').value.trim(),
-            time: document.getElementById('lottery-time').value,
+            prizes: document.getElementById('lottery-prizes').value.trim(), // 保留中文逗号
+            time: document.getElementById('lottery-time').value, // 日期格式（YYYY-MM-DD）
             drawCount: document.getElementById('lottery-count').value,
-            name: document.getElementById('lottery-name').value.trim() || '幸运用户'
+            name: document.getElementById('lottery-name').value.trim() // 必填用户名称
           };
         }
 
@@ -713,11 +704,7 @@ function generateCategoryIndependentPage(category, title, colorKey) {
           const linkArea = document.getElementById(\`\${category}-share-area\`);
           linkInput.value = data.data.shareUrl;
           linkArea.classList.remove('hidden');
-          
-          // 打开新标签页跳转链接
           window.open(data.data.shareUrl, '_blank');
-          
-          // 重新加载历史记录
           loadHistory(category);
         } else {
           alert(data.msg);
@@ -726,18 +713,15 @@ function generateCategoryIndependentPage(category, title, colorKey) {
         console.error('生成分享链接失败:', e);
         alert('生成链接失败，请稍后重试');
       } finally {
-        // 恢复按钮状态
         generateBtn.innerHTML = originalText;
         generateBtn.disabled = false;
         generateBtn.classList.remove('opacity-70', 'cursor-not-allowed');
       }
     }
 
-    // 页面加载完成后加载历史记录（核心功能不变，新增抽奖表单实时校验）
     window.onload = () => {
       loadHistory('${category}');
       
-      // 给必填项添加实时校验
       document.querySelectorAll('input[required], textarea[required]').forEach(el => {
         el.addEventListener('blur', () => {
           validateForm('${category}');
@@ -759,7 +743,7 @@ function generateCategoryIndependentPage(category, title, colorKey) {
       --birthday: #F97316;
       --prank: #EF4444;
       --confession: #8B5CF6;
-      --lottery: #38BDF8; /* 新增：抽奖分类主色变量 */
+      --lottery: #38BDF8;
     }
     .bg-festival { background-color: var(--festival); }
     .text-festival { color: var(--festival); }
@@ -769,10 +753,9 @@ function generateCategoryIndependentPage(category, title, colorKey) {
     .text-prank { color: var(--prank); }
     .bg-confession { background-color: var(--confession); }
     .text-confession { color: var(--confession); }
-    .bg-lottery { background-color: var(--lottery); } /* 新增：抽奖背景色 */
-    .text-lottery { color: var(--lottery); } /* 新增：抽奖文字色 */
+    .bg-lottery { background-color: var(--lottery); }
+    .text-lottery { color: var(--lottery); }
     .scroll-smooth { scroll-behavior: smooth; }
-    /* 旋转图标动画 */
     .fa-spin {
       animation: fa-spin 1s linear infinite;
     }
@@ -780,7 +763,6 @@ function generateCategoryIndependentPage(category, title, colorKey) {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
-    /* 禁用按钮样式 */
     button:disabled {
       pointer-events: none;
     }
